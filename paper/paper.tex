@@ -1,0 +1,61 @@
+% PRD submission scaffold for the Λcos paper.
+% Step 1 (this file): revtex preamble, title/author/affiliation, abstract.
+%                     Body is in body-raw.tex (raw pandoc output, NOT yet cleaned).
+% Step 2 will clean up body-raw.tex and \input it here, then drop the TODO block.
+
+\documentclass[
+  aps,
+  prd,
+  reprint,           % two-column PRD format; switch to "onecolumn" if reviewing
+  nofootinbib,
+  longbibliography
+]{revtex4-2}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}        % for >{} column specifications
+\usepackage{calc}         % \real{} for fractional column widths
+\usepackage{longtable}    % retained for any longtable that survives cleanup
+\usepackage{tabularx}     % X columns auto-wrap long cell content
+\usepackage{hyperref}
+
+% Pandoc helpers (see pandoc's default LaTeX template)
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+\title{Apparent Phantom Crossing as Template Bias: \\
+       A Non-Phantom Test Case with $\Lambda$cos}
+
+\author{B.~Shatto}
+\email{bshatto.pe@gmail.com}
+\affiliation{Independent Researcher, St.~Petersburg, FL, USA}
+
+\date{\today}
+
+\begin{abstract}
+DESI DR2 reports a 2.8--4.2$\sigma$ preference for dynamical dark energy in combined analyses, with standard $w_0 w_a$ fits favoring an apparent crossing of $w = -1$. We show that a non-phantom expansion history can produce apparent phantom crossings when analyzed with standard two-parameter templates. We construct a specific realization, $\Lambda$cos, and constrain it using Pantheon+ and DESI DR2 BAO. At data-allowed parameter values, the induced CPL distortion is structurally present but modest ($w_0 \approx -1.02$) and of opposite sign in $w_a$, establishing the mechanism without reproducing the DESI best-fit amplitude.
+
+The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omega_\Lambda$, where $\alpha$ and $\beta$ are determined by a single parameter $s_0$ and a fixed reference value $\Omega_\Lambda = 0.685$. Under the fiducial-matter diagnostic split, the model satisfies $w_{\rm eff}(z) > -1$ at all redshifts, recovers the fiducial flat $\Lambda$CDM limit as $s_0 \to 0$, and contains a negative $(1+z)^1$ term in $H^2$ absent from the four canonical FLRW density scalings. A joint MCMC fit to Pantheon+ (1701 SNe Ia) and DESI DR2 BAO (13 data points) yields $\Delta\chi^2 = +0.11$ relative to flat $\Lambda$CDM at the same parameter count, with $s_0 < 0.18$ (95\% CL, flat prior). The constraint is robust across prior choices ($s_0 < 0.12$--$0.21$) and $\Omega_\Lambda$ variations ($0.68$--$0.715$). Adding compressed Planck distance priors shifts the preferred $\Omega_\Lambda$ in both $\Lambda$CDM and $\Lambda$cos; allowing $\Omega_\Lambda$ to vary gives statistically equivalent fits ($\Delta\chi^2 = +0.28$ at equal parameter count).
+\end{abstract}
+
+\maketitle
+
+% Step 2 done (cleanup_body.py): structural fixes, heading-level bump,
+% math-mode underscores, > / < conversion. body.tex is the cleaned body.
+%
+% Remaining for later steps:
+%   Step 3: numeric citations {[}N{]} -> \cite{...}, write references.bib
+%   Step 4: [Figure N: caption] -> \begin{figure}...\end{figure} environments
+%           pointing at /Users/blake/lambda-cos/figures/figN_*.pdf
+%   Step 5: § cross-refs in text -> Sec.~\ref{sec:...} after labels are added
+
+\input{body}
+
+\bibliographystyle{apsrev4-2}
+\bibliography{references}
+
+\end{document}

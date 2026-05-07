@@ -4,7 +4,7 @@ Code and data for the paper:
 
 **B. Shatto, "Apparent Phantom Crossing as Template Bias: A Non-Phantom Test Case with Λcos" (2026).**
 
-This repository contains the analysis pipeline and figure-generation scripts needed to reproduce all results in the paper.
+This repository contains the analysis pipeline, figure-generation scripts, and the LaTeX source for the paper itself (under [`paper/`](paper/)).
 
 ---
 
@@ -89,11 +89,21 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 ├── tables/
 │   ├── clock_exponent_appendix_A_fits.csv     Curated Appendix A reference values
 │   └── omega_lambda_scan.csv                  Aggregated §5.4 Ω_Λ sensitivity table
-└── figures/
-    ├── fig1_template_bias_overlay.pdf         §4.2: w(z) overlays for CPL/BA/JBP/Polynomial
-    ├── fig2_threshold_scan.pdf                §4.3: recovered (w₀, w_a) vs s₀
-    ├── fig3_lcos_corner.pdf                   §5.2: Λcos posterior in (s₀, H₀r_d, M_B)
-    └── fig4_hubble_residuals.pdf              §5.2: Pantheon+ binned residuals for ΛCDM and Λcos
+├── figures/
+│   ├── fig1_template_bias_overlay.pdf         §4.2: w(z) overlays for CPL/BA/JBP/Polynomial
+│   ├── fig2_threshold_scan.pdf                §4.3: recovered (w₀, w_a) vs s₀
+│   ├── fig3_lcos_corner.pdf                   §5.2: Λcos posterior in (s₀, H₀r_d, M_B)
+│   └── fig4_hubble_residuals.pdf              §5.2: Pantheon+ binned residuals for ΛCDM and Λcos
+└── paper/                                     LaTeX source for the manuscript
+    ├── paper.tex                              REVTeX 4.2 wrapper (preamble, title, abstract, \input, \bibliography)
+    ├── body.tex                               Cleaned body content (sections 1–8 + Appendix A)
+    ├── body-raw.tex                           Pandoc snapshot from upstream markdown
+    ├── cleanup_body.py                        Reproducible markdown→LaTeX transformations
+    ├── references.bib                         17 entries
+    ├── figures/                               Self-contained copies of ../figures/*.pdf
+    ├── paper.pdf                              Compiled output (10 pages, two-column)
+    ├── Makefile                               Build pipeline (pandoc → cleanup → pdflatex+bibtex)
+    └── README.md                              Build instructions
 ```
 
 `figures/` holds the paper-facing PDFs at their published filenames. They are stable copies of the corresponding script outputs in `results/`.
