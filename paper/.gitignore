@@ -18,3 +18,6 @@
 *.swp
 *.swo
 .DS_Store
+
+# REVTeX auto-generated notes file (always empty for our paper)
+paperNotes.bib
