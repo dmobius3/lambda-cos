@@ -19,6 +19,7 @@
 \usepackage{calc}         % \real{} for fractional column widths
 \usepackage{longtable}    % retained for any longtable that survives cleanup
 \usepackage{tabularx}     % X columns auto-wrap long cell content
+\usepackage{placeins}     % \FloatBarrier keeps floats from drifting past sections
 \usepackage{hyperref}
 
 % Pandoc helpers (see pandoc's default LaTeX template)
@@ -544,7 +545,7 @@ robustness, we repeat the SN+BAO fit at four alternative values spanning
 the range between the SN+BAO-preferred and CMB-preferred regions:
 
 {\def\LTcaptype{none} % do not increment counter
-\begin{table*}[!htb]
+\begin{table}[!htb]
 \centering\footnotesize
 \begin{tabular}{@{}llll@{}}
 \toprule
@@ -558,7 +559,7 @@ $\Omega_\Lambda$ & s$_0$ median & s$_0$ 95\% UL & $\Delta\chi^2$ vs $\Lambda$CDM
 0.715 (CMB-preferred) & 0.278 & 0.349 & +2.38 \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 }
 
 The s$_0$ constraint varies smoothly with $\Omega_\Lambda$, with the 95\% upper limit
@@ -586,7 +587,7 @@ The four-parameter $\Lambda$cos fit with $\Omega_\Lambda$ free and the four-para
 non-flat $\Lambda$CDM fit provide the primary comparison:
 
 {\def\LTcaptype{none} % do not increment counter
-\begin{table*}[!htb]
+\begin{table}[!htb]
 \centering\footnotesize
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -601,7 +602,7 @@ $M_B$ \\
 \textbf{$\Delta\chi^2$} & +0.28 & 0 (reference) \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 }
 
 The two models are indistinguishable at $\Delta\chi^2$ = +0.28 with the same
@@ -638,7 +639,7 @@ a free parameter, 4 free parameters: $\Omega_m$, w, $H_0 r_d$, $M_B$) fitted to
 the same SN+BAO dataset:
 
 {\def\LTcaptype{none} % do not increment counter
-\begin{table*}[!htb]
+\begin{table}[!htb]
 \centering\footnotesize
 \begin{tabular}{@{}llllll@{}}
 \toprule
@@ -651,7 +652,7 @@ $\Lambda$cos ($\Omega_\Lambda$ = 0.715) & 3 & 1774.8 & +2.38 & +2.38 & +2.38 \\
 wCDM & 4 & 1759.4 & -13.0 & -11.0 & -5.6 \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 }
 
 The wCDM fit yields w = -0.855 {[}-0.89, -0.82{]} (68\% CI), preferring
@@ -884,6 +885,8 @@ high z and the exact two-term non-vacuum kernel of Sec.~\ref{sec:hubble} at all 
 empirical fits confirm the analytic selection: among the alternatives
 tested, only n = -1/2 is viable.
 
+
+\FloatBarrier      % flush queued floats so the Appendix A table lands before refs
 
 \bibliographystyle{apsrev4-2}
 \bibliography{references}
