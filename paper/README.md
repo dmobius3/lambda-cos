@@ -2,7 +2,7 @@
 
 LaTeX source for the paper
 
-> **B. Shatto, "Apparent Phantom Crossing as Template Bias: A Non-Phantom Test Case with Λcos" (2026).**
+> **B. Shatto, "Apparent Phantom Crossing as Template Bias: A Bounded Test Case with Λcos" (2026).**
 
 `paper.tex` is the single source of truth: edit directly.
 

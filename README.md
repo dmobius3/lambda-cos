@@ -2,7 +2,7 @@
 
 Code and data for the paper:
 
-**B. Shatto, "Apparent Phantom Crossing as Template Bias: A Non-Phantom Test Case with Λcos" (2026).**
+**B. Shatto, "Apparent Phantom Crossing as Template Bias: A Bounded Test Case with Λcos" (2026).**
 
 This repository contains the analysis pipeline, figure-generation scripts, and the LaTeX source for the paper itself (under [`paper/`](paper/)).
 
@@ -32,7 +32,7 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 
 ```bibtex
 @article{Shatto2026Lambdacos,
-  title  = {Apparent Phantom Crossing as Template Bias: A Non-Phantom
+  title  = {Apparent Phantom Crossing as Template Bias: A Bounded
             Test Case with Λcos},
   author = {Shatto, B.},
   year   = {2026}
