@@ -70,8 +70,6 @@ extended analysis \cite{ref9} reports consistent phantom-crossing behavior
 across five additional parameterizations (BA \cite{ref10}, JBP \cite{ref11},
 exponential, logarithmic, and model-free binned).
 
-\pagebreak
-
 The possibility that apparent phantom crossings can arise from
 parameterization choice has been recognized. Linder and Huterer \cite{ref12}
 demonstrated that the CPL form introduces systematic bias when the true
@@ -103,8 +101,6 @@ $<$ 0.18 from a joint Pantheon+ and DESI DR2 BAO fit, the CPL
 recovery gives w$_0$ $\approx$ -1.02 with positive $w_a$, establishing the
 structural mechanism while falling short of the DESI best-fit amplitude
 and sign. 
-
-\pagebreak
 
 The goal is not to claim that $\Lambda$cos explains the full DESI
 preference, but to provide a controlled test case in which the size and
@@ -154,8 +150,6 @@ by:
 
 \[\frac{1}{S}\frac{dS}{d\tau} = \frac{\cos(t/2)}{2\sin(t/2)} \cdot \frac{dt}{d\tau}\]
 
-\pagebreak
-
 This quantity is not yet the physical Hubble parameter; it defines the
 redshift scaling assigned to the non-vacuum sector before the
 cosmological constant is added (Sec.~\ref{sec:hubble}).
@@ -199,8 +193,6 @@ additive component. The physical dimensionless Hubble rate is then:
 
 $\Omega_\Lambda$ = 0.685 is taken as a fixed reference value; Sec.~\ref{sec:omega-sensitivity} demonstrates
 stability of all results across the range 0.68--0.715. 
-
-\pagebreak
 
 Expanding:
 
@@ -261,8 +253,6 @@ dark-energy sector, using $\Omega_m$ = 1 - $\Omega_\Lambda$ = 0.315 (the fiducia
 fraction, independent of s$_0$) rather than the dressed coefficient $\alpha$ =
 $\Omega_m$/(1-s$_0^2$) that appears in the (1+z)$^3$ term.
 
-\pagebreak
-
 The effective dark energy density is then:
 
 \[\begin{aligned}
@@ -309,17 +299,20 @@ definition s$_0$ = sin($t_{\rm now}$/2) with 0 $<$ $t_{\rm now}$ $\leq$ $\pi$ (S
 s$_0$ = 0, $w_{\rm eff}$ = -1 everywhere (the fiducial flat $\Lambda$CDM limit). For s$_0$
 $>$ 0, the correction is positive and begins at order s$_0^2$.
 
-The decomposition choice matters: had we instead subtracted the dressed
-coefficient $\alpha$(1+z)$^3$, the residual would be -$\beta$(1+z) + $\Omega_\Lambda$, which is a
-decreasing function of z and yields a different $w_{\rm eff}$ trajectory.
-Because that residual dilutes faster than a cosmological constant, it
-necessarily produces $w_{\rm eff}$ $<$ -1 at sufficiently high z; this
-is a decomposition artifact, not a property of the physics. The
-motivation for the adopted diagnostic split is that $\Omega_m$ = 1 - $\Omega_\Lambda$ is
-held fixed as the fiducial matter fraction, independent of s$_0$. The
-s$_0$-dependent excess relative to $\Omega_m$(1+z)$^3$ is therefore assigned to
-X(z), the effective residual component whose equation of state is being
-diagnosed.
+The non-phantom classification is diagnostic and split-dependent by
+construction. The fiducial split (subtracting $\Omega_m$ = 1 - $\Omega_\Lambda$ =
+0.315, independent of s$_0$) assigns the s$_0$-dependent correction to
+the effective dark-energy sector, yielding $w_{\rm eff}$ $>$ -1 at all
+redshifts. The dressed split (subtracting $\alpha$(1+z)$^3$) assigns the
+correction to the matter sector, yielding $w_{\rm eff}$ $<$ -1 at high
+z. Both are valid decompositions of the same expansion history; neither
+changes the physical distances or the Hubble rate. This paper adopts
+the fiducial split because it holds the matter fraction fixed as s$_0$
+varies, making the diagnostic equation of state a function of the
+single new parameter alone. The convention-dependence is itself part of
+the template bias finding (Sec.~\ref{sec:disc-tb}): the same H(z) is
+diagnosed as phantom or non-phantom depending on the subtraction, which
+is the ambiguity that two-parameter templates exploit.
 
 \section{Template Bias Demonstration}\label{sec:template-bias}
 
@@ -378,8 +371,6 @@ Polynomial: w$_0$ + w$_1$(1-a) + w$_2$(1-a)$^2$ & w$_0$ = -0.927, w$_1$ = -0.162
   \label{fig:1}
 \end{figure}
 
-\pagebreak
-
 Three of four parameterizations produce phantom crossings from input
 that satisfies w $>$ -1 everywhere (Sec.~\ref{sec:weff-proof}). The polynomial, with
 one additional free parameter, does not produce a phantom crossing in
@@ -433,8 +424,6 @@ The DESI CPL best fit reports w$_0$ $\approx$ -0.75 and $w_a$ $\approx$ -0.86. T
 $\Lambda$cos-induced distortion at data-allowed s$_0$ differs in both amplitude
 (\textbar w$_0$ + 1\textbar{} = 0.02 vs 0.25, a factor of
 \textasciitilde12) and sign ($w_a$ = +0.26 vs -0.86). 
-
-\pagebreak
 
 The template bias mechanism is therefore established as a structural effect, but the $\Lambda$cos
 model at its current constraint does not reproduce the DESI best-fit
@@ -676,7 +665,14 @@ all redshifts (Sec.~\ref{sec:weff-proof}), is consistent with the wCDM direction
 achieve the same $\chi^2$ improvement because the data-allowed s$_0$ is too small
 to produce a detectable departure.
 
-\pagebreak
+The wCDM preference for w $\approx$ -0.855 identifies a real departure
+from $\Lambda$CDM that $\Lambda$cos at data-allowed s$_0$ values cannot
+capture. Bridging this gap requires either a larger bounded deformation
+than current data permit or a different functional form for the
+non-vacuum sector; the template bias mechanism demonstrated in
+Sec.~\ref{sec:template-bias} is necessary context for interpreting
+which direction the data favor.
+
 
 For the baseline flat prior in s$_0$, a Savage-Dickey density ratio at the
 s$_0$ prior boundary (with boundary-reflected KDE) gives B$_{01}$ $\approx$ 7.1 (stable
@@ -768,13 +764,7 @@ in Sec.~\ref{sec:model-comparison} suggests). The mock exercise in Sec.~\ref{sec
 can a model that provably satisfies w $>$ -1 produce phantom
 crossings across the same family of templates? The answer is yes,
 confirming that template agreement across parameterizations is necessary
-but not sufficient evidence for a true crossing. The
-convention-dependence of the phantom classification is itself part of
-the finding: the same expansion history is diagnosed as phantom or
-non-phantom depending on the matter subtraction, which is precisely the
-ambiguity that template bias exploits.
-
-\pagebreak
+but not sufficient evidence for a true crossing.
 
 At data-allowed values (s$_0$ $<$ 0.18), the induced CPL distortion
 is w$_0$ $\approx$ -1.02 with positive $w_a$, structurally present but modest in
@@ -814,8 +804,6 @@ minimal one-parameter deformation of the fiducial flat $\Lambda$CDM expansion
 history, with a specific falsifiable signature (the negative (1+z)$^1$
 term) testable by next-generation BAO measurements.
 
-\pagebreak
-
 \section{Conclusions}\label{sec:conclusions}
 
 A non-phantom expansion history can produce apparent phantom crossings
@@ -829,28 +817,11 @@ Current data constrain the model's single new parameter to s$_0$
 $<$ 0.18 at 95\% confidence, and the predicted negative (1+z)$^1$
 contribution to H$^2$(z) is a target for next-generation BAO measurements.
 
-\section{Data and Code Availability}\label{sec:data-availability}
-
-The MCMC chains, analysis scripts, and figure-generation code that
-reproduce all results in this paper are publicly available at
-\href{https://github.com/dmobius3/lambda-cos}{github.com/dmobius3/lambda-cos}
-and archived at Zenodo
-(\href{https://doi.org/10.5281/zenodo.19798852}{DOI:10.5281/zenodo.19798852}).
-The Pantheon+ supernova compilation \cite{ref2} is available at
-\href{https://pantheonplussh0es.github.io/}{pantheonplussh0es.github.io}
-and the DESI DR2 BAO measurements \cite{ref1} at
-\href{https://data.desi.lbl.gov/}{data.desi.lbl.gov}.
-
 \appendix
 
 \section{Clock Exponent Selection}\label{sec:appendix}
 
-Three alternative clock rates were tested against the joint Pantheon+ +
-DESI DR2 BAO dataset using the same MCMC setup as the primary $\Lambda$cos fit
-(Sec.~\ref{sec:primary-fit}): identical priors on $H_0 r_d$ and $M_B$, identical sampler
-configuration, identical likelihood construction.
-
-\begin{table*}[!htb]
+\begin{table*}[!t]
 \centering\footnotesize
 \caption{Clock-exponent comparison from Appendix~A: integer alternatives versus the matter-era selection $n=-1/2$.}\label{tab:appendix-a}
 \begin{tabular}{@{}lllllllll@{}}
@@ -872,6 +843,11 @@ $\Lambda$CDM (baseline) & --- & --- & ($\Omega_m$ = 0.312) & 10044 & 1759.9 & 12
 \bottomrule
 \end{tabular}
 \end{table*}
+
+Three alternative clock rates were tested against the joint Pantheon+ +
+DESI DR2 BAO dataset using the same MCMC setup as the primary $\Lambda$cos fit
+(Sec.~\ref{sec:primary-fit}): identical priors on $H_0 r_d$ and $M_B$, identical sampler
+configuration, identical likelihood construction.
 
 *Model B saturates at the s$_0$ prior floor. The likelihood is monotonic
 toward s$_0$ $\to$ 0 under the (1+z)$^2$ scaling, so the reported value reflects
@@ -900,6 +876,18 @@ the Friedmann square root, giving the non-vacuum scaling $\mathcal{K}^{1/2}$ $\p
 high z and the exact two-term non-vacuum kernel of Sec.~\ref{sec:hubble} at all z. The
 empirical fits confirm the analytic selection: among the alternatives
 tested, only n = -1/2 is viable.
+
+\section*{Data and Code Availability}\label{sec:data-availability}
+
+The MCMC chains, analysis scripts, and figure-generation code that
+reproduce all results in this paper are publicly available at
+\href{https://github.com/dmobius3/lambda-cos}{github.com/dmobius3/lambda-cos}
+and archived at Zenodo
+(\href{https://doi.org/10.5281/zenodo.19798852}{DOI:10.5281/zenodo.19798852}).
+The Pantheon+ supernova compilation \cite{ref2} is available at
+\href{https://pantheonplussh0es.github.io/}{pantheonplussh0es.github.io}
+and the DESI DR2 BAO measurements \cite{ref1} at
+\href{https://data.desi.lbl.gov/}{data.desi.lbl.gov}.
 
 
 \FloatBarrier      % flush queued floats so the Appendix A table lands before refs
