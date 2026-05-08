@@ -36,7 +36,9 @@ Makefile             Build pipeline
 `paper.pdf` numbers are reproducible from the deposited code in `..`:
 - §4 (template-bias mocks) → `../scripts/template_bias.py`, `../scripts/threshold_scan.py`
 - §5.2 (primary SN+BAO fit) → `../scripts/fit_lcdm.py`, `../scripts/fit_lcos.py`
+- §5.3 (prior sensitivity, Table V) → `../scripts/prior_sensitivity.py`
 - §5.4 (Ω_Λ scan) → `../scripts/fit_lcos.py --omega_lambda <val>` aggregated by `../scripts/omega_lambda_scan.py`
 - §5.5 (CMB priors) → `../scripts/fit_lcdm_cmb.py`, `../scripts/fit_lcos_cmb.py`
+- §5.5 (Savage-Dickey Bayes factor) → `../scripts/bayes_factor.py`
 - §5.7 (wCDM) → `../scripts/fit_wcdm.py`
 - Appendix A (clock exponents) → `../scripts/fit_clock_exponents.py`

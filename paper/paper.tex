@@ -40,7 +40,7 @@
 \begin{abstract}
 DESI DR2 reports a 2.8--4.2$\sigma$ preference for dynamical dark energy in combined analyses, with standard $w_0 w_a$ fits favoring an apparent crossing of $w = -1$. We show that a non-phantom expansion history can produce apparent phantom crossings when analyzed with standard two-parameter templates. We construct a specific realization, $\Lambda$cos, and constrain it using Pantheon+ and DESI DR2 BAO. At data-allowed parameter values, the induced CPL distortion is structurally present but modest ($w_0 \approx -1.02$) and of opposite sign in $w_a$, establishing the mechanism without reproducing the DESI best-fit amplitude.
 
-The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omega_\Lambda$, where $\alpha$ and $\beta$ are determined by a single parameter $s_0$ and a fixed reference value $\Omega_\Lambda = 0.685$. Under the fiducial-matter diagnostic split, the model satisfies $w_{\rm eff}(z) > -1$ at all redshifts, recovers the fiducial flat $\Lambda$CDM limit as $s_0 \to 0$, and contains a negative $(1+z)^1$ term in $H^2$ absent from the four canonical FLRW density scalings. A joint MCMC fit to Pantheon+ (1701 SNe Ia) and DESI DR2 BAO (13 data points) yields $\Delta\chi^2 = +0.11$ relative to flat $\Lambda$CDM at the same parameter count, with $s_0 < 0.18$ (95\% CL, flat prior). The constraint is robust across prior choices ($s_0 < 0.12$--$0.21$) and $\Omega_\Lambda$ variations ($0.68$--$0.715$). Adding compressed Planck distance priors shifts the preferred $\Omega_\Lambda$ in both $\Lambda$CDM and $\Lambda$cos; allowing $\Omega_\Lambda$ to vary gives statistically equivalent fits ($\Delta\chi^2 = +0.28$ at equal parameter count).
+The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omega_\Lambda$, where $\alpha$ and $\beta$ are determined by a single parameter $s_0$ and a fixed reference value $\Omega_\Lambda = 0.685$. Under the fiducial-matter diagnostic split, the model satisfies $w_{\rm eff}(z) > -1$ at all redshifts, recovers the fiducial flat $\Lambda$CDM limit as $s_0 \to 0$, and contains a negative $(1+z)^1$ term in $H^2$ absent from the four canonical FLRW density scalings. A joint MCMC fit to Pantheon+ (1701 SNe Ia) and DESI DR2 BAO (13 data points) yields $\Delta\chi^2 = +0.11$ relative to flat $\Lambda$CDM at the same parameter count, with $s_0 < 0.19$ (95\% CL, flat prior). The constraint is robust across prior choices ($s_0 < 0.12$--$0.21$) and $\Omega_\Lambda$ variations ($0.68$--$0.715$). Adding compressed Planck distance priors shifts the preferred $\Omega_\Lambda$ in both $\Lambda$CDM and $\Lambda$cos; allowing $\Omega_\Lambda$ to vary gives statistically equivalent fits ($\Delta\chi^2 = +0.28$ at equal parameter count).
 \end{abstract}
 
 \maketitle
@@ -97,7 +97,7 @@ Second, we test the template bias mechanism quantitatively: we show that CPL, BA
 all produce apparent phantom crossings when fitted to $\Lambda$cos distances,
 and we scan the full parameter range to determine the amplitude of the
 induced distortion at data-allowed values. At the 95\% upper limit s$_0$
-$<$ 0.18 from a joint Pantheon+ and DESI DR2 BAO fit, the CPL
+$<$ 0.19 from a joint Pantheon+ and DESI DR2 BAO fit, the CPL
 recovery gives w$_0$ $\approx$ -1.02 with positive $w_a$, establishing the
 structural mechanism while falling short of the DESI best-fit amplitude
 and sign. 
@@ -354,12 +354,12 @@ covariance weighting.
 Parameterization & Best-fit parameters & $\chi^2$ & Crosses w = -1? \\
 \midrule
 
-CPL: w$_0$ + $w_a$(1-a) & w$_0$ = -1.056, $w_a$ = 0.951 & 1.0 & Yes \\
-BA: w$_0$ + $w_a$ a(1-a)/(a$^2$-2a+2) & w$_0$ = -1.295, $w_a$ = 3.315 & 10.8 &
+CPL: w$_0$ + $w_a$(1-a) & w$_0$ = -1.045, $w_a$ = 0.925 & 1.31 & Yes \\
+BA: w$_0$ + $w_a$ a(1-a)/(a$^2$-2a+2) & w$_0$ = -1.200, $w_a$ = 2.654 & 11.48 &
 Yes \\
-JBP: w$_0$ + $w_a$ a(1-a) & w$_0$ = -1.226, $w_a$ = 2.551 & 6.1 & Yes \\
-Polynomial: w$_0$ + w$_1$(1-a) + w$_2$(1-a)$^2$ & w$_0$ = -0.927, w$_1$ = -0.162, w$_2$ =
-1.637 & 0.2 & No \\
+JBP: w$_0$ + $w_a$ a(1-a) & w$_0$ = -1.167, $w_a$ = 2.197 & 7.21 & Yes \\
+Polynomial: w$_0$ + w$_1$(1-a) + w$_2$(1-a)$^2$ & w$_0$ = -0.918, w$_1$ = -0.213, w$_2$ =
+1.739 & 0.004 & No \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -396,7 +396,7 @@ s$_0$ & w$_0$ & $w_a$ & w$_0$ deviation from -1 \\
 \midrule
 
 0.01 & -1.00007 & +0.001 & 7 $\times$ 10$^{-5}$ \\
-0.06 & -1.002 & +0.021 & 0.002 \\
+0.06 & -1.003 & +0.030 & 0.003 \\
 0.18 & -1.022 & +0.261 & 0.022 \\
 0.39 & -1.044 & +0.928 & 0.044 \\
 DESI observed & -0.75 & -0.86 & 0.25 \\
@@ -415,15 +415,15 @@ Two features are evident. First, the crossing persists at every tested
 s$_0$ $>$ 0, confirming that the template bias is a structural
 property of the CPL basis applied to non-phantom models of this type,
 not an artifact of a particular parameter value. Second, at the SN+BAO
-95\% upper limit s$_0$ $<$ 0.18 (Sec.~\ref{sec:obs-constraints}), the induced distortion is
-modest: w$_0$ $\approx$ -1.02 with $w_a$ $\approx$ +0.26.
+95\% upper limit s$_0$ $<$ 0.19 (Sec.~\ref{sec:obs-constraints}), the induced distortion is
+modest: w$_0$ $\approx$ -1.02 with $w_a$ $\approx$ +0.29.
 
 \subsection{Comparison with the DESI best fit}\label{sec:desi-comparison}
 
 The DESI CPL best fit reports w$_0$ $\approx$ -0.75 and $w_a$ $\approx$ -0.86. The
 $\Lambda$cos-induced distortion at data-allowed s$_0$ differs in both amplitude
 (\textbar w$_0$ + 1\textbar{} = 0.02 vs 0.25, a factor of
-\textasciitilde12) and sign ($w_a$ = +0.26 vs -0.86). 
+\textasciitilde10) and sign ($w_a$ = +0.29 vs -0.86). 
 
 The template bias mechanism is therefore established as a structural effect, but the $\Lambda$cos
 model at its current constraint does not reproduce the DESI best-fit
@@ -435,7 +435,7 @@ sector.
 This distinction is important. The paper demonstrates that a non-phantom
 expansion history ($\Lambda$cos) produces apparent phantom crossings under
 standard two-parameter templates. The claim is not that $\Lambda$cos at s$_0$
-$<$ 0.18 explains the specific amplitude of the DESI signal.
+$<$ 0.19 explains the specific amplitude of the DESI signal.
 
 \section{Observational Constraints}\label{sec:obs-constraints}
 
@@ -494,7 +494,7 @@ best-fit sits at s$_0$ = 0.001 (the numerical lower bound of the prior; the
 analytic $\Lambda$CDM limit is s$_0$ = 0). The posterior median of 0.076 reflects
 prior volume at s$_0$ $>$ 0. The 95th percentile gives:
 
-\[s_0 < 0.18 \quad (95\% \text{ CL, flat prior}).\]
+\[s_0 < 0.19 \quad (95\% \text{ CL, flat prior}).\]
 
 The $\Delta\chi^2$ = +0.11 at equal parameter count corresponds to $\Delta$AIC = $\Delta$BIC =
 +0.11: no preference for either model.
@@ -528,8 +528,8 @@ Prior on s$_0$ & s$_0$ median & s$_0$ 95\% UL & $\chi^2_{\rm min}$ \\
 \midrule
 
 Flat s$_0$ $\in$ {[}0.001, 0.99{]} (baseline) & 0.076 & 0.185 & 1772.6 \\
-Flat in s$_0^2$ (more weight at larger s$_0$) & 0.115 & 0.208 & 1772.6 \\
-Flat in log$_{10}$(s$_0$) (scale-invariant) & 0.011 & 0.115 & 1772.6 \\
+Flat in s$_0^2$ (more weight at larger s$_0$) & 0.119 & 0.211 & 1772.6 \\
+Flat in log$_{10}$(s$_0$) (scale-invariant) & 0.012 & 0.119 & 1772.6 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -676,7 +676,7 @@ which direction the data favor.
 
 For the baseline flat prior in s$_0$, a Savage-Dickey density ratio at the
 s$_0$ prior boundary (with boundary-reflected KDE) gives B$_{01}$ $\approx$ 7.1 (stable
-to $\pm$0.02 across bandwidths), corresponding to moderate evidence for $\Lambda$CDM
+to $\pm$0.03 across bandwidths), corresponding to moderate evidence for $\Lambda$CDM
 over $\Lambda$cos on the Jeffreys scale. This Bayes factor should be interpreted
 conditional on the baseline prior choice. The result confirms the $\Delta\chi^2$
 finding: current data do not require the ansatz's correction term.
@@ -685,11 +685,11 @@ finding: current data do not require the ansatz's correction term.
 
 \subsection{The (1+z)$^1$ signature}\label{sec:1z-signature}
 
-The joint SN+BAO fit constrains \textbar $\beta$\textbar{} $<$ 0.011
-at 95\% CL (from s$_0$ $<$ 0.18 with $\Omega_m$ = 0.315). The predicted
+The joint SN+BAO fit constrains \textbar $\beta$\textbar{} $<$ 0.012
+at 95\% CL (from s$_0$ $<$ 0.19 with $\Omega_m$ = 0.315). The predicted
 fractional contribution to H$^2$(z) at z = 1 is:
 
-\[\frac{|\beta|(1+z)}{E^2(z)} < 0.7\% \quad (95\% \text{ CL at } z = 1).\]
+\[\frac{|\beta|(1+z)}{E^2(z)} < 0.8\% \quad (95\% \text{ CL at } z = 1).\]
 
 This is below the precision of current BAO measurements (DESI DR2:
 \textasciitilde2--3\% per bin in $D_H$/$r_d$) but potentially within reach
@@ -766,7 +766,7 @@ crossings across the same family of templates? The answer is yes,
 confirming that template agreement across parameterizations is necessary
 but not sufficient evidence for a true crossing.
 
-At data-allowed values (s$_0$ $<$ 0.18), the induced CPL distortion
+At data-allowed values (s$_0$ $<$ 0.19), the induced CPL distortion
 is w$_0$ $\approx$ -1.02 with positive $w_a$, structurally present but modest in
 amplitude and opposite in sign to the DESI best fit (w$_0$ $\approx$ -0.75, $w_a$ $\approx$
 -0.86). The paper establishes the mechanism without claiming to
@@ -791,7 +791,7 @@ data (e.g., f$\sigma_8$ from DESI or earlier surveys) is deferred to future
 work.
 
 Current combined data (Pantheon+ and DESI DR2 BAO) constrain s$_0$
-$<$ 0.18 at 95\% CL, consistent with the $\Lambda$CDM limit. $\Lambda$cos
+$<$ 0.19 at 95\% CL, consistent with the $\Lambda$CDM limit. $\Lambda$cos
 matches $\Lambda$CDM at $\Delta\chi^2$ = +0.11 across the SN+BAO dataset. Adding compressed
 Planck distance priors shifts the preferred $\Omega_\Lambda$, a background-distance
 consistency issue that is removed when $\Omega_\Lambda$ is freed ($\Delta\chi^2$ = +0.28 at
@@ -814,7 +814,7 @@ which $w_{\rm eff}$(z) $>$ -1 at all redshifts under the
 fiducial-matter diagnostic split, while matching the Pantheon+ and DESI
 DR2 BAO distance-redshift relation at $\Delta\chi^2$ = +0.11 relative to flat $\Lambda$CDM.
 Current data constrain the model's single new parameter to s$_0$
-$<$ 0.18 at 95\% confidence, and the predicted negative (1+z)$^1$
+$<$ 0.19 at 95\% confidence, and the predicted negative (1+z)$^1$
 contribution to H$^2$(z) is a target for next-generation BAO measurements.
 
 \appendix

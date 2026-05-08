@@ -1,0 +1,4 @@
+prior,s0_median,s0_95UL
+Flat in s_0 (baseline),0.0755774852273562,0.1848493659593887
+Flat in s_0^2 (more weight at larger s_0),0.11908024737632808,0.2109914197304757
+Flat in log_10(s_0) (scale-invariant),0.0114529619653871,0.1190831298202124
