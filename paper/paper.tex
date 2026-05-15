@@ -343,10 +343,10 @@ $>$ 0, the correction is positive and begins at order $s_0^2$.
 The non-phantom classification is diagnostic and split-dependent by
 construction. The fiducial split (subtracting $\Omega_m$ = 1 - $\Omega_\Lambda$ =
 0.315, independent of $s_0$) assigns the $s_0$-dependent correction to
-the effective dark-energy sector, yielding $w_{\rm eff} > -1$ at all
-redshifts. The dressed split (subtracting $\alpha$$(1+z)^3$) assigns the
+the effective dark-energy sector, yielding $w_{\rm eff} > -1$ for $z \geq 0$.
+The dressed split (subtracting $\alpha(1+z)^3$) assigns the
 correction to the matter sector, yielding $w_{\rm eff} < -1$ at high
-z. Both are valid decompositions of the same expansion history; neither
+$z$. Both are valid decompositions of the same expansion history; neither
 changes the physical distances or the Hubble rate. This paper adopts
 the fiducial split because it holds the matter fraction fixed as $s_0$
 varies, making the diagnostic equation of state a function of the
@@ -540,8 +540,9 @@ count).
 \end{table*}
 
 Uncertainties are posterior median and 68\% credible intervals. The $\Lambda$cos
-best-fit sits at $s_0$ = 0.001 (the numerical lower bound of the prior; the
-analytic $\Lambda$CDM limit is $s_0$ = 0). The posterior median of 0.076 reflects
+best-fit sits near the numerical lower boundary of the prior (the
+analytic $\Lambda$CDM limit is $s_0 = 0$; the chain argmax is $s_0 \approx 0.008$,
+reported in Appendix~A). The posterior median of 0.076 reflects
 prior volume at $s_0 > 0$. The 95th percentile gives:
 
 \[s_0 < 0.19 \quad (95\% \text{ CL, flat prior}).\]
@@ -866,8 +867,7 @@ and falsifiable by the next generation.
 The central result of this paper is that an expansion history that is non-phantom under the fiducial-matter split can produce apparent phantom crossings when fitted with standard
 two-parameter w(z) templates. We have demonstrated this explicitly for
 CPL, BA, and JBP parameterizations applied to $\Lambda$cos distances: all three
-recover $w_0 < -1$ from $\Lambda$cos distances for which $w_{\rm eff}$
-$>$ -1 at every redshift under the fiducial-matter diagnostic
+recover $w_0 < -1$ from $\Lambda$cos distances for which $w_{\rm eff} > -1$ for $z \geq 0$ under the fiducial-matter diagnostic
 split (Sec.~\ref{sec:weff-proof}). A three-parameter polynomial does not produce the crossing,
 confirming that the effect arises from basis restriction rather than
 from the underlying expansion history.
@@ -877,7 +877,7 @@ template bias, Shafieloo, Sahni, and Starobinsky \cite{ref13} demonstrated
 spurious phantom crossings from model-dependent reconstruction, and
 recent work \cite{ref8,ref14} has raised similar concerns about the DESI signal
 specifically. The present contribution is to provide a one-parameter
-one-parameter model with a non-phantom fiducial diagnostic (rather than a generic cautionary
+model with a non-phantom fiducial diagnostic (rather than a generic cautionary
 argument), to test multiple parameterizations, and to scan the template
 bias amplitude across the full parameter range allowed by current data.
 
@@ -957,7 +957,12 @@ contribution to $H^2(z)$ is a target for next-generation BAO measurements.
 
 \section{Clock Exponent Selection}\label{sec:appendix}
 
-\begin{table*}[!t]
+Three alternative clock rates were tested against the joint Pantheon+ +
+DESI DR2 BAO dataset using the same MCMC setup as the primary $\Lambda$cos fit
+(Sec.~\ref{sec:primary-fit}): identical priors on $H_0 r_d$ and $M_B$, identical sampler
+configuration, identical likelihood construction.
+
+\begin{table*}[!htb]
 \centering\footnotesize
 \caption{Clock-exponent comparison from Appendix~A: integer alternatives versus the matter-era selection $n=-1/2$.}\label{tab:appendix-a}
 \begin{tabular}{@{}lllllllll@{}}
@@ -979,11 +984,6 @@ $\Lambda$CDM (baseline) & --- & --- & ($\Omega_m$ = 0.312) & 10044 & 1759.9 & 12
 \bottomrule
 \end{tabular}
 \end{table*}
-
-Three alternative clock rates were tested against the joint Pantheon+ +
-DESI DR2 BAO dataset using the same MCMC setup as the primary $\Lambda$cos fit
-(Sec.~\ref{sec:primary-fit}): identical priors on $H_0 r_d$ and $M_B$, identical sampler
-configuration, identical likelihood construction.
 
 *Model B saturates at the $s_0$ prior floor. The likelihood is monotonic
 toward $s_0 \to 0$ under the $(1+z)^2$ scaling, so the reported value reflects
