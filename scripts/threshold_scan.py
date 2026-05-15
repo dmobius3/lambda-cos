@@ -99,12 +99,12 @@ ax.plot(svals, wa_list, "s-", color="C1", lw=1.5, markersize=5, label=r"$w_a$")
 
 ax.axhline(-1, color="black", lw=0.8, ls="--")
 ax.axvline(SN_BAO_95_UL, color="black", lw=0.8, ls=":")
-ax.text(SN_BAO_95_UL + 0.005, 0.5, "SN+BAO 95% CL",
+ax.text(SN_BAO_95_UL + 0.005, -0.4, "SN+BAO 95% CL",
         rotation=90, va="center", fontsize=10)
 
 ax.set_xlabel(r"$s_0$")
 ax.set_ylabel("Recovered CPL parameter")
-ax.legend(loc="lower right", frameon=True)
+ax.legend(loc="upper left", frameon=True)
 plt.tight_layout()
 plt.savefig(out_dir+"threshold_scan.png", dpi=200)
 plt.savefig(out_dir+"threshold_scan.pdf")
