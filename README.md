@@ -2,7 +2,7 @@
 
 Code and data for the paper:
 
-**B. Shatto, "Apparent Phantom Crossing as Template Bias: A Bounded Test Case with Λcos" (2026).**
+**B. Shatto, "Apparent Phantom Crossing as Template Bias: A Bounded-Clock Deformation of ΛCDM" (2026).**
 
 This repository contains the analysis pipeline, figure-generation scripts, and the LaTeX source for the paper itself (under [`paper/`](paper/)).
 
@@ -21,8 +21,13 @@ Reproducible results in this repository:
 - **Joint Pantheon+ + DESI DR2 BAO fit** for ΛCDM, Λcos, and wCDM (§5.2, §5.7)
 - **Template-bias mock fits** across CPL, BA, JBP, and a three-parameter polynomial (§4.2)
 - **CPL threshold scan** across $s_0 \in [0.01, 0.40]$ (§4.3)
+- **Prior sensitivity** for Λcos under flat, $s_0^2$, and $\log_{10}(s_0)$ priors (§5.3)
+- **Ω_Λ sensitivity scan** across 0.680–0.715 (§5.4)
+- **CMB distance priors** for flat ΛCDM, non-flat ΛCDM, Λcos at fixed Ω_Λ, and Λcos with Ω_Λ free (§5.5)
+- **Savage-Dickey Bayes factor** at the $s_0$ prior boundary (§5.5)
 - **Clock exponent comparison** for Models A, B, C, D (Appendix A)
-- **Figure generation** for Figs. 1–4
+- **Linear growth comparison** against DESI DR1 ShapeFit+BAO $f\sigma_{s8}$ at six tracer effective redshifts (§6.C)
+- **Figure generation** for Figs. 1–6
 
 ---
 
@@ -32,8 +37,8 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 
 ```bibtex
 @article{Shatto2026Lambdacos,
-  title  = {Apparent Phantom Crossing as Template Bias: A Bounded
-            Test Case with Λcos},
+  title  = {Apparent Phantom Crossing as Template Bias: A Bounded-Clock
+            Deformation of ΛCDM},
   author = {Shatto, B.},
   year   = {2026}
 }
@@ -59,7 +64,8 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── pantheon_plus.csv                      Pantheon+ SNe Ia magnitudes
 │   ├── pantheon_plus_cov.npy                  1701 × 1701 statistical + systematic covariance
 │   ├── desi_dr2_bao.csv                       DESI DR2 BAO observables
-│   └── desi_dr2_bao_cov.npy                   Inter-observable covariance for the 13 BAO points
+│   ├── desi_dr2_bao_cov.npy                   Inter-observable covariance for the 13 BAO points
+│   └── desi_dr1_fs_fsigma8.csv                DESI DR1 ShapeFit+BAO compressed fσ_s8 amplitudes at 6 tracer effective redshifts (§6.C)
 ├── scripts/
 │   ├── fit_lcdm.py                            Flat ΛCDM MCMC fit (§5.2)
 │   ├── fit_lcos.py                            Λcos MCMC fit; --omega_lambda VALUE (default 0.685, §5.2)
@@ -68,9 +74,15 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── fit_lcdm_cmb.py                        ΛCDM + CMB distance priors; --non_flat (§5.5)
 │   ├── fit_lcos_cmb.py                        Λcos + CMB distance priors; --free_omega_lambda (§5.5)
 │   ├── omega_lambda_scan.py                   Aggregate §5.4 Ω_Λ sensitivity table
+│   ├── prior_sensitivity.py                   §5.3 prior-reweighting of the baseline Λcos chain
+│   ├── bayes_factor.py                        §5.5 Savage-Dickey Bayes factor at the s₀ prior boundary
 │   ├── template_bias.py                       Template-bias mocks + Fig. 1 (§4.2)
 │   ├── threshold_scan.py                      CPL threshold scan + Fig. 2 (§4.3)
-│   └── make_plots.py                          Λcos corner (Fig. 3) and residuals (Fig. 4)
+│   ├── make_plots.py                          Λcos corner (Fig. 3) and residuals (Fig. 4)
+│   ├── growth.py                              Linear-growth ODE solver for arbitrary E(z); validates against textbook Ω_m(z)^0.55 (§6.C)
+│   ├── compute_rsd_chi2.py                    χ²_RSD comparison vs DESI DR1 FS at the SN+BAO best fit (§6.C)
+│   ├── make_growth_figures.py                 Fig. 5 (fσ_8 trajectories + DR1 FS data) and Fig. 6 (Ω_m(z) diagnostic) (§6.C)
+│   └── _summary.py                            Shared harmonized summary-JSON schema helper
 ├── results/                                   MCMC chains, post-burn samples, summaries, generated figures
 │   ├── lcdm_chain.npy, lcdm_post.csv, lcdm_summary.json, lcdm_corner.png
 │   ├── lcos_chain.npy, lcos_post.csv, lcos_summary.json, lcos_corner.{png,pdf}
@@ -83,9 +95,17 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── clock_exponent_{A,B,C,D}_chain.npy
 │   ├── clock_exponent_{A,B,C,D}_postburn.csv
 │   ├── clock_exponent_results.csv             Appendix A summary across all four models
+│   ├── prior_sensitivity.csv                  §5.3 reweighted-prior medians and 95% upper limits
+│   ├── bayes_factor.csv                       §5.5 B_01 across bandwidths for stability
 │   ├── template_bias.csv, template_bias.{png,pdf}     §4.2 fits and Fig. 1
 │   ├── threshold_scan.csv, threshold_scan.{png,pdf}   §4.3 scan and Fig. 2
-│   └── residuals.{png,pdf}                    Fig. 4
+│   ├── residuals.{png,pdf}                    Fig. 4
+│   ├── growth_LCDM_Om0p315.csv                §6.C growth trajectory at Ω_m = 0.315
+│   ├── growth_Lcos_s00p076.csv                §6.C growth trajectory at the Λcos posterior median
+│   ├── growth_Lcos_s00p185.csv                §6.C growth trajectory at the 95% upper limit
+│   ├── rsd_chi2.csv, rsd_residuals.csv        §6.C χ²_RSD summary and per-tracer pulls
+│   ├── fig5_fsigma8.{png,pdf}                 Fig. 5 (fσ_8 + DR1 FS data)
+│   └── fig6_omegam_z.{png,pdf}                Fig. 6 (Ω_m(z) diagnostic)
 ├── tables/
 │   ├── clock_exponent_appendix_A_fits.csv     Curated Appendix A reference values
 │   └── omega_lambda_scan.csv                  Aggregated §5.4 Ω_Λ sensitivity table
@@ -93,16 +113,15 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── fig1_template_bias_overlay.pdf         §4.2: w(z) overlays for CPL/BA/JBP/Polynomial
 │   ├── fig2_threshold_scan.pdf                §4.3: recovered (w₀, w_a) vs s₀
 │   ├── fig3_lcos_corner.pdf                   §5.2: Λcos posterior in (s₀, H₀r_d, M_B)
-│   └── fig4_hubble_residuals.pdf              §5.2: Pantheon+ binned residuals for ΛCDM and Λcos
+│   ├── fig4_hubble_residuals.pdf              §5.2: Pantheon+ binned residuals for ΛCDM and Λcos
+│   ├── fig5_fsigma8.pdf                       §6.C: fσ_8(z) trajectories + DESI DR1 FS data
+│   └── fig6_omegam_z.pdf                      §6.C: Ω_m(z) diagnostic out to z = 3
 └── paper/                                     LaTeX source for the manuscript
-    ├── paper.tex                              REVTeX 4.2 wrapper (preamble, title, abstract, \input, \bibliography)
-    ├── body.tex                               Cleaned body content (sections 1–8 + Appendix A)
-    ├── body-raw.tex                           Pandoc snapshot from upstream markdown
-    ├── cleanup_body.py                        Reproducible markdown→LaTeX transformations
-    ├── references.bib                         17 entries
+    ├── paper.tex                              REVTeX 4.2 single-source LaTeX (preamble + body + bibliography)
+    ├── references.bib                         20 entries
     ├── figures/                               Self-contained copies of ../figures/*.pdf
-    ├── paper.pdf                              Compiled output (10 pages, two-column)
-    ├── Makefile                               Build pipeline (pandoc → cleanup → pdflatex+bibtex)
+    ├── paper.pdf                              Compiled output (single-column, JCAP submission format)
+    ├── Makefile                               Build pipeline (pdflatex + bibtex + pdflatex × 2)
     └── README.md                              Build instructions
 ```
 
@@ -164,21 +183,21 @@ python fit_wcdm.py
 Reference summary values from the deposited posteriors:
 
 ```
-Λcos:    s0        ≈ 0.080 (mean), 0.073 (median)
-         s0 95% UL ≈ 0.180  (flat prior)
-         H0 r_d    ≈ 10010  km/s
+Λcos:    s0 median ≈ 0.076  (68% CI: 0.023, 0.143)
+         s0 95% UL ≈ 0.185  (flat prior)
+         H0 r_d    ≈ 10008  km/s
          M_B       ≈ -19.353
-         tau_max   ≈ 43.9
-ΛCDM:    Ω_m       ≈ 0.312
-         H0 r_d    ≈ 10044  km/s
+         tau_max   ≈ 46.9
+ΛCDM:    Ω_m       ≈ 0.312  (68% CI: 0.304, 0.321)
+         H0 r_d    ≈ 10043  km/s
          M_B       ≈ -19.355
-         tau_max   ≈ 35.8
-wCDM:    Ω_m       ≈ 0.296
-         w         ≈ -0.853
+         tau_max   ≈ 35.9
+wCDM:    Ω_m       ≈ 0.297
+         w         ≈ -0.855  (68% CI: -0.89, -0.82)
          Δχ²       ≈ -13.05 vs flat ΛCDM
          ΔAIC      ≈ -11.05
-         ΔBIC      ≈  -5.60
-         tau_max   ≈ 44.9
+         ΔBIC      ≈  -5.61
+         tau_max   ≈ 47.4
 ```
 
 ---
@@ -201,9 +220,15 @@ python threshold_scan.py
 python make_plots.py
 # -> results/lcos_corner.{png,pdf}   (Fig. 3)
 # -> results/residuals.{png,pdf}     (Fig. 4)
+
+# Figures 5 and 6 — fσ_8(z) with DESI DR1 FS overlay and Ω_m(z) diagnostic
+# Requires growth_LCDM_*.csv and growth_Lcos_*.csv (see §6.C reproduction below)
+python make_growth_figures.py
+# -> results/fig5_fsigma8.{png,pdf}  (Fig. 5)
+# -> results/fig6_omegam_z.{png,pdf} (Fig. 6)
 ```
 
-The paper-facing PDFs in `figures/` (`fig1_template_bias_overlay.pdf`, `fig2_threshold_scan.pdf`, `fig3_lcos_corner.pdf`, `fig4_hubble_residuals.pdf`) are stable copies of the corresponding `results/` outputs renamed to match the in-paper figure numbers.
+The paper-facing PDFs in `figures/` (`fig1_template_bias_overlay.pdf`, `fig2_threshold_scan.pdf`, `fig3_lcos_corner.pdf`, `fig4_hubble_residuals.pdf`, `fig5_fsigma8.pdf`, `fig6_omegam_z.pdf`) are stable copies of the corresponding `results/` outputs renamed to match the in-paper figure numbers.
 
 ---
 
@@ -283,12 +308,59 @@ with z* = 1090 and Ω_r = 9.15 × 10⁻⁵ included in E(z) for the high-z integ
 
 ---
 
+## Reproducing §6.C (linear-growth consistency check)
+
+§6.C compares the linear-growth prediction f σ_8(z) of ΛCDM and Λcos against the DESI DR1 ShapeFit+BAO compressed growth amplitudes (DESI 2024 Paper V, Appendix A, Eqs. A.13–A.24) at six tracer effective redshifts. The Λcos correction enters only through H(z); no perturbation-level parameter is introduced.
+
+```bash
+cd scripts
+
+# Step 1: validate the growth ODE solver against textbook ΛCDM
+python growth.py --validate
+# -> max |Δf/f| ≲ 0.5% vs Ω_m(z)^0.55 over z ∈ [0, 2.4]
+
+# Step 2: compute fσ_8(z) trajectories for ΛCDM and Λcos at two s₀ values
+python growth.py --model LCDM --Om 0.315
+python growth.py --model Lcos --s0 0.076 --OL 0.685
+python growth.py --model Lcos --s0 0.185 --OL 0.685
+# -> results/growth_LCDM_Om0p315.csv
+# -> results/growth_Lcos_s00p076.csv  (posterior median)
+# -> results/growth_Lcos_s00p185.csv  (95% upper limit)
+
+# Step 3: χ²_RSD against DESI DR1 FS at the SN+BAO best fit
+python compute_rsd_chi2.py
+# -> results/rsd_chi2.csv          (per-model χ²_RSD and Δχ²)
+# -> results/rsd_residuals.csv     (per-tracer pulls)
+
+# Step 4: figures
+python make_growth_figures.py
+# -> results/fig5_fsigma8.{png,pdf}   (Fig. 5)
+# -> results/fig6_omegam_z.{png,pdf}  (Fig. 6)
+```
+
+Reference values:
+
+```
+χ²_RSD (6 tracer bins, diagonal-error consistency check):
+  ΛCDM (Ω_m = 0.315)                4.64
+  Λcos (s₀ = 0.076, median)         4.68    Δχ² = +0.04
+  Λcos (s₀ = 0.185, 95% UL)         4.90    Δχ² = +0.26
+
+Ω_m(z) split at z = 2.3:
+  Λcos – ΛCDM at s₀ = 0.185         −2.9%
+```
+
+Note on data provenance: DESI DR2 (March 2025) released BAO distances only, not a DR2 full-shape product. The growth comparison therefore uses DR1 FS; the combination of DR2 BAO with DR1 FS follows the collaboration's own precedent (Elbers et al., arXiv:2503.14744; Forero-Sánchez et al., arXiv:2602.18761 for the rigorous joint treatment).
+
+---
+
 ## Data sources and provenance
 
 | Dataset | Source | Reference |
 |---|---|---|
 | Pantheon+ SNe Ia | [pantheonplussh0es.github.io](https://pantheonplussh0es.github.io/) | Brout et al., *Astrophys. J.* **938**, 110 (2022) |
 | DESI DR2 BAO | [data.desi.lbl.gov](https://data.desi.lbl.gov/) | DESI Collaboration, arXiv:2503.14738 (2025) |
+| DESI DR1 ShapeFit+BAO fσ_s8 | DESI 2024 Paper V, Appendix A | DESI Collaboration, *J. Cosmol. Astropart. Phys.* **2025**, 008, arXiv:2411.12021 |
 | Planck 2018 distance priors | Compressed (R, ℓ_A) from Planck VI | Planck Collaboration VI, *Astron. Astrophys.* **641**, A6 (2020) |
 
 The files under `data/` are formatted derivatives of the public sources above, repackaged for direct loading by the fit scripts. No proprietary data is included.
