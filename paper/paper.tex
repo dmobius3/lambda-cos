@@ -73,7 +73,10 @@ Starobinsky \cite{ref13} showed that model-dependent reconstruction can
 produce spurious features, including phantom crossings, when applied to
 models outside the fitting basis. More recently, several groups have
 examined whether the DESI signal specifically could reflect such
-artifacts \cite{ref8,ref14}.
+artifacts \cite{ref8,ref14}. Related analyses argue that CPL truncation
+can inject information not supported by the data \cite{ref21}, and that
+local goodness-of-fit improvements for phantom crossing do not persist
+under global Bayesian model comparison \cite{ref22}.
 
 The key question is not whether phantom crossings can be fitted to
 current data, but whether they are physically required, or instead arise
@@ -1012,6 +1015,13 @@ high $z$ and the exact two-term non-vacuum kernel of Sec.~\ref{sec:hubble} at al
 empirical fits confirm the analytic selection: among the alternatives
 tested, only $n = -1/2$ is viable.
 
+\section*{Acknowledgments}
+
+This work made use of public data from the Pantheon+ supernova
+compilation, the DESI Data Release 2 BAO measurements, and the Planck
+2018 release. The author thanks these collaborations for making their
+data publicly available.
+
 \section*{Data and Code Availability}\label{sec:data-availability}
 
 The MCMC chains, analysis scripts, and figure-generation code that
@@ -1025,8 +1035,8 @@ and the DESI DR2 BAO measurements \cite{ref1} at
 \href{https://data.desi.lbl.gov/}{data.desi.lbl.gov}.
 
 
-\vspace{-24pt}    % pull bibliography up so refs 19-20 don't orphan onto a new page
 \FloatBarrier      % flush queued floats so the Appendix A table lands before refs
+\clearpage         % references begin on their own page
 \bibliographystyle{apsrev4-2}
 \bibliography{references}
 
