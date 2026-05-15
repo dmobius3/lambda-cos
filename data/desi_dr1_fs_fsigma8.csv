@@ -1,0 +1,12 @@
+# DESI DR1 ShapeFit+BAO compressed growth amplitudes
+# Source: DESI 2024 V (arXiv:2411.12021), Appendix A, Eqs. A.13-A.24
+# Values are fσ_s8 (MAP), equivalent to fσ_8 under fiducial sound-horizon assumption
+# Diagonal uncertainties from sqrt of (3,3) covariance element × 1e-4
+# For consistency diagnostic only; full 4×4 covariance per bin available in paper
+tracer,z_eff,fsigmas8,sigma_fsigmas8
+BGS,0.30,0.396326,0.08996
+LRG1,0.51,0.547632,0.05940
+LRG2,0.71,0.479541,0.04802
+LRG3,0.92,0.438454,0.04125
+ELG2,1.32,0.372661,0.03437
+QSO,1.49,0.436849,0.04586

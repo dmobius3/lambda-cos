@@ -41,4 +41,5 @@ Makefile             Build pipeline
 - §5.5 (CMB priors) → `../scripts/fit_lcdm_cmb.py`, `../scripts/fit_lcos_cmb.py`
 - §5.5 (Savage-Dickey Bayes factor) → `../scripts/bayes_factor.py`
 - §5.7 (wCDM) → `../scripts/fit_wcdm.py`
+- §6.C (linear-growth, fσ_8 vs DESI DR1 FS) → `../scripts/growth.py`, `../scripts/compute_rsd_chi2.py`, `../scripts/make_growth_figures.py`
 - Appendix A (clock exponents) → `../scripts/fit_clock_exponents.py`
