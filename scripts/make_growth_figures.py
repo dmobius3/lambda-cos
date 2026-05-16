@@ -49,9 +49,15 @@ ax.errorbar(data.z_eff, data.fsigmas8, yerr=data.sigma_fsigmas8,
             fmt="o", color="C2", markersize=6, capsize=3, capthick=1.2,
             ecolor="C2", label=r"DESI DR1 FS (ShapeFit$+$BAO)")
 for _, row in data.iterrows():
+    # ELG2 sits low; the default up-right label clips the model curves,
+    # so place it below the marker instead.
+    if row.tracer == "ELG2":
+        off, va = (6, -8), "top"
+    else:
+        off, va = (6, 6), "bottom"
     ax.annotate(row.tracer, (row.z_eff, row.fsigmas8),
-                xytext=(6, 6), textcoords="offset points",
-                fontsize=8, color="dimgray")
+                xytext=off, textcoords="offset points",
+                fontsize=8, color="dimgray", va=va)
 
 ax.set_xlabel(r"$z$", fontsize=12)
 ax.set_ylabel(r"$f\sigma_8(z)$", fontsize=12)
