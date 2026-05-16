@@ -118,7 +118,7 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   └── fig6_omegam_z.pdf                      §6.C: Ω_m(z) diagnostic out to z = 3
 └── paper/                                     LaTeX source for the manuscript
     ├── paper.tex                              REVTeX 4.2 single-source LaTeX (preamble + body + bibliography)
-    ├── references.bib                         20 entries
+    ├── references.bib                         22 entries
     ├── figures/                               Self-contained copies of ../figures/*.pdf
     ├── paper.pdf                              Compiled output (single-column, JCAP submission format)
     ├── Makefile                               Build pipeline (pdflatex + bibtex + pdflatex × 2)
