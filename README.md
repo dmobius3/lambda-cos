@@ -18,15 +18,15 @@ with $\alpha$, $\beta$ determined by $s_0$ and a fixed reference $\Omega_\Lambda
 
 Reproducible results in this repository:
 
-- **Joint Pantheon+ + DESI DR2 BAO fit** for ΛCDM, Λcos, and wCDM (§5.2, §5.7)
-- **Template-bias mock fits** across CPL, BA, JBP, and a three-parameter polynomial (§4.2)
-- **CPL threshold scan** across $s_0 \in [0.01, 0.40]$ (§4.3)
-- **Prior sensitivity** for Λcos under flat, $s_0^2$, and $\log_{10}(s_0)$ priors (§5.3)
-- **Ω_Λ sensitivity scan** across 0.680–0.715 (§5.4)
-- **CMB distance priors** for flat ΛCDM, non-flat ΛCDM, Λcos at fixed Ω_Λ, and Λcos with Ω_Λ free (§5.5)
-- **Savage-Dickey Bayes factor** at the $s_0$ prior boundary (§5.5)
+- **Joint Pantheon+ + DESI DR2 BAO fit** for ΛCDM, Λcos, and wCDM (§V.B, §V.G)
+- **Template-bias mock fits** across CPL, BA, JBP, and a three-parameter polynomial (§IV.B)
+- **CPL threshold scan** across $s_0 \in [0.01, 0.40]$ (§IV.C)
+- **Prior sensitivity** for Λcos under flat, $s_0^2$, and $\log_{10}(s_0)$ priors (§V.C)
+- **Ω_Λ sensitivity scan** across 0.680–0.715 (§V.D)
+- **CMB distance priors** for flat ΛCDM, non-flat ΛCDM, Λcos at fixed Ω_Λ, and Λcos with Ω_Λ free (§V.E)
+- **Savage-Dickey Bayes factor** at the $s_0$ prior boundary (§V.E)
 - **Clock exponent comparison** for Models A, B, C, D (Appendix A)
-- **Linear growth comparison** against DESI DR1 ShapeFit+BAO $f\sigma_{s8}$ at six tracer effective redshifts (§6.C)
+- **Linear growth comparison** against DESI DR1 ShapeFit+BAO $f\sigma_{s8}$ at six tracer effective redshifts (§VI.C)
 - **Figure generation** for Figs. 1–6
 
 ---
@@ -65,57 +65,57 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── pantheon_plus_cov.npy                  1701 × 1701 statistical + systematic covariance
 │   ├── desi_dr2_bao.csv                       DESI DR2 BAO observables
 │   ├── desi_dr2_bao_cov.npy                   Inter-observable covariance for the 13 BAO points
-│   └── desi_dr1_fs_fsigma8.csv                DESI DR1 ShapeFit+BAO compressed fσ_s8 amplitudes at 6 tracer effective redshifts (§6.C)
+│   └── desi_dr1_fs_fsigma8.csv                DESI DR1 ShapeFit+BAO compressed fσ_s8 amplitudes at 6 tracer effective redshifts (§VI.C)
 ├── scripts/
-│   ├── fit_lcdm.py                            Flat ΛCDM MCMC fit (§5.2)
-│   ├── fit_lcos.py                            Λcos MCMC fit; --omega_lambda VALUE (default 0.685, §5.2)
-│   ├── fit_wcdm.py                            wCDM MCMC fit (§5.7)
+│   ├── fit_lcdm.py                            Flat ΛCDM MCMC fit (§V.B)
+│   ├── fit_lcos.py                            Λcos MCMC fit; --omega_lambda VALUE (default 0.685, §V.B)
+│   ├── fit_wcdm.py                            wCDM MCMC fit (§V.G)
 │   ├── fit_clock_exponents.py                 Clock exponent comparison (Appendix A)
-│   ├── fit_lcdm_cmb.py                        ΛCDM + CMB distance priors; --non_flat (§5.5)
-│   ├── fit_lcos_cmb.py                        Λcos + CMB distance priors; --free_omega_lambda (§5.5)
-│   ├── omega_lambda_scan.py                   Aggregate §5.4 Ω_Λ sensitivity table
-│   ├── prior_sensitivity.py                   §5.3 prior-reweighting of the baseline Λcos chain
-│   ├── bayes_factor.py                        §5.5 Savage-Dickey Bayes factor at the s₀ prior boundary
-│   ├── template_bias.py                       Template-bias mocks + Fig. 1 (§4.2)
-│   ├── threshold_scan.py                      CPL threshold scan + Fig. 2 (§4.3)
+│   ├── fit_lcdm_cmb.py                        ΛCDM + CMB distance priors; --non_flat (§V.E)
+│   ├── fit_lcos_cmb.py                        Λcos + CMB distance priors; --free_omega_lambda (§V.E)
+│   ├── omega_lambda_scan.py                   Aggregate §V.D Ω_Λ sensitivity table
+│   ├── prior_sensitivity.py                   §V.C prior-reweighting of the baseline Λcos chain
+│   ├── bayes_factor.py                        §V.E Savage-Dickey Bayes factor at the s₀ prior boundary
+│   ├── template_bias.py                       Template-bias mocks + Fig. 1 (§IV.B)
+│   ├── threshold_scan.py                      CPL threshold scan + Fig. 2 (§IV.C)
 │   ├── make_plots.py                          Λcos corner (Fig. 3) and residuals (Fig. 4)
-│   ├── growth.py                              Linear-growth ODE solver for arbitrary E(z); validates against textbook Ω_m(z)^0.55 (§6.C)
-│   ├── compute_rsd_chi2.py                    χ²_RSD comparison vs DESI DR1 FS at the SN+BAO best fit (§6.C)
-│   ├── make_growth_figures.py                 Fig. 5 (fσ_8 trajectories + DR1 FS data) and Fig. 6 (Ω_m(z) diagnostic) (§6.C)
+│   ├── growth.py                              Linear-growth ODE solver for arbitrary E(z); validates against textbook Ω_m(z)^0.55 (§VI.C)
+│   ├── compute_rsd_chi2.py                    χ²_RSD comparison vs DESI DR1 FS at the SN+BAO best fit (§VI.C)
+│   ├── make_growth_figures.py                 Fig. 5 (fσ_8 trajectories + DR1 FS data) and Fig. 6 (Ω_m(z) diagnostic) (§VI.C)
 │   └── _summary.py                            Shared harmonized summary-JSON schema helper
 ├── results/                                   MCMC chains, post-burn samples, summaries, generated figures
 │   ├── lcdm_chain.npy, lcdm_post.csv, lcdm_summary.json, lcdm_corner.png
 │   ├── lcos_chain.npy, lcos_post.csv, lcos_summary.json, lcos_corner.{png,pdf}
-│   ├── lcos_omegaL_<v>_*.{npy,csv,json,png}   Λcos at alternative Ω_Λ ∈ {0.680, 0.690, 0.700, 0.715} (§5.4)
+│   ├── lcos_omegaL_<v>_*.{npy,csv,json,png}   Λcos at alternative Ω_Λ ∈ {0.680, 0.690, 0.700, 0.715} (§V.D)
 │   ├── wcdm_chain.npy, wcdm_post.csv, wcdm_summary.json, wcdm_corner.png
-│   ├── lcdm_cmb_*.{npy,csv,json,png}          Flat ΛCDM + CMB priors (§5.5)
-│   ├── lcdm_cmb_nonflat_*.{npy,csv,json,png}  Non-flat ΛCDM + CMB priors (§5.5)
-│   ├── lcos_cmb_*.{npy,csv,json,png}          Λcos at Ω_Λ = 0.685 + CMB priors (§5.5)
-│   ├── lcos_cmb_freeOL_*.{npy,csv,json,png}   Λcos with Ω_Λ free + CMB priors (§5.5)
+│   ├── lcdm_cmb_*.{npy,csv,json,png}          Flat ΛCDM + CMB priors (§V.E)
+│   ├── lcdm_cmb_nonflat_*.{npy,csv,json,png}  Non-flat ΛCDM + CMB priors (§V.E)
+│   ├── lcos_cmb_*.{npy,csv,json,png}          Λcos at Ω_Λ = 0.685 + CMB priors (§V.E)
+│   ├── lcos_cmb_freeOL_*.{npy,csv,json,png}   Λcos with Ω_Λ free + CMB priors (§V.E)
 │   ├── clock_exponent_{A,B,C,D}_chain.npy
 │   ├── clock_exponent_{A,B,C,D}_postburn.csv
 │   ├── clock_exponent_results.csv             Appendix A summary across all four models
-│   ├── prior_sensitivity.csv                  §5.3 reweighted-prior medians and 95% upper limits
-│   ├── bayes_factor.csv                       §5.5 B_01 across bandwidths for stability
-│   ├── template_bias.csv, template_bias.{png,pdf}     §4.2 fits and Fig. 1
-│   ├── threshold_scan.csv, threshold_scan.{png,pdf}   §4.3 scan and Fig. 2
+│   ├── prior_sensitivity.csv                  §V.C reweighted-prior medians and 95% upper limits
+│   ├── bayes_factor.csv                       §V.E B_01 across bandwidths for stability
+│   ├── template_bias.csv, template_bias.{png,pdf}     §IV.B fits and Fig. 1
+│   ├── threshold_scan.csv, threshold_scan.{png,pdf}   §IV.C scan and Fig. 2
 │   ├── residuals.{png,pdf}                    Fig. 4
-│   ├── growth_LCDM_Om0p315.csv                §6.C growth trajectory at Ω_m = 0.315
-│   ├── growth_Lcos_s00p076.csv                §6.C growth trajectory at the Λcos posterior median
-│   ├── growth_Lcos_s00p185.csv                §6.C growth trajectory at the 95% upper limit
-│   ├── rsd_chi2.csv, rsd_residuals.csv        §6.C χ²_RSD summary and per-tracer pulls
+│   ├── growth_LCDM_Om0p315.csv                §VI.C growth trajectory at Ω_m = 0.315
+│   ├── growth_Lcos_s00p076.csv                §VI.C growth trajectory at the Λcos posterior median
+│   ├── growth_Lcos_s00p185.csv                §VI.C growth trajectory at the 95% upper limit
+│   ├── rsd_chi2.csv, rsd_residuals.csv        §VI.C χ²_RSD summary and per-tracer pulls
 │   ├── fig5_fsigma8.{png,pdf}                 Fig. 5 (fσ_8 + DR1 FS data)
 │   └── fig6_omegam_z.{png,pdf}                Fig. 6 (Ω_m(z) diagnostic)
 ├── tables/
 │   ├── clock_exponent_appendix_A_fits.csv     Curated Appendix A reference values
-│   └── omega_lambda_scan.csv                  Aggregated §5.4 Ω_Λ sensitivity table
+│   └── omega_lambda_scan.csv                  Aggregated §V.D Ω_Λ sensitivity table
 ├── figures/
-│   ├── fig1_template_bias_overlay.pdf         §4.2: w(z) overlays for CPL/BA/JBP/Polynomial
-│   ├── fig2_threshold_scan.pdf                §4.3: recovered (w₀, w_a) vs s₀
-│   ├── fig3_lcos_corner.pdf                   §5.2: Λcos posterior in (s₀, H₀r_d, M_B)
-│   ├── fig4_hubble_residuals.pdf              §5.2: Pantheon+ binned residuals for ΛCDM and Λcos
-│   ├── fig5_fsigma8.pdf                       §6.C: fσ_8(z) trajectories + DESI DR1 FS data
-│   └── fig6_omegam_z.pdf                      §6.C: Ω_m(z) diagnostic out to z = 3
+│   ├── fig1_template_bias_overlay.pdf         §IV.B: w(z) overlays for CPL/BA/JBP/Polynomial
+│   ├── fig2_threshold_scan.pdf                §IV.C: recovered (w₀, w_a) vs s₀
+│   ├── fig3_lcos_corner.pdf                   §V.B: Λcos posterior in (s₀, H₀r_d, M_B)
+│   ├── fig4_hubble_residuals.pdf              §V.B: Pantheon+ binned residuals for ΛCDM and Λcos
+│   ├── fig5_fsigma8.pdf                       §VI.C: fσ_8(z) trajectories + DESI DR1 FS data
+│   └── fig6_omegam_z.pdf                      §VI.C: Ω_m(z) diagnostic out to z = 3
 └── paper/                                     LaTeX source for the manuscript
     ├── paper.tex                              REVTeX 4.2 single-source LaTeX (preamble + body + bibliography)
     ├── references.bib                         22 entries
@@ -159,7 +159,7 @@ Total install footprint about 200 MB. The primary SN+BAO MCMC fit takes roughly 
 
 ## Quickstart: reproducing the primary fit
 
-The headline result is the joint Pantheon+ + DESI DR2 BAO Λcos fit (§5.2). All scripts are written to be run from the `scripts/` directory and resolve paths via `../data/` and `../results/`.
+The headline result is the joint Pantheon+ + DESI DR2 BAO Λcos fit (§V.B). All scripts are written to be run from the `scripts/` directory and resolve paths via `../data/` and `../results/`.
 
 ```bash
 cd scripts
@@ -174,7 +174,7 @@ For the ΛCDM baseline:
 python fit_lcdm.py
 ```
 
-For wCDM (§5.7):
+For wCDM (§V.G):
 
 ```bash
 python fit_wcdm.py
@@ -222,7 +222,7 @@ python make_plots.py
 # -> results/residuals.{png,pdf}     (Fig. 4)
 
 # Figures 5 and 6 — fσ_8(z) with DESI DR1 FS overlay and Ω_m(z) diagnostic
-# Requires growth_LCDM_*.csv and growth_Lcos_*.csv (see §6.C reproduction below)
+# Requires growth_LCDM_*.csv and growth_Lcos_*.csv (see §VI.C reproduction below)
 python make_growth_figures.py
 # -> results/fig5_fsigma8.{png,pdf}  (Fig. 5)
 # -> results/fig6_omegam_z.{png,pdf} (Fig. 6)
@@ -232,7 +232,7 @@ The paper-facing PDFs in `figures/` (`fig1_template_bias_overlay.pdf`, `fig2_thr
 
 ---
 
-## Reproducing the template-bias scan (§4.3)
+## Reproducing the template-bias scan (§IV.C)
 
 ```bash
 cd scripts
@@ -241,7 +241,7 @@ python threshold_scan.py
 
 Iterates CPL fits across $s_0 \in [0.01, 0.40]$ in steps of $0.01$, recording $(w_0, w_a, \chi^2)$ at each value to `results/threshold_scan.csv` and producing Fig. 2.
 
-The single-$s_0$ mock comparison across all four parameterizations (Table in §4.2) is produced separately by `template_bias.py`, which writes `results/template_bias.csv` and Fig. 1.
+The single-$s_0$ mock comparison across all four parameterizations (Table in §IV.B) is produced separately by `template_bias.py`, which writes `results/template_bias.csv` and Fig. 1.
 
 ---
 
@@ -262,7 +262,7 @@ The curated paper-facing values are also deposited at `tables/clock_exponent_app
 
 ---
 
-## Reproducing the Ω_Λ sensitivity scan (§5.4)
+## Reproducing the Ω_Λ sensitivity scan (§V.D)
 
 ```bash
 cd scripts
@@ -278,9 +278,9 @@ Outputs to `results/lcos_omegaL_<v>_*.{npy,csv,json,png}` for each non-canonical
 
 ---
 
-## Reproducing §5.5 (CMB distance priors)
+## Reproducing §V.E (CMB distance priors)
 
-§5.5 adds compressed Planck 2018 distance priors (R = 1.7502 ± 0.0046, ℓ_A = 301.47 ± 0.09) to the SN+BAO likelihood. Four fits in total:
+§V.E adds compressed Planck 2018 distance priors (R = 1.7502 ± 0.0046, ℓ_A = 301.47 ± 0.09) to the SN+BAO likelihood. Four fits in total:
 
 ```bash
 cd scripts
@@ -308,9 +308,9 @@ with z* = 1090 and Ω_r = 9.15 × 10⁻⁵ included in E(z) for the high-z integ
 
 ---
 
-## Reproducing §6.C (linear-growth consistency check)
+## Reproducing §VI.C (linear-growth consistency check)
 
-§6.C compares the linear-growth prediction f σ_8(z) of ΛCDM and Λcos against the DESI DR1 ShapeFit+BAO compressed growth amplitudes (DESI 2024 Paper V, Appendix A, Eqs. A.13–A.24) at six tracer effective redshifts. The Λcos correction enters only through H(z); no perturbation-level parameter is introduced.
+§VI.C compares the linear-growth prediction f σ_8(z) of ΛCDM and Λcos against the DESI DR1 ShapeFit+BAO compressed growth amplitudes (DESI 2024 Paper V, Appendix A, Eqs. A.13–A.24) at six tracer effective redshifts. The Λcos correction enters only through H(z); no perturbation-level parameter is introduced.
 
 ```bash
 cd scripts
