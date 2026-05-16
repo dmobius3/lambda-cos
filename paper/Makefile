@@ -6,7 +6,9 @@ LCOS_FIGURES = ../figures
 FIGS = figures/fig1_template_bias_overlay.pdf \
        figures/fig2_threshold_scan.pdf \
        figures/fig3_lcos_corner.pdf \
-       figures/fig4_hubble_residuals.pdf
+       figures/fig4_hubble_residuals.pdf \
+       figures/fig5_fsigma8.pdf \
+       figures/fig6_omegam_z.pdf
 
 .PHONY: all clean figures
 
