@@ -369,7 +369,7 @@ The files under `data/` are formatted derivatives of the public sources above, r
 
 ## Reproducibility notes
 
-- **Random seeding**: `fit_clock_exponents.py` uses a fixed seed (`RNG_SEED = 12345`). The other MCMC scripts (`fit_lcdm.py`, `fit_lcos.py`, `fit_wcdm.py`) initialize walkers from `np.random.randn` without an explicit seed; small numerical variations between runs are within the posterior thickness and do not change the reported summary values.
+- **Random seeding**: `fit_clock_exponents.py` sets `RNG_SEED = 12345`, which pins the walker initialization only; the `emcee` chain evolution itself is not seeded. The other MCMC scripts (`fit_lcdm.py`, `fit_lcos.py`, `fit_wcdm.py`) initialize walkers from `np.random.randn` without an explicit seed. In all cases run-to-run variations are within the posterior thickness and do not change the reported summary values; for boundary-saturated fits (e.g. clock-exponent models B and D) the best-fit s₀ in the flat-likelihood region near the prior floor can vary between runs, while χ² and Δχ² reproduce to ~0.001.
 - **MCMC configuration**: 32 walkers, 5000 steps, 1000 burn-in across all fit scripts.
 - **Numerical accuracy**: distance integrals use SciPy's `cumulative_trapezoid` on a 4000-point grid in z ∈ [0, 2.5] (or up to z\_max ≈ 2.4 from the BAO range). For the clock-exponent run the grid extends to 1.002 × max(z\_data).
 - **Working directory**: scripts are run from the `scripts/` subdirectory; paths resolve via `../data/` and `../results/`.
