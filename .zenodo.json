@@ -1,0 +1,25 @@
+{
+  "title": "Λcos: Code and Data for \"Apparent Phantom Crossing as Template Bias: A Bounded-Clock Deformation of ΛCDM\"",
+  "description": "Analysis pipeline, MCMC chains, figure-generation scripts, and LaTeX source for the paper \"Apparent Phantom Crossing as Template Bias: A Bounded-Clock Deformation of ΛCDM\" (B. Shatto, 2026). The Λcos model is a one-parameter bounded-clock deformation of the fiducial flat ΛCDM expansion history. This archive reproduces the joint Pantheon+ and DESI DR2 BAO fits for ΛCDM, Λcos, and wCDM; the template-bias mock fits across CPL, BA, JBP, and a three-parameter polynomial; the CPL threshold scan; the prior- and Ω_Λ-sensitivity scans; the CMB distance-prior fits; the clock-exponent comparison; and the DESI DR1 linear-growth consistency check.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "version": "2.0.0",
+  "creators": [
+    {
+      "name": "Shatto, B.",
+      "affiliation": "Independent Researcher, St. Petersburg, FL, USA"
+    }
+  ],
+  "keywords": [
+    "cosmology",
+    "dark energy",
+    "equation of state",
+    "phantom crossing",
+    "DESI",
+    "baryon acoustic oscillations",
+    "Type Ia supernovae",
+    "Pantheon+",
+    "MCMC"
+  ]
+}

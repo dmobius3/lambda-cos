@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the paper and this archive."
+title: 'Λcos: Code and Data for "Apparent Phantom Crossing as Template Bias: A Bounded-Clock Deformation of ΛCDM"'
+type: software
+authors:
+  - family-names: Shatto
+    given-names: B.
+    affiliation: "Independent Researcher, St. Petersburg, FL, USA"
+version: 2.0.0
+doi: 10.5281/zenodo.19798852
+date-released: "2026-05-16"
+license: MIT
+repository-code: "https://github.com/dmobius3/lambda-cos"
+keywords:
+  - cosmology
+  - dark energy
+  - phantom crossing
+  - DESI
+  - baryon acoustic oscillations
