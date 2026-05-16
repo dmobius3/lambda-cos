@@ -2,5 +2,5 @@ Model,n,Best-fit s0,Best-fit H0rd,Best-fit M_B,chi2_SN,chi2_BAO,chi2_total,Delta
 A,0,0.822764,9279.25,-19.27642,1814.74,176.40,1991.15,218.69,0.647,39.13,stable
 B,-1,0.001,8554.93,-19.30456,1834.47,1759.91,3594.38,1821.93,0.618,45.34,boundary-limited at s0 prior floor; sampler stable
 C,1,0.962272,9219.68,-19.04014,2737.09,6312.00,9049.09,7276.63,0.646,40.02,stable
-D,-0.5,0.001†,10010,-19.353,1759.0,13.5,1772.6,0.11,0.615,46.98,likelihood maximum at s0 prior floor; posterior median 0.072 (§5.2)
+D,-0.5,0.007739†,10024.91,-19.353,1759.03,13.54,1772.57,0.11,0.615,46.98,chain argmax s0 = 0.008; likelihood surface flat near s0 = 0; posterior median 0.076 (§5.2)
 ΛCDM (baseline),—,(Ω_m = 0.312),10046,-19.355,1759.9,12.6,1772.5,0,0.646,35.79,reference baseline
