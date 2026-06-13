@@ -37,14 +37,14 @@
 
 \author{B.~Shatto}
 \email{bshatto.pe@gmail.com}
-\affiliation{Independent Researcher, St.~Petersburg, FL, USA}
+\affiliation{St.~Petersburg, FL, USA}
 
 \date{\today}
 
 \begin{abstract}
 DESI DR2 reports a 2.8--4.2$\sigma$ preference for dynamical dark energy in combined analyses, with standard $w_0 w_a$ fits favoring an apparent crossing of $w = -1$. We show that an expansion history that is non-phantom under the fiducial-matter split can produce apparent phantom crossings when analyzed with standard two-parameter templates. We construct a specific bounded-clock model, $\Lambda$cos, and constrain it using Pantheon+ and DESI DR2 BAO. At data-allowed parameter values, the induced CPL distortion is structurally present but modest ($w_0 \approx -1.02$) and of opposite sign in $w_a$, establishing the mechanism without reproducing the DESI best-fit amplitude.
 
-The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omega_\Lambda$, where $\alpha$ and $\beta$ are determined by a single parameter $s_0$ and a fixed reference value $\Omega_\Lambda = 0.685$. Under the fiducial-matter diagnostic split, the model satisfies $w_{\rm eff}(z) > -1$ for all $z \geq 0$, recovers the fiducial flat $\Lambda$CDM limit as $s_0 \to 0$, and contains a negative $(1+z)^1$ term in $H^2$ absent from the four canonical FLRW density scalings. A joint MCMC fit to Pantheon+ (1701 SNe Ia) and DESI DR2 BAO (13 data points) yields $\Delta\chi^2 = +0.11$ relative to flat $\Lambda$CDM at the same parameter count, with $s_0 < 0.19$ (95\% CL, flat prior). The constraint is robust across prior choices ($s_0 < 0.12$--$0.21$) and $\Omega_\Lambda$ variations ($0.68$--$0.715$). Adding compressed Planck distance priors shifts the preferred $\Omega_\Lambda$ in both $\Lambda$CDM and $\Lambda$cos; allowing $\Omega_\Lambda$ to vary gives statistically equivalent fits ($\Delta\chi^2 = +0.28$ at equal parameter count). A growth-level consistency check using DESI DR1 full-shape ShapeFit growth amplitudes gives $\Delta\chi^2_{\rm RSD} < 0.3$ relative to flat $\Lambda$CDM across the data-allowed parameter range.
+The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omega_\Lambda$, where $\alpha$ and $\beta$ are determined by a single parameter $s_0$ and a fixed reference value $\Omega_\Lambda = 0.685$. Under the fiducial-matter diagnostic split, the model satisfies $w_{\rm eff}(z) > -1$ for all $z \geq 0$, recovers the fiducial flat $\Lambda$CDM limit as $s_0 \to 0$, and contains a negative $(1+z)^1$ term in $H^2$ absent from the four canonical FLRW density scalings. A joint MCMC fit to Pantheon+ (1701 SNe Ia) and DESI DR2 BAO (13 data points) yields $\Delta\chi^2 = +0.11$ relative to flat $\Lambda$CDM at the same parameter count, with $s_0 < 0.19$ (95\% CL, flat prior). The constraint is robust across prior choices ($s_0 < 0.12$--$0.21$) and $\Omega_\Lambda$ variations ($0.68$--$0.715$). Adding compressed Planck distance priors shifts the preferred $\Omega_\Lambda$ in both $\Lambda$CDM and $\Lambda$cos; allowing $\Omega_\Lambda$ to vary gives statistically equivalent fits ($\Delta\chi^2 = +0.28$ at equal parameter count). A growth-level consistency check using DESI DR1 full-shape ShapeFit growth amplitudes gives $\Delta\chi^2_{\rm RSD} < 0.3$ relative to flat $\Lambda$CDM across the parameter range.
 \end{abstract}
 
 \maketitle
@@ -91,6 +91,8 @@ The key question is not whether phantom crossings can be fitted to
 current data, but whether they are physically required, or instead arise
 as artifacts of the fitting template applied to an expansion history that is non-phantom under the fiducial-matter split defined in Sec.~\ref{sec:weff-proof}. The present paper contributes to this discussion in two ways.
 
+\pagebreak
+
 First, we construct a specific bounded-clock model ($\Lambda$cos), a one-parameter
 deformation of fiducial flat $\Lambda$CDM whose diagnostic effective residual
 remains non-phantom under the fiducial-matter split, providing a
@@ -98,7 +100,6 @@ falsifiable model rather than a generic cautionary argument. The model yields $H
 - \beta(1+z) + \Omega_\Lambda$, for which $w_{\rm eff}(z) > -1$ follows
 analytically for all $z \geq 0$, and which recovers the fiducial flat
 $\Lambda$CDM limit as its single new parameter $s_0 \to 0$. 
-
 
 Second, we test the template bias mechanism quantitatively: we show that CPL, BA, and JBP
 all produce apparent phantom crossings when fitted to $\Lambda$cos distances,
@@ -171,6 +172,8 @@ redshift-dependent scaling of the non-vacuum contribution that enters the
 Friedmann equation as one additive term in $H^2/H_0^2$. The cosmological
 constant enters as a separate component in Sec.~\ref{sec:hubble}, where the
 physical dimensionless Hubble rate $E^2(z)$ is assembled.
+
+\pagebreak
 
 For a power-law clock $dt/d\tau = S^n$, the non-vacuum scaling gives
 $(1/S)(dS/d\tau) = \tfrac{1}{2}\cos(t/2)\,S^{n-1}$. The power-law form is the minimal
@@ -318,6 +321,7 @@ The correction to $w = -1$ is therefore:
 
 \[w_{\rm eff}(z) + 1 = \frac{\Omega_m\, s_0^2\,(1+z)\left[3(1+z)^2 - 1\right]}{3(1 - s_0^2)\left[\frac{\Omega_m\, s_0^2}{1 - s_0^2}\left((1+z)^3 - (1+z)\right) + \Omega_\Lambda\right]}\]
 
+\pagebreak
 
 For $z \geq 0$ (corresponding to $S \leq s_0$) and $s_0 \in (0, 1)$:
 
@@ -415,6 +419,7 @@ Polynomial: $w_0 + w_1(1-a) + w_2(1-a)^2$ & $w_0 = -0.918$, $w_1 = -0.213$, $w_2
   \label{fig:1}
 \end{figure}
 
+\pagebreak
 
 Three of four parameterizations produce phantom crossings from input
 whose fiducial-split diagnostic satisfies $w_{\rm eff} > -1$ for all $z \geq 0$. The polynomial, with
@@ -459,17 +464,16 @@ DESI observed & $-0.75$ & $-0.86$ & 0.25 \\
   \label{fig:2}
 \end{figure}
 
-Two features are evident. First, the crossing persists at every tested
-$s_0 > 0$, confirming that the template bias is a structural
-property of the CPL basis applied to non-phantom models of this type,
-not an artifact of a particular parameter value. Second, at the SN+BAO
+The crossing persists at every tested $s_0 > 0$: the template bias is a
+structural property of the CPL basis applied to non-phantom models of
+this type, not an artifact of a particular parameter value. At the SN+BAO
 95\% upper limit $s_0 < 0.19$ (Sec.~\ref{sec:obs-constraints}), the induced distortion is
 modest: $w_0 \approx -1.02$ with $w_a \approx +0.29$.
 
 \subsection{Comparison with the DESI best fit}\label{sec:desi-comparison}
 
 The DESI CPL best fit reports $w_0 \approx -0.75$ and $w_a \approx -0.86$. The
-$\Lambda$cos-induced distortion at data-allowed $s_0$ differs in both amplitude
+$\Lambda$cos-induced distortion at $s_0 < 0.19$ differs in both amplitude
 ($|w_0+1| = 0.02$ vs 0.25, a factor of
 ${\sim}10$) and sign ($w_a = +0.29$ vs $-0.86$).
 
@@ -480,9 +484,7 @@ either a larger bounded deformation ($s_0 \gtrsim 0.4$, ruled out by current
 data) or a different functional form for the effective dark-energy
 sector.
 
-The claim is that the mechanism exists and is quantifiable at
-data-allowed parameters, not that $\Lambda$cos reproduces the DESI
-signal.
+\pagebreak
 
 \section{Observational Constraints}\label{sec:obs-constraints}
 
@@ -592,6 +594,8 @@ ranges from 0.12 to 0.21, a factor of ${\sim}1.8$. The constraint
 is prior-sensitive in detail but data-driven in character: all three
 priors yield $s_0 \ll 1$.
 
+\pagebreak
+
 \subsection{$\Omega_\Lambda$ sensitivity}\label{sec:omega-sensitivity}
 
 The primary fit uses $\Omega_\Lambda = 0.685$ as a fixed reference value. To test
@@ -621,6 +625,8 @@ occurs near $\Omega_\Lambda = 0.69$. At the CMB-preferred value $\Omega_\Lambda 
 best-fit $s_0$ shifts to 0.288 (nonzero) and the model is mildly disfavored
 ($\Delta\chi^2 = +2.38$). The results are stable across the tested range; no
 fine-tuning of $\Omega_\Lambda$ is required.
+
+\pagebreak
 
 \subsection{CMB distance priors}\label{sec:cmb-priors}
 
@@ -715,10 +721,10 @@ $w = -1$. The distinction is that wCDM captures this as a constant shift
 toward $w > -1$, while CPL projects it into a crossing
 through $w = -1$. The $\Lambda$cos model, for which $w_{\rm eff} > -1$ for $z \geq 0$ under
 the fiducial-matter split, is consistent with the wCDM direction but does not
-achieve the same $\chi^2$ improvement because the data-allowed $s_0$ is too small
+achieve the same $\chi^2$ improvement because the permitted $s_0$ is too small
 to produce a detectable departure.
 
-The wCDM preference for $w \approx -0.855$ identifies a data preference within the wCDM parameterization that $\Lambda$cos at data-allowed $s_0$ values cannot
+The wCDM preference for $w \approx -0.855$ identifies a data preference within the wCDM parameterization that $\Lambda$cos at the allowed $s_0$ cannot
 capture. Bridging this gap requires either a larger bounded deformation
 than current data permit or a different functional form for the
 non-vacuum sector; the template bias mechanism demonstrated above is necessary context for interpreting
@@ -749,7 +755,7 @@ redshift bins) is forecast at 1--2\% per bin \cite{ref16}, marginal for
 detection. The discriminating regime is next-generation surveys projected
 to reach sub-percent per-bin precision \cite{ref16,ref17}, where the
 $(1+z)^1$ signature approaches per-bin detectability for $s_0$ in the
-upper portion of the data-allowed range, with correlated bins improving
+upper portion of the allowed range, with correlated bins improving
 aggregate sensitivity.
 
 A statistically significant detection of a negative $(1+z)^1$ component in
@@ -763,11 +769,11 @@ determined by a single parameter already constrained by current data.
 
 \subsection{Falsification criteria}\label{sec:falsification}
 
-Table~\ref{tab:falsification} summarizes the three load-bearing $\Lambda$cos predictions and their falsification conditions.
+Table~\ref{tab:falsification} summarizes the two load-bearing $\Lambda$cos predictions and their falsification conditions.
 
 \begin{table*}[!ht]
 \centering\footnotesize
-\caption{Falsification criteria for the three load-bearing $\Lambda$cos predictions.}\label{tab:falsification}
+\caption{Falsification criteria for the two load-bearing $\Lambda$cos predictions.}\label{tab:falsification}
 \begin{tabular}{@{}lll@{}}
 \toprule
 Observable & $\Lambda$cos prediction & Falsified if \\
@@ -777,10 +783,12 @@ $(1+z)^1$ coefficient in $H^2$ & Non-positive, magnitude tied to $s_0$ & Positiv
 coefficient detected, or negative coefficient inconsistent with fitted
 $s_0$ \\
 Diagnostic $w_{\rm eff}(z)$ & $> -1$ (fiducial split, any $s_0 > 0$) & Same split gives $w_{\rm eff} < -1$ at $\geq 2\sigma$ \\
-$\Lambda$CDM limit & $s_0 = 0$ recovers fiducial flat $\Lambda$CDM & (none required) \\
 \bottomrule
 \end{tabular}
 \end{table*}
+
+The $s_0 = 0$ limit, which recovers fiducial flat $\Lambda$CDM exactly, is a
+consistency anchor rather than a falsifiable prediction.
 
 \subsection{Growth predictions: consistency check}\label{sec:growth}
 
@@ -879,9 +887,9 @@ template bias, Shafieloo, Sahni, and Starobinsky \cite{ref13} demonstrated
 spurious phantom crossings from model-dependent reconstruction, and
 recent work \cite{ref8,ref14} has raised similar concerns about the DESI signal
 specifically. The present contribution is to provide a one-parameter
-model with a non-phantom fiducial diagnostic (rather than a generic cautionary
-argument), to test multiple parameterizations, and to scan the template
-bias amplitude across the full parameter range allowed by current data.
+model with a non-phantom fiducial diagnostic, to test multiple
+parameterizations, and to scan the template bias amplitude across the
+full parameter range allowed by current data.
 
 
 The DESI extended analysis \cite{ref9} itself tests five parameterizations
@@ -895,11 +903,12 @@ crossings across the same family of templates? The answer is yes,
 confirming that template agreement across parameterizations is necessary
 but not sufficient evidence for a true crossing.
 
-At data-allowed values ($s_0 < 0.19$), the induced CPL distortion
+At $s_0 < 0.19$, the induced CPL distortion
 is $w_0 \approx -1.02$ with positive $w_a$, structurally present but modest in
-amplitude and opposite in sign to the DESI best fit ($w_0 \approx -0.75$, $w_a \approx$
--0.86). The paper establishes the mechanism without claiming to
+amplitude and opposite in sign to the DESI best fit ($w_0 \approx -0.75$, $w_a \approx -0.86$). The paper establishes the mechanism without claiming to
 reproduce the DESI signal quantitatively.
+
+\pagebreak
 
 \subsection{Status of $\Lambda$cos}\label{sec:disc-status}
 
@@ -924,8 +933,9 @@ term unchanged. The shape of the resulting
 $f\sigma_8(z)$ trajectory is fixed at any given $s_0$; the overall
 amplitude is set by the usual $\sigma_{8,0}$ normalization. A
 consistency check at the SN+BAO best fit gives $\Delta\chi^2_{\rm RSD} < 0.3$ in the
-diagonal-error consistency check across the data-allowed parameter
-range.
+diagonal-error comparison across the parameter range.
+
+\pagebreak
 
 Current combined data (Pantheon+ and DESI DR2 BAO) constrain
 $s_0 < 0.19$ at 95\% CL, consistent with the $\Lambda$CDM limit. $\Lambda$cos
@@ -954,6 +964,7 @@ Current data constrain the model's single new parameter to
 $s_0 < 0.19$ at 95\% confidence, and the predicted negative $(1+z)^1$
 contribution to $H^2(z)$ is a target for next-generation BAO measurements.
 
+\pagebreak
 
 \appendix
 
@@ -1033,6 +1044,7 @@ The Pantheon+ supernova compilation \cite{ref2} is available at
 and the DESI DR2 BAO measurements \cite{ref1} at
 \href{https://data.desi.lbl.gov/}{data.desi.lbl.gov}.
 
+\pagebreak
 
 \FloatBarrier      % flush queued floats so the Appendix A table lands before refs
 \bibliographystyle{apsrev4-2}
