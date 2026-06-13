@@ -15,7 +15,16 @@
 \usepackage{longtable}    % retained for any longtable that survives cleanup
 \usepackage{tabularx}     % X columns auto-wrap long cell content
 \usepackage{placeins}     % \FloatBarrier keeps floats from drifting past sections
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}   % links navigable but no colored boxes/borders
+
+% Keep [!ht] floats tight to their prose (cf. a0z paper).
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
 
 % Pandoc helpers (see pandoc's default LaTeX template)
 \providecommand{\tightlist}{%
@@ -45,18 +54,18 @@ The $\Lambda$cos model yields $H^2(z)/H_0^2 = \alpha(1+z)^3 - \beta(1+z) + \Omeg
 \section{Introduction}\label{sec:intro}
 
 The DESI collaboration's second data release \cite{ref1} presents the most
-precise baryon acoustic oscillation measurements to date, spanning 0.3
-$<$ z $<$ 2.3 across seven tracer populations. Combined
+precise baryon acoustic oscillation measurements to date, spanning
+$0.3 < z < 2.3$ across seven tracer populations. Combined
 with Type Ia supernovae (Pantheon+ \cite{ref2}) and CMB calibration (Planck
 \cite{ref3}), the data favor a time-varying dark energy equation of state
 over the cosmological constant at 2.8--4.2$\sigma$ within standard
 two-parameter parameterizations.
 
 The inferred evolution follows the Chevallier-Polarski-Linder (CPL)
-parameterization w(a) = $w_0$ + $w_a$(1-a) \cite{ref4,ref5}, with best-fit values
-suggesting $w_0 \approx -0.75$ and $w_a \approx -0.86.$ This implies a crossing of w =
--1 near z $\approx$ 0.5. In minimally coupled canonical single-field dark
-energy, crossing w = -1 is forbidden; realizing such behavior generally
+parameterization $w(a) = w_0 + w_a(1-a)$ \cite{ref4,ref5}, with best-fit values
+suggesting $w_0 \approx -0.75$ and $w_a \approx -0.86$. This implies a crossing of
+$w = -1$ near $z \approx 0.5$. In minimally coupled canonical single-field dark
+energy, crossing $w = -1$ is forbidden; realizing such behavior generally
 requires additional structure, such as noncanonical dynamics, multiple
 fields, interactions, or modified gravity \cite{ref6,ref7}. Cort\^{e}s and Liddle
 \cite{ref8} flag the crossing location at the center of the observable
@@ -68,7 +77,7 @@ exponential, logarithmic, and model-free binned).
 The possibility that apparent phantom crossings can arise from
 parameterization choice has been recognized. Linder and Huterer \cite{ref12}
 demonstrated that the CPL form introduces systematic bias when the true
-w(z) lies outside its functional family. Shafieloo, Sahni, and
+$w(z)$ lies outside its functional family. Shafieloo, Sahni, and
 Starobinsky \cite{ref13} showed that model-dependent reconstruction can
 produce spurious features, including phantom crossings, when applied to
 models outside the fitting basis. More recently, several groups have
@@ -94,8 +103,8 @@ $\Lambda$CDM limit as its single new parameter $s_0 \to 0$.
 Second, we test the template bias mechanism quantitatively: we show that CPL, BA, and JBP
 all produce apparent phantom crossings when fitted to $\Lambda$cos distances,
 and we scan the full parameter range to determine the amplitude of the
-induced distortion at data-allowed values. At the 95\% upper limit $s_0$
-$<$ 0.19 from a joint Pantheon+ and DESI DR2 BAO fit, the CPL
+induced distortion at data-allowed values. At the 95\% upper limit
+$s_0 < 0.19$ from a joint Pantheon+ and DESI DR2 BAO fit, the CPL
 recovery gives $w_0 \approx -1.02$ with positive $w_a$, establishing the
 structural mechanism while falling short of the DESI best-fit amplitude
 and sign. 
@@ -216,7 +225,7 @@ additive component. The physical dimensionless Hubble rate is then:
 
 \[E^2(z) \equiv \frac{H^2(z)}{H_0^2} = (1 - \Omega_\Lambda)\,\mathcal{K}(z;\,s_0) + \Omega_\Lambda\]
 
-$\Omega_\Lambda$ = 0.685 is taken as a fixed reference value; Sec.~\ref{sec:omega-sensitivity} demonstrates
+$\Omega_\Lambda = 0.685$ is taken as a fixed reference value; Sec.~\ref{sec:omega-sensitivity} demonstrates
 stability of all results across the range 0.68--0.715.
 The expansion rate $E^2(z)$ is the physical output of the construction;
 all observational predictions in this paper, including distances, growth,
@@ -243,7 +252,7 @@ flat $\Lambda$CDM. The fiducial flat $\Lambda$CDM expansion history is recovered
 The negative $(1+z)^1$ term is absent from the four canonical FLRW
 components:
 
-\begin{table}[!htb]
+\begin{table}[!ht]
 \centering\footnotesize
 \caption{FLRW density components compared with the bounded $(1{+}z)^1$ correction term in $\Lambda$cos.}\label{tab:flrw-components}
 \begin{tabular}{@{}ll@{}}
@@ -260,7 +269,7 @@ Cosmological constant & $(1+z)^0$ \\
 \end{tabular}
 \end{table}
 
-A constant-w fluid with w = -2/3 (domain walls) would produce the same
+A constant-$w$ fluid with $w = -2/3$ (domain walls) would produce the same
 redshift scaling. The $\Lambda$cos term is distinguished here by the tied
 coefficient $-\beta(s_0)$, rather than by the scaling alone. Its coefficient is
 $-\beta = -(1-\Omega_\Lambda)s_0^2/(1-s_0^2)$, strictly negative for $s_0 > 0$ and
@@ -274,9 +283,9 @@ a physical stress-energy component.
 To define a diagnostic effective dark energy equation of state, one must
 specify a matter subtraction. We adopt the split in which deviations
 from the fiducial matter scaling are assigned to the effective
-dark-energy sector, using $\Omega_m$ = 1 - $\Omega_\Lambda$ = 0.315 (the fiducial matter
-fraction, independent of $s_0$) rather than the dressed coefficient $\alpha$ =
-$\Omega_m$/(1-$s_0^2$) that appears in the $(1+z)^3$ term.
+dark-energy sector, using $\Omega_m = 1 - \Omega_\Lambda = 0.315$ (the fiducial matter
+fraction, independent of $s_0$) rather than the dressed coefficient
+$\alpha = \Omega_m/(1-s_0^2)$ that appears in the $(1+z)^3$ term.
 
 The effective dark energy density is then:
 
@@ -305,20 +314,20 @@ Computing the derivative:
 
 \[\frac{dX}{dz} = \frac{\Omega_m\, s_0^2}{1 - s_0^2}\left[3(1+z)^2 - 1\right]\]
 
-The correction to w = -1 is therefore:
+The correction to $w = -1$ is therefore:
 
 \[w_{\rm eff}(z) + 1 = \frac{\Omega_m\, s_0^2\,(1+z)\left[3(1+z)^2 - 1\right]}{3(1 - s_0^2)\left[\frac{\Omega_m\, s_0^2}{1 - s_0^2}\left((1+z)^3 - (1+z)\right) + \Omega_\Lambda\right]}\]
 
 
-For z $\geq$ 0 (corresponding to S $\leq$ $s_0$) and $s_0$ $\in$ (0, 1):
+For $z \geq 0$ (corresponding to $S \leq s_0$) and $s_0 \in (0, 1)$:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Numerator:} 3$(1+z)^2$ - 1 $\geq$ 2 (equality at z = 0). Strictly
+  \textbf{Numerator:} $3(1+z)^2 - 1 \geq 2$ (equality at $z = 0$). Strictly
   positive.
 \item
-  \textbf{Denominator:} $(1+z)^3$ - (1+z) = (1+z)(z)(2+z) $\geq$ 0 for z $\geq$ 0,
+  \textbf{Denominator:} $(1+z)^3 - (1+z) = (1+z)(z)(2+z) \geq 0$ for $z \geq 0$,
   and the additive $\Omega_\Lambda > 0$ ensures $X(z)$ is strictly
   positive for all $z \geq 0$.
 \end{itemize}
@@ -330,15 +339,14 @@ Therefore:
 for the fiducial-matter diagnostic split, for all \(z \geq 0\),
 \(s_0 \in (0, 1)\).
 
-The constraint 0 $<$ $s_0 < 1$ follows from the
-definition $s_0$ = sin($t_{\rm now}$/2) on the monotonic branch 0 $<$ $t_{\rm now}$ $\leq$ $\pi$; the endpoint $s_0 = 1$ is excluded as the
+The constraint $0 < s_0 < 1$ follows from the
+definition $s_0 = \sin(t_{\rm now}/2)$ on the monotonic branch $0 < t_{\rm now} \leq \pi$; the endpoint $s_0 = 1$ is excluded as the
 degenerate limit in which the coefficients $\alpha$ and $\beta$ diverge. At
-$s_0$ = 0, $w_{\rm eff}$ = -1 everywhere (the fiducial flat $\Lambda$CDM limit). For $s_0$
-$>$ 0, the correction is positive and begins at order $s_0^2$.
+$s_0 = 0$, $w_{\rm eff} = -1$ everywhere (the fiducial flat $\Lambda$CDM limit). For
+$s_0 > 0$, the correction is positive and begins at order $s_0^2$.
 
 The non-phantom classification is diagnostic and split-dependent by
-construction. The fiducial split (subtracting $\Omega_m$ = 1 - $\Omega_\Lambda$ =
-0.315, independent of $s_0$) assigns the $s_0$-dependent correction to
+construction. The fiducial split (subtracting $\Omega_m = 1 - \Omega_\Lambda = 0.315$, independent of $s_0$) assigns the $s_0$-dependent correction to
 the effective dark-energy sector, yielding $w_{\rm eff} > -1$ for $z \geq 0$.
 The dressed split (subtracting $\alpha(1+z)^3$) assigns the
 correction to the matter sector, yielding $w_{\rm eff} < -1$ at high
@@ -355,14 +363,14 @@ is the ambiguity to which two-parameter templates are sensitive.
 
 \subsection{Method}\label{sec:tb-method}
 
-To test whether standard w(z) parameterizations can produce apparent
+To test whether standard $w(z)$ parameterizations can produce apparent
 phantom crossings from $\Lambda$cos distances, we generate noise-free BAO
-observables ($D_M$/$r_d$, $D_H$/$r_d$, $D_V$/$r_d$) from the $\Lambda$cos model at the
-seven DESI DR2 effective redshifts (z = 0.295, 0.510, 0.706, 0.934,
-1.321, 1.484, 2.330), using $H_0$ = 67.4 km/s/Mpc and $r_d$ = 147.1 Mpc. We
-then fit four w(z) parameterizations to these mock observables using the
-published DESI covariance structure, with $\Omega_m$ = 0.315 held fixed to
-match the input $\Lambda$cos model, isolating the effect of the w(z)
+observables ($D_M/r_d$, $D_H/r_d$, $D_V/r_d$) from the $\Lambda$cos model at the
+seven DESI DR2 effective redshifts ($z = 0.295, 0.510, 0.706, 0.934,
+1.321, 1.484, 2.330$), using $H_0 = 67.4$ km/s/Mpc and $r_d = 147.1$ Mpc. We
+then fit four $w(z)$ parameterizations to these mock observables using the
+published DESI covariance structure, with $\Omega_m = 0.315$ held fixed to
+match the input $\Lambda$cos model, isolating the effect of the $w(z)$
 parameterization. For each effective redshift we use the same observable
 set and covariance block structure as the DESI DR2 compressed BAO
 likelihood; when multiple observables are reported at the same redshift,
@@ -373,38 +381,37 @@ The four parameterizations are CPL \cite{ref4,ref5}, Barboza-Alcaniz (BA)
 polynomial in (1-a). Each is a standard fitting form used in the DESI
 extended analysis \cite{ref9}.
 
-The mock exercise uses $s_0$ = 0.389 to maximize visibility of the effect.
+The mock exercise uses $s_0 = 0.389$ to maximize visibility of the effect.
 The template bias mechanism operates at any $s_0 > 0$ (see
-Sec.~\ref{sec:threshold-scan}). The fits minimize $\chi^2$ = $\Delta^T$C$^{-1}\Delta$, where $\Delta$ is the difference between
-model and mock BAO observables and C is the DESI DR2 covariance matrix
+Sec.~\ref{sec:threshold-scan}). The fits minimize $\chi^2 = \Delta^T C^{-1}\Delta$, where $\Delta$ is the difference between
+model and mock BAO observables and $C$ is the DESI DR2 covariance matrix
 constructed from the published uncertainties and correlations. The $\chi^2$
 values reported below reflect fits to noise-free mock data with DESI
 covariance weighting.
 
 \subsection{Results}\label{sec:tb-results}
 
-\begin{table*}[!htb]
+\begin{table*}[!ht]
 \centering\footnotesize
 \caption{Best-fit $w(z)$ parameters from CPL, BA, JBP, and a three-parameter polynomial fitted to noise-free $\Lambda$cos mock BAO at $s_0 = 0.389$.}\label{tab:template-bias}
 \begin{tabular}{@{}llll@{}}
 \toprule
-Parameterization & Best-fit parameters & $\chi^2$ & Crosses w = -1? \\
+Parameterization & Best-fit parameters & $\chi^2$ & Crosses $w = -1$? \\
 \midrule
 
-CPL: $w_0$ + $w_a$(1-a) & $w_0$ = -1.045, $w_a$ = 0.925 & 1.31 & Yes \\
-BA: $w_0$ + $w_a$ a(1-a)/(a$^2$-2a+2) & $w_0$ = -1.200, $w_a$ = 2.654 & 11.48 &
+CPL: $w_0 + w_a(1-a)$ & $w_0 = -1.045$, $w_a = 0.925$ & 1.31 & Yes \\
+BA: $w_0 + w_a\,a(1-a)/(a^2-2a+2)$ & $w_0 = -1.200$, $w_a = 2.654$ & 11.48 &
 Yes \\
-JBP: $w_0$ + $w_a$ a(1-a) & $w_0$ = -1.167, $w_a$ = 2.197 & 7.21 & Yes \\
-Polynomial: $w_0$ + w$_1$(1-a) + w$_2$(1-a)$^2$ & $w_0$ = -0.918, w$_1$ = -0.213, w$_2$ =
-1.739 & 0.004 & No \\
+JBP: $w_0 + w_a\,a(1-a)$ & $w_0 = -1.167$, $w_a = 2.197$ & 7.21 & Yes \\
+Polynomial: $w_0 + w_1(1-a) + w_2(1-a)^2$ & $w_0 = -0.918$, $w_1 = -0.213$, $w_2 = 1.739$ & 0.004 & No \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig1_template_bias_overlay.pdf}
-  \caption{Exact $\Lambda$cos $w_{\rm eff}$(z) (solid, always $>$ -1) overlaid with recovered w(z) from all four parameterizations. CPL, BA, and JBP dip below w = -1 at low z. The three-parameter polynomial tracks the true curve without crossing.}
+  \caption{Exact $\Lambda$cos $w_{\rm eff}(z)$ (solid, always $> -1$) overlaid with recovered $w(z)$ from all four parameterizations. CPL, BA, and JBP dip below $w = -1$ at low $z$. The three-parameter polynomial tracks the true curve without crossing.}
   \label{fig:1}
 \end{figure}
 
@@ -422,33 +429,33 @@ into phantom-crossing parameter values.
 \subsection{Threshold scan}\label{sec:threshold-scan}
 
 To determine the amplitude of the template bias at data-allowed values
-of $s_0$, we repeat the CPL fit across $s_0$ $\in$ [0.01, 0.40] in steps of
+of $s_0$, we repeat the CPL fit across $s_0 \in [0.01, 0.40]$ in steps of
 0.01. The CPL recovery produces an apparent phantom-crossing trajectory
-at every $s_0$ tested, including the smallest value $s_0$ = 0.01: the fitted
-$w_0 < -1$ at low redshift, with the positive $w_a$ driving w back
+at every $s_0$ tested, including the smallest value $s_0 = 0.01$: the fitted
+$w_0 < -1$ at low redshift, with the positive $w_a$ driving $w$ back
 above -1 at higher redshift. Representative results:
 
-\begin{table}[!htb]
+\begin{table}[!ht]
 \centering\footnotesize
 \caption{Recovered CPL parameters as a function of $s_0$, illustrating that the apparent crossing trajectory persists at every tested $s_0 > 0$.}\label{tab:threshold-scan}
 \begin{tabular}{@{}llll@{}}
 \toprule
-$s_0$ & $w_0$ & $w_a$ & $w_0$ deviation from -1 \\
+$s_0$ & $w_0$ & $w_a$ & $w_0$ deviation from $-1$ \\
 \midrule
 
-0.01 & -1.00007 & +0.001 & 7 $\times$ 10$^{-5}$ \\
-0.06 & -1.003 & +0.030 & 0.003 \\
-0.18 & -1.022 & +0.261 & 0.022 \\
-0.39 & -1.044 & +0.928 & 0.044 \\
-DESI observed & -0.75 & -0.86 & 0.25 \\
+0.01 & $-1.00007$ & $+0.001$ & $7 \times 10^{-5}$ \\
+0.06 & $-1.003$ & $+0.030$ & 0.003 \\
+0.18 & $-1.022$ & $+0.261$ & 0.022 \\
+0.39 & $-1.044$ & $+0.928$ & 0.044 \\
+DESI observed & $-0.75$ & $-0.86$ & 0.25 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig2_threshold_scan.pdf}
-  \caption{Recovered CPL parameters $w_0$ (circles) and $w_a$ (squares) as a function of $s_0$. The apparent crossing trajectory persists at every tested $s_0 > 0$. The horizontal dashed line marks w = -1.}
+  \caption{Recovered CPL parameters $w_0$ (circles) and $w_a$ (squares) as a function of $s_0$. The apparent crossing trajectory persists at every tested $s_0 > 0$. The horizontal dashed line marks $w = -1$.}
   \label{fig:2}
 \end{figure}
 
@@ -457,19 +464,19 @@ $s_0 > 0$, confirming that the template bias is a structural
 property of the CPL basis applied to non-phantom models of this type,
 not an artifact of a particular parameter value. Second, at the SN+BAO
 95\% upper limit $s_0 < 0.19$ (Sec.~\ref{sec:obs-constraints}), the induced distortion is
-modest: $w_0 \approx -1.02$ with $w_a \approx +0.29.$
+modest: $w_0 \approx -1.02$ with $w_a \approx +0.29$.
 
 \subsection{Comparison with the DESI best fit}\label{sec:desi-comparison}
 
-The DESI CPL best fit reports $w_0 \approx -0.75$ and $w_a \approx -0.86.$ The
+The DESI CPL best fit reports $w_0 \approx -0.75$ and $w_a \approx -0.86$. The
 $\Lambda$cos-induced distortion at data-allowed $s_0$ differs in both amplitude
 ($|w_0+1| = 0.02$ vs 0.25, a factor of
-${\sim}10$) and sign ($w_a$ = +0.29 vs -0.86).
+${\sim}10$) and sign ($w_a = +0.29$ vs $-0.86$).
 
 The template bias mechanism is therefore established as a structural effect, but the $\Lambda$cos
 model at its current constraint does not reproduce the DESI best-fit
 parameters quantitatively. Bridging the amplitude gap would require
-either a larger bounded deformation ($s_0$ $\gtrsim$ 0.4, ruled out by current
+either a larger bounded deformation ($s_0 \gtrsim 0.4$, ruled out by current
 data) or a different functional form for the effective dark-energy
 sector.
 
@@ -483,15 +490,15 @@ signal.
 
 We fit jointly to the Pantheon+ supernova compilation (1701 SNe Ia with
 full statistical and systematic covariance \cite{ref2}) and DESI DR2 BAO
-measurements (1 isotropic $D_V$/$r_d$ at z = 0.295 and 6 anisotropic
-$D_M$/$r_d$, $D_H$/$r_d$ pairs at z = 0.51--2.33, with published
+measurements (1 isotropic $D_V/r_d$ at $z = 0.295$ and 6 anisotropic
+$D_M/r_d$, $D_H/r_d$ pairs at $z = 0.51$--$2.33$, with published
 cross-correlations \cite{ref1}). The total dataset comprises 1714
 observables (1701 supernova magnitudes and 13 BAO measurements).
 
 The supernova likelihood is $\chi^2_{\rm SN} = \Delta^T C^{-1} \Delta$, where $\Delta_i = m_{b,i} - M_B - \mu(z_i)$ and $C$ is the $1701 \times 1701$ covariance matrix. The BAO
 likelihood is constructed from the published uncertainties and
 inter-observable correlations at each redshift bin, with bins treated as
-independent. The total likelihood is $\chi^2$ = $\chi^2_{\rm SN}$ + $\chi^2_{\rm BAO}$.
+independent. The total likelihood is $\chi^2 = \chi^2_{\rm SN} + \chi^2_{\rm BAO}$.
 The growth comparison in Sec.~\ref{sec:growth} is not included in the
 primary SN+BAO likelihood; it uses DESI DR1 ShapeFit compressed growth
 amplitudes \cite{ref18} at six tracer effective redshifts. Combining
@@ -503,17 +510,17 @@ of \cite{ref19,ref20}.
 MCMC sampling uses an affine-invariant ensemble sampler (32 walkers,
 5000 steps, 1000 burn-in). Convergence is confirmed via integrated
 autocorrelation time ($\tau_{\rm max} \approx 46$ for $\Lambda$cos and $\tau_{\rm max} \approx 36$ for $\Lambda$CDM,
-with the post-burn chain length of 4000 $\gtrsim$ 85$\tau$ for all parameters).
+with the post-burn chain length of $4000 \gtrsim 85\tau$ for all parameters).
 
 Flat $\Lambda$CDM free parameters: $\Omega_m$, $H_0 r_d$, $M_B$. $\Lambda$cos free parameters: $s_0$,
-$H_0 r_d$, $M_B$ (with $\Omega_\Lambda$ = 0.685 fixed). Both models have three free
+$H_0 r_d$, $M_B$ (with $\Omega_\Lambda = 0.685$ fixed). Both models have three free
 parameters. The primary results are reported at the fixed reference
-value $\Omega_\Lambda$ = 0.685; Sec.~\ref{sec:omega-sensitivity} demonstrates stability of the $s_0$ constraint
+value $\Omega_\Lambda = 0.685$; Sec.~\ref{sec:omega-sensitivity} demonstrates stability of the $s_0$ constraint
 across the range 0.68--0.715, and Sec.~\ref{sec:cmb-priors} confirms the model remains
-competitive when $\Omega_\Lambda$ is freed entirely ($\Delta\chi^2$ = +0.28 at equal parameter
+competitive when $\Omega_\Lambda$ is freed entirely ($\Delta\chi^2 = +0.28$ at equal parameter
 count).
 
-\begin{table*}[!htb]
+\begin{table*}[!ht]
 \centering\footnotesize
 \caption{Joint Pantheon$+$ + DESI DR2 BAO posterior summaries for flat $\Lambda$CDM and $\Lambda$cos.}\label{tab:primary-fit}
 \begin{tabular}{@{}lll@{}}
@@ -521,12 +528,12 @@ count).
  & Flat $\Lambda$CDM & $\Lambda$cos \\
 \midrule
 
-\textbf{Primary parameter} & $\Omega_m$ = 0.312 [0.304, 0.321] & $s_0$ =
-0.076 [0.023, 0.143] \\
+\textbf{Primary parameter} & $\Omega_m = 0.312$ [0.304, 0.321] & $s_0 =
+0.076$ [0.023, 0.143] \\
 \textbf{$H_0 r_d$ (km/s)} & 10043 [9977, 10111] & 10008 [9972,
 10040] \\
-\textbf{$M_B$} & -19.355 [-19.360, -19.350] & -19.353 [-19.357,
--19.350] \\
+\textbf{$M_B$} & $-19.355$ [$-19.360$, $-19.350$] & $-19.353$ [$-19.357$,
+$-19.350$] \\
 \textbf{$\chi^2_{\rm min}$} & 1772.5 & 1772.6 \\
 \textbf{$\chi^2_{\rm SN}$ / $\chi^2_{\rm BAO}$} & 1759.9 / 12.6 & 1759.0 / 13.5 \\
 \bottomrule
@@ -541,20 +548,19 @@ prior volume at $s_0 > 0$. The 95th percentile gives:
 
 \[s_0 < 0.19 \quad (95\% \text{ CL, flat prior}).\]
 
-The $\Delta\chi^2$ = +0.11 at equal parameter count corresponds to $\Delta$AIC = $\Delta$BIC =
-+0.11: no preference for either model.
+The $\Delta\chi^2 = +0.11$ at equal parameter count corresponds to $\Delta\mathrm{AIC} = \Delta\mathrm{BIC} = +0.11$: no preference for either model.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig3_lcos_corner.pdf}
   \caption{Corner plot of the $\Lambda$cos posterior in ($s_0$, $H_0 r_d$, $M_B$) space from the SN+BAO fit.}
   \label{fig:3}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig4_hubble_residuals.pdf}
-  \caption{Pantheon+ binned residuals ($\mu_{\rm data}$ - $\mu_{\rm model}$) for $\Lambda$CDM and $\Lambda$cos at joint best-fit parameters. The two models are visually indistinguishable in the binned residuals.}
+  \caption{Pantheon+ binned residuals ($\mu_{\rm data} - \mu_{\rm model}$) for $\Lambda$CDM and $\Lambda$cos at joint best-fit parameters. The two models are visually indistinguishable in the binned residuals.}
   \label{fig:4}
 \end{figure}
 
@@ -565,7 +571,7 @@ Since the $\Lambda$cos posterior is concentrated near the lower prior boundary,
 the 95\% upper limit is prior-sensitive. We test two alternative priors
 by reweighting the baseline chain:
 
-\begin{table*}[!htb]
+\begin{table*}[!ht]
 \centering\footnotesize
 \caption{Prior sensitivity of the $\Lambda$cos $s_0$ constraint across three prior choices.}\label{tab:prior-sensitivity}
 \begin{tabular}{@{}llll@{}}
@@ -573,9 +579,9 @@ by reweighting the baseline chain:
 Prior on $s_0$ & $s_0$ median & $s_0$ 95\% UL & $\chi^2_{\rm min}$ \\
 \midrule
 
-Flat $s_0$ $\in$ [0.001, 0.99] (baseline) & 0.076 & 0.185 & 1772.6 \\
+Flat $s_0 \in [0.001, 0.99]$ (baseline) & 0.076 & 0.185 & 1772.6 \\
 Flat in $s_0^2$ (more weight at larger $s_0$) & 0.119 & 0.211 & 1772.6 \\
-Flat in log$_{10}$($s_0$) (scale-invariant) & 0.012 & 0.119 & 1772.6 \\
+Flat in $\log_{10}(s_0)$ (scale-invariant) & 0.012 & 0.119 & 1772.6 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -584,15 +590,15 @@ The $\chi^2_{\rm min}$ is identical across all three priors (the likelihood is
 unchanged; only the posterior weighting differs). The 95\% upper limit
 ranges from 0.12 to 0.21, a factor of ${\sim}1.8$. The constraint
 is prior-sensitive in detail but data-driven in character: all three
-priors yield $s_0$ $\ll$ 1.
+priors yield $s_0 \ll 1$.
 
 \subsection{$\Omega_\Lambda$ sensitivity}\label{sec:omega-sensitivity}
 
-The primary fit uses $\Omega_\Lambda$ = 0.685 as a fixed reference value. To test
+The primary fit uses $\Omega_\Lambda = 0.685$ as a fixed reference value. To test
 robustness, we repeat the SN+BAO fit at four alternative values spanning
 the range between the SN+BAO-preferred and CMB-preferred regions:
 
-\begin{table}[!htb]
+\begin{table}[!ht]
 \centering\footnotesize
 \caption{$\Lambda$cos sensitivity to the $\Omega_\Lambda$ reference value across the SN+BAO and CMB-preferred range.}\label{tab:omega-sensitivity}
 \begin{tabular}{@{}llll@{}}
@@ -611,21 +617,20 @@ $\Omega_\Lambda$ & $s_0$ median & $s_0$ 95\% UL & $\Delta\chi^2$ vs $\Lambda$CDM
 
 The $s_0$ constraint varies smoothly with $\Omega_\Lambda$, with the 95\% upper limit
 ranging from 0.16 to 0.35 across the tested interval. The best $\Delta\chi^2$
-occurs near $\Omega_\Lambda$ = 0.69. At the CMB-preferred value $\Omega_\Lambda$ = 0.715, the
+occurs near $\Omega_\Lambda = 0.69$. At the CMB-preferred value $\Omega_\Lambda = 0.715$, the
 best-fit $s_0$ shifts to 0.288 (nonzero) and the model is mildly disfavored
-($\Delta\chi^2$ = +2.38). The results are stable across the tested range; no
+($\Delta\chi^2 = +2.38$). The results are stable across the tested range; no
 fine-tuning of $\Omega_\Lambda$ is required.
 
 \subsection{CMB distance priors}\label{sec:cmb-priors}
 
 The DESI DR2 phantom-crossing result was obtained jointly with Planck
 CMB data. To test whether $\Lambda$cos is compatible with CMB constraints, we
-add compressed Planck 2018 distance priors (shift parameter R = 1.7502 $\pm$
-0.0046, acoustic scale $\ell_A$ = 301.47 $\pm$ 0.09, treated as independent
+add compressed Planck 2018 distance priors (shift parameter $R = 1.7502 \pm 0.0046$, acoustic scale $\ell_A = 301.47 \pm 0.09$, treated as independent
 Gaussians) to the SN+BAO likelihood. These quantities constrain the
-integral $\int$dz/E(z) to the last-scattering surface at z* = 1090. Radiation
-($\Omega_r$ = 9.15 $\times$ 10$^{-5}$) is included for this integral. Non-flat $\Lambda$CDM
-includes a curvature term $\Omega_k$ = 1 - $\Omega_m$ - $\Omega_\Lambda$. Since the Planck
+integral $\int dz/E(z)$ to the last-scattering surface at $z_* = 1090$. Radiation
+($\Omega_r = 9.15 \times 10^{-5}$) is included for this integral. Non-flat $\Lambda$CDM
+includes a curvature term $\Omega_k = 1 - \Omega_m - \Omega_\Lambda$. Since the Planck
 distance priors are derived within a restricted background model space,
 their use here should be understood as a consistency diagnostic rather
 than a full CMB likelihood evaluation.
@@ -633,7 +638,7 @@ than a full CMB likelihood evaluation.
 The four-parameter $\Lambda$cos fit with $\Omega_\Lambda$ free and the four-parameter
 non-flat $\Lambda$CDM fit provide the primary comparison:
 
-\begin{table}[!htb]
+\begin{table}[!ht]
 \centering\footnotesize
 \caption{Comparison of $\Lambda$cos with $\Omega_\Lambda$ free against non-flat $\Lambda$CDM after adding compressed Planck distance priors.}\label{tab:cmb-comparison}
 \begin{tabular}{@{}lll@{}}
@@ -651,15 +656,15 @@ $M_B$ \\
 \end{tabular}
 \end{table}
 
-The two models provide statistically equivalent fits at $\Delta\chi^2$ = +0.28 with the same
+The two models provide statistically equivalent fits at $\Delta\chi^2 = +0.28$ with the same
 parameter count.
 
-For comparison, fixing $\Omega_\Lambda$ = 0.685 introduces a penalty of $\Delta\chi^2 \approx +66$
+For comparison, fixing $\Omega_\Lambda = 0.685$ introduces a penalty of $\Delta\chi^2 \approx +66$
 relative to flat $\Lambda$CDM (3 parameters each). This tension is driven by the
-BAO sector ($\chi^2_{\rm BAO}$ = 120 vs 30), not by the CMB priors themselves
-($\chi^2_{\rm CMB}$ = 1.3 for $\Lambda$cos vs 14.7 for $\Lambda$CDM). The effect is not specific to
+BAO sector ($\chi^2_{\rm BAO} = 120$ vs 30), not by the CMB priors themselves
+($\chi^2_{\rm CMB} = 1.3$ for $\Lambda$cos vs 14.7 for $\Lambda$CDM). The effect is not specific to
 $\Lambda$cos: adding CMB priors shifts the preferred $\Omega_\Lambda$ from 0.685--0.688
-(SN+BAO) to $\approx$ 0.714 ($\Lambda$cos with $\Omega_\Lambda$ free) and $\approx$ 0.720 (non-flat $\Lambda$CDM).
+(SN+BAO) to $\approx 0.714$ ($\Lambda$cos with $\Omega_\Lambda$ free) and $\approx 0.720$ (non-flat $\Lambda$CDM).
 Flat $\Lambda$CDM absorbs the shift through $\Omega_m$ (which moves from 0.312 to
 0.286). $\Lambda$cos at fixed $\Omega_\Lambda$ cannot absorb it. The shift from $\Omega_\Lambda \approx 0.685$
 to $\Omega_\Lambda \approx 0.714$ should therefore be interpreted as a background-distance
@@ -674,41 +679,41 @@ future work.
 
 \subsection{Parameter accounting}\label{sec:param-accounting}
 
-The matter fraction in $\Lambda$cos is set through $\Omega_m$ = 1 - $\Omega_\Lambda$ at the chosen
-reference value. The $(1+z)^3$ coefficient $\alpha$ = $\Omega_m$/(1-$s_0^2$) is a dressed
-version of this input. As a consistency check: at any $s_0$, $\alpha$(1 - $s_0^2$)
-returns $\Omega_m$ = 0.315. The dressing is algebraically self-consistent and
+The matter fraction in $\Lambda$cos is set through $\Omega_m = 1 - \Omega_\Lambda$ at the chosen
+reference value. The $(1+z)^3$ coefficient $\alpha = \Omega_m/(1-s_0^2)$ is a dressed
+version of this input. As a consistency check: at any $s_0$, $\alpha(1 - s_0^2)$
+returns $\Omega_m = 0.315$. The dressing is algebraically self-consistent and
 does not introduce additional freedom.
 
 \subsection{Model comparison}\label{sec:model-comparison}
 
-To contextualize the $\Lambda$cos result, we compare against wCDM (constant w as
-a free parameter, 4 free parameters: $\Omega_m$, w, $H_0 r_d$, $M_B$) fitted to
+To contextualize the $\Lambda$cos result, we compare against wCDM (constant $w$ as
+a free parameter, 4 free parameters: $\Omega_m$, $w$, $H_0 r_d$, $M_B$) fitted to
 the same SN+BAO dataset:
 
-\begin{table}[!htb]
+\begin{table}[!ht]
 \centering\footnotesize
 \caption{Model comparison against Pantheon$+$ + DESI DR2 BAO: flat $\Lambda$CDM, $\Lambda$cos at two $\Omega_\Lambda$ values, and wCDM.}\label{tab:model-comparison}
 \begin{tabular}{@{}llllll@{}}
 \toprule
-Model & Free params & $\chi^2_{\rm min}$ & $\Delta\chi^2$ & $\Delta$AIC & $\Delta$BIC \\
+Model & Free params & $\chi^2_{\rm min}$ & $\Delta\chi^2$ & $\Delta\mathrm{AIC}$ & $\Delta\mathrm{BIC}$ \\
 \midrule
 
 Flat $\Lambda$CDM & 3 & 1772.5 & 0 & 0 & 0 \\
-$\Lambda$cos ($\Omega_\Lambda$ = 0.685) & 3 & 1772.6 & +0.11 & +0.11 & +0.11 \\
-$\Lambda$cos ($\Omega_\Lambda$ = 0.715) & 3 & 1774.8 & +2.38 & +2.38 & +2.38 \\
-wCDM & 4 & 1759.4 & -13.1 & -11.1 & -5.7 \\
+$\Lambda$cos ($\Omega_\Lambda = 0.685$) & 3 & 1772.6 & +0.11 & +0.11 & +0.11 \\
+$\Lambda$cos ($\Omega_\Lambda = 0.715$) & 3 & 1774.8 & +2.38 & +2.38 & +2.38 \\
+wCDM & 4 & 1759.4 & $-13.1$ & $-11.1$ & $-5.7$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The wCDM fit yields w = -0.855 [-0.89, -0.82] (68\% CI), preferring
-a quintessence-like (w $>$ -1) departure from $\Lambda$CDM at $\Delta$AIC =
--11.1. This is the same qualitative signal underlying the DESI
-phantom-crossing result: the SN+BAO data favor some departure from w =
--1. The distinction is that wCDM captures this as a constant shift
-toward w $>$ -1, while CPL projects it into a crossing
-through w = -1. The $\Lambda$cos model, for which $w_{\rm eff} > -1$ for $z \geq 0$ under
+The wCDM fit yields $w = -0.855$ [$-0.89$, $-0.82$] (68\% CI), preferring
+a quintessence-like ($w > -1$) departure from $\Lambda$CDM at $\Delta\mathrm{AIC} =
+-11.1$. This is the same qualitative signal underlying the DESI
+phantom-crossing result: the SN+BAO data favor some departure from
+$w = -1$. The distinction is that wCDM captures this as a constant shift
+toward $w > -1$, while CPL projects it into a crossing
+through $w = -1$. The $\Lambda$cos model, for which $w_{\rm eff} > -1$ for $z \geq 0$ under
 the fiducial-matter split, is consistent with the wCDM direction but does not
 achieve the same $\chi^2$ improvement because the data-allowed $s_0$ is too small
 to produce a detectable departure.
@@ -722,7 +727,7 @@ which direction the data favor.
 
 For the baseline flat prior in $s_0$, a Savage-Dickey density ratio at the
 $s_0$ prior boundary (with boundary-reflected KDE) gives $B_{01} \approx 7.1$ (stable
-to $\pm$0.03 across bandwidths), corresponding to moderate evidence for $\Lambda$CDM
+to $\pm 0.03$ across bandwidths), corresponding to moderate evidence for $\Lambda$CDM
 over $\Lambda$cos on the Jeffreys scale. This Bayes factor should be interpreted
 conditional on the baseline prior choice. The result confirms the $\Delta\chi^2$
 finding: current data do not require the model's correction term.
@@ -749,9 +754,9 @@ aggregate sensitivity.
 
 A statistically significant detection of a negative $(1+z)^1$ component in
 $H^2(z)$ would constitute evidence for a non-standard contribution to the
-expansion history. While a domain-wall fluid (w = -2/3) produces the
+expansion history. While a domain-wall fluid ($w = -2/3$) produces the
 same scaling, the $\Lambda$cos term is distinguished by the tied coefficient
--$\beta$($s_0$) rather than by an independent energy density. Previous
+$-\beta(s_0)$ rather than by an independent energy density. Previous
 template-bias analyses identify the mechanism generically; the present
 model commits to a specific functional form whose coefficient is
 determined by a single parameter already constrained by current data.
@@ -760,7 +765,7 @@ determined by a single parameter already constrained by current data.
 
 Table~\ref{tab:falsification} summarizes the three load-bearing $\Lambda$cos predictions and their falsification conditions.
 
-\begin{table*}[!htb]
+\begin{table*}[!ht]
 \centering\footnotesize
 \caption{Falsification criteria for the three load-bearing $\Lambda$cos predictions.}\label{tab:falsification}
 \begin{tabular}{@{}lll@{}}
@@ -771,9 +776,8 @@ Observable & $\Lambda$cos prediction & Falsified if \\
 $(1+z)^1$ coefficient in $H^2$ & Non-positive, magnitude tied to $s_0$ & Positive
 coefficient detected, or negative coefficient inconsistent with fitted
 $s_0$ \\
-Diagnostic $w_{\rm eff}$(z) & $>$ -1 (fiducial split, any $s_0$
-$>$ 0) & Same split gives $w_{\rm eff} < -1$ at $\geq$ 2$\sigma$ \\
-$\Lambda$CDM limit & $s_0$ = 0 recovers fiducial flat $\Lambda$CDM & (none required) \\
+Diagnostic $w_{\rm eff}(z)$ & $> -1$ (fiducial split, any $s_0 > 0$) & Same split gives $w_{\rm eff} < -1$ at $\geq 2\sigma$ \\
+$\Lambda$CDM limit & $s_0 = 0$ recovers fiducial flat $\Lambda$CDM & (none required) \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -836,14 +840,14 @@ shows a more distinctive separation at high redshift: a 2.9\% split
 between $\Lambda$cos and $\Lambda$CDM at $z = 2.3$, beyond the reach of
 current growth data ($z_{\rm max} = 1.49$).
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig5_fsigma8.pdf}
   \caption{$\Lambda$CDM (solid) and $\Lambda$cos $f\sigma_{s8}(z)$ trajectories at the posterior median ($s_0 = 0.076$, dashed) and 95\% upper limit ($s_0 = 0.185$, dotted), overlaid with DESI DR1 ShapeFit+BAO growth amplitudes from \cite{ref18}. The two models are visually indistinguishable at current per-bin precision.}
   \label{fig:5}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig6_omegam_z.pdf}
   \caption{$\Omega_m(z)$ diagnostic for $\Lambda$CDM and $\Lambda$cos at the 95\% upper limit ($s_0 = 0.185$). The 2.9\% split at $z = 2.3$ is beyond the reach of current growth data but accessible to next-generation surveys.}
@@ -863,7 +867,7 @@ and falsifiable by the next generation.
 \subsection{Template bias}\label{sec:disc-tb}
 
 The central result of this paper is that an expansion history that is non-phantom under the fiducial-matter split can produce apparent phantom crossings when fitted with standard
-two-parameter w(z) templates. We have demonstrated this explicitly for
+two-parameter $w(z)$ templates. We have demonstrated this explicitly for
 CPL, BA, and JBP parameterizations applied to $\Lambda$cos distances: all three
 recover $w_0 < -1$ from $\Lambda$cos distances for which $w_{\rm eff} > -1$ for $z \geq 0$ under the fiducial-matter diagnostic
 split (Sec.~\ref{sec:weff-proof}). A three-parameter polynomial does not produce the crossing,
@@ -886,7 +890,7 @@ them. This might seem to rule out template bias as an explanation.
 However, the DESI analysis fits each parameterization to real data,
 which may contain a genuine departure from $\Lambda$CDM (as the wCDM comparison
 suggests). The mock exercise asks a different question:
-can a model that provably satisfies w $>$ -1 produce phantom
+can a model that provably satisfies $w > -1$ produce phantom
 crossings across the same family of templates? The answer is yes,
 confirming that template agreement across parameterizations is necessary
 but not sufficient evidence for a true crossing.
@@ -923,11 +927,11 @@ consistency check at the SN+BAO best fit gives $\Delta\chi^2_{\rm RSD} < 0.3$ in
 diagonal-error consistency check across the data-allowed parameter
 range.
 
-Current combined data (Pantheon+ and DESI DR2 BAO) constrain $s_0$
-$<$ 0.19 at 95\% CL, consistent with the $\Lambda$CDM limit. $\Lambda$cos
-matches $\Lambda$CDM at $\Delta\chi^2$ = +0.11 across the SN+BAO dataset. Adding compressed
+Current combined data (Pantheon+ and DESI DR2 BAO) constrain
+$s_0 < 0.19$ at 95\% CL, consistent with the $\Lambda$CDM limit. $\Lambda$cos
+matches $\Lambda$CDM at $\Delta\chi^2 = +0.11$ across the SN+BAO dataset. Adding compressed
 Planck distance priors shifts the preferred $\Omega_\Lambda$, a background-distance
-consistency issue that is removed when $\Omega_\Lambda$ is freed ($\Delta\chi^2$ = +0.28 at
+consistency issue that is removed when $\Omega_\Lambda$ is freed ($\Delta\chi^2 = +0.28$ at
 equal parameter count). The parity with $\Lambda$CDM at current precision is a
 feature of the model's design: the fiducial $\Lambda$CDM limit is recovered
 exactly as $s_0 \to 0$, so agreement with existing data is expected. The
@@ -946,8 +950,8 @@ $w_{\rm eff}(z) > -1$ for all $z \geq 0$ under the fiducial-matter
 diagnostic split, while matching the Pantheon+ and DESI DR2 BAO
 distance-redshift relation at $\Delta\chi^2 = +0.11$ relative to flat
 $\Lambda$CDM.
-Current data constrain the model's single new parameter to $s_0$
-$<$ 0.19 at 95\% confidence, and the predicted negative $(1+z)^1$
+Current data constrain the model's single new parameter to
+$s_0 < 0.19$ at 95\% confidence, and the predicted negative $(1+z)^1$
 contribution to $H^2(z)$ is a target for next-generation BAO measurements.
 
 
@@ -960,24 +964,24 @@ DESI DR2 BAO dataset using the same MCMC setup as the primary $\Lambda$cos fit
 (Sec.~\ref{sec:primary-fit}): identical priors on $H_0 r_d$ and $M_B$, identical sampler
 configuration, identical likelihood construction.
 
-\begin{table*}[!htb]
+\begin{table*}[!ht]
 \centering\footnotesize
 \caption{Clock-exponent comparison from Appendix~A: integer alternatives versus the matter-era selection $n=-1/2$.}\label{tab:appendix-a}
 \begin{tabular}{@{}lllllllll@{}}
 \toprule
-Model & n & High-z scaling & Best-fit $s_0$ & $H_0 r_d$ (km/s) & $\chi^2_{\rm SN}$ & $\chi^2_{\rm BAO}$ & $\chi^2_{\rm total}$ & $\Delta\chi^2$ vs $\Lambda$CDM \\
+Model & $n$ & High-$z$ scaling & Best-fit $s_0$ & $H_0 r_d$ (km/s) & $\chi^2_{\rm SN}$ & $\chi^2_{\rm BAO}$ & $\chi^2_{\rm total}$ & $\Delta\chi^2$ vs $\Lambda$CDM \\
 \midrule
 
-A (proper time) & 0 & $(1+z)^1$ & 0.823 & 9279 & 1814.7 & 176.4 & 1991.1 &
+A (proper time) & $0$ & $(1+z)^1$ & 0.823 & 9279 & 1814.7 & 176.4 & 1991.1 &
 +218.7 \\
-B (conformal) & -1 & $(1+z)^2$ & 0.001* & 8555 & 1834.5 & 1759.9 & 3594.4 &
+B (conformal) & $-1$ & $(1+z)^2$ & 0.001* & 8555 & 1834.5 & 1759.9 & 3594.4 &
 +1821.9 \\
-C (symmetric) & +1 & $(1+z)^0$ & 0.962 & 9220 & 2737.1 & 6312.0 & 9049.1 &
+C (symmetric) & $+1$ & $(1+z)^0$ & 0.962 & 9220 & 2737.1 & 6312.0 & 9049.1 &
 +7276.6 \\
-\textbf{D ($\Lambda$cos)} & \textbf{-1/2} & \textbf{$(1+z)^{3/2}$} & \textbf{0.008$^\dagger$}
+\textbf{D ($\Lambda$cos)} & \textbf{$-1/2$} & \textbf{$(1+z)^{3/2}$} & \textbf{0.008$^\dagger$}
 & \textbf{10025} & \textbf{1759.0} & \textbf{13.5} & \textbf{1772.6} &
 \textbf{+0.11} \\
-$\Lambda$CDM (baseline) & --- & --- & ($\Omega_m$ = 0.312) & 10044 & 1759.9 & 12.6 &
+$\Lambda$CDM (baseline) & --- & --- & ($\Omega_m = 0.312$) & 10044 & 1759.9 & 12.6 &
 1772.5 & 0 \\
 \bottomrule
 \end{tabular}
@@ -995,7 +999,7 @@ $\tau_{\rm max} < 50$ for all parameters.
 Each integer alternative fails for a distinct reason. Model A's $(1+z)^1$
 scaling is too soft to reproduce matter dilution; the supernova sector
 tolerates this within $\Delta\chi^2_{\rm SN} \approx 55$, but the BAO sector adds a 164
-penalty as the high-redshift bins (z = 1.32, 1.48, 2.33) reject the soft
+penalty as the high-redshift bins ($z = 1.32, 1.48, 2.33$) reject the soft
 scaling. Model B saturates against the $s_0$ floor because the $(1+z)^2$
 scaling offers no improvement over $\Lambda$CDM at any positive $s_0$; the BAO
 sector dominates the rejection at $\Delta\chi^2_{\rm BAO} \approx 1747$. Model C's $(1+z)^0$
