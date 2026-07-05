@@ -1,0 +1,50 @@
+{
+  "mode": "audit",
+  "checks": [
+    {
+      "check": "tier1 eps_hat",
+      "recomputed": -0.106,
+      "committed": -0.106,
+      "pass": true
+    },
+    {
+      "check": "tier1 chi2_min",
+      "recomputed": 1764.7142577892464,
+      "committed": 1764.7142577892464,
+      "pass": true
+    },
+    {
+      "check": "tier1 chi2_eps0",
+      "recomputed": 1772.5636650702288,
+      "committed": 1772.5636650702288,
+      "pass": true
+    },
+    {
+      "check": "tier2 eps_median",
+      "recomputed": -0.09185286934339125,
+      "committed": -0.09185286934339129,
+      "pass": true
+    },
+    {
+      "check": "tier2 eps_95_lo",
+      "recomputed": -0.6199716922537474,
+      "committed": -0.6199716922537474,
+      "pass": true
+    },
+    {
+      "check": "tier2 eps_95_hi",
+      "recomputed": -0.0185147239949682,
+      "committed": -0.01851472399496824,
+      "pass": true
+    },
+    {
+      "check": "tier2 corr_s0_eps",
+      "recomputed": -0.822245707522583,
+      "committed": -0.822245707522583,
+      "pass": true
+    }
+  ],
+  "all_pass": true,
+  "zero_excluded_95_tier1": true,
+  "zero_excluded_95_tier2": true
+}

@@ -1,0 +1,23 @@
+{
+  "question": "do SN and BAO independently lean negative, or disagree?",
+  "eps_SN": {
+    "hat": -0.4,
+    "68_lo": null,
+    "68_hi": -0.23044070951585358,
+    "depth_vs_eps0": -4.142349212192812
+  },
+  "eps_BAO": {
+    "hat": -0.03,
+    "68_lo": -0.08262450158406207,
+    "68_hi": -0.010771606287772042,
+    "depth_vs_eps0": -3.6681883429422193
+  },
+  "eps_joint_reference": {
+    "hat": -0.106,
+    "68": [
+      -0.139,
+      -0.069
+    ]
+  },
+  "note": "diagnosis, not authority; grid edges at [-0.40, +0.20]"
+}

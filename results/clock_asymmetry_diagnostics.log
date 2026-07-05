@@ -1,0 +1,81 @@
+=== clock-asymmetry diagnostics transcript ===
+commit: 3085ca4e14f8513cb928a49657b55c9944a24dc6
+start (utc): 2026-07-05T16:16:54Z
+
+  audit tier1 eps_hat: recomputed -0.106000, committed -0.106000 -> PASS
+  audit tier1 chi2_min: recomputed +1764.714258, committed +1764.714258 -> PASS
+  audit tier1 chi2_eps0: recomputed +1772.563665, committed +1772.563665 -> PASS
+  audit tier2 eps_median: recomputed -0.091853, committed -0.091853 -> PASS
+  audit tier2 eps_95_lo: recomputed -0.619972, committed -0.619972 -> PASS
+  audit tier2 eps_95_hi: recomputed -0.018515, committed -0.018515 -> PASS
+  audit tier2 corr_s0_eps: recomputed -0.822246, committed -0.822246 -> PASS
+AUDIT PASS
+  omegaL eps=-0.40: chi2=1871.406 (dLCDM +98.95), s0=0.865, OL=0.8000
+  omegaL eps=-0.38: chi2=1853.881 (dLCDM +81.42), s0=0.859, OL=0.8000
+  omegaL eps=-0.36: chi2=1838.261 (dLCDM +65.81), s0=0.852, OL=0.8000
+  omegaL eps=-0.34: chi2=1824.451 (dLCDM +52.00), s0=0.845, OL=0.8000
+  omegaL eps=-0.32: chi2=1812.357 (dLCDM +39.90), s0=0.837, OL=0.8000
+  omegaL eps=-0.30: chi2=1801.887 (dLCDM +29.43), s0=0.829, OL=0.8000
+  omegaL eps=-0.28: chi2=1792.951 (dLCDM +20.49), s0=0.821, OL=0.8000
+  omegaL eps=-0.26: chi2=1785.462 (dLCDM +13.01), s0=0.811, OL=0.8000
+  omegaL eps=-0.24: chi2=1779.336 (dLCDM +6.88), s0=0.802, OL=0.8000
+  omegaL eps=-0.22: chi2=1774.490 (dLCDM +2.03), s0=0.791, OL=0.8000
+  omegaL eps=-0.20: chi2=1770.844 (dLCDM -1.61), s0=0.780, OL=0.8000
+  omegaL eps=-0.18: chi2=1768.320 (dLCDM -4.14), s0=0.768, OL=0.8000
+  omegaL eps=-0.16: chi2=1766.826 (dLCDM -5.63), s0=0.730, OL=0.7825
+  omegaL eps=-0.14: chi2=1765.722 (dLCDM -6.73), s0=0.567, OL=0.7025
+  omegaL eps=-0.12: chi2=1764.710 (dLCDM -7.75), s0=0.345, OL=0.6353
+  omegaL eps=-0.10: chi2=1763.856 (dLCDM -8.60), s0=0.001, OL=0.6076
+  omegaL eps=-0.08: chi2=1763.787 (dLCDM -8.67), s0=0.001, OL=0.6251
+  omegaL eps=-0.06: chi2=1764.634 (dLCDM -7.82), s0=0.001, OL=0.6419
+  omegaL eps=-0.04: chi2=1766.377 (dLCDM -6.08), s0=0.001, OL=0.6579
+  omegaL eps=-0.02: chi2=1768.991 (dLCDM -3.46), s0=0.001, OL=0.6732
+  omegaL eps=+0.00: chi2=1772.454 (dLCDM -0.00), s0=0.001, OL=0.6878
+  omegaL eps=+0.02: chi2=1776.743 (dLCDM +4.29), s0=0.001, OL=0.7018
+  omegaL eps=+0.04: chi2=1781.836 (dLCDM +9.38), s0=0.001, OL=0.7152
+  omegaL eps=+0.06: chi2=1787.709 (dLCDM +15.25), s0=0.001, OL=0.7280
+  omegaL eps=+0.08: chi2=1794.340 (dLCDM +21.88), s0=0.001, OL=0.7403
+  omegaL eps=+0.10: chi2=1801.707 (dLCDM +29.25), s0=0.001, OL=0.7520
+  omegaL eps=+0.12: chi2=1809.788 (dLCDM +37.33), s0=0.001, OL=0.7632
+  omegaL eps=+0.14: chi2=1818.560 (dLCDM +46.10), s0=0.001, OL=0.7739
+  omegaL eps=+0.16: chi2=1828.001 (dLCDM +55.55), s0=0.001, OL=0.7842
+  omegaL eps=+0.18: chi2=1838.091 (dLCDM +65.63), s0=0.001, OL=0.7940
+  omegaL eps=+0.20: chi2=1849.162 (dLCDM +76.71), s0=0.001, OL=0.8000
+{
+  "question": "does the epsilon valley survive when Omega_Lambda is free?",
+  "eps_hat_OLfree": -0.08,
+  "valley_depth_vs_eps0_OLfree": -8.66770642588267,
+  "OL_at_min": 0.6251340778061638,
+  "s0_at_min": 0.0010000001247956326,
+  "delta_lcdm_at_min": -8.669467964231444,
+  "fixed_OL_reference": {
+    "eps_hat": -0.106,
+    "valley_depth_vs_eps0": -7.85
+  },
+  "note": "diagnosis, not authority"
+}
+{
+  "question": "do SN and BAO independently lean negative, or disagree?",
+  "eps_SN": {
+    "hat": -0.4,
+    "68_lo": null,
+    "68_hi": -0.23044070951585358,
+    "depth_vs_eps0": -4.142349212192812
+  },
+  "eps_BAO": {
+    "hat": -0.03,
+    "68_lo": -0.08262450158406207,
+    "68_hi": -0.010771606287772042,
+    "depth_vs_eps0": -3.6681883429422193
+  },
+  "eps_joint_reference": {
+    "hat": -0.106,
+    "68": [
+      -0.139,
+      -0.069
+    ]
+  },
+  "note": "diagnosis, not authority; grid edges at [-0.40, +0.20]"
+}
+
+end (utc): 2026-07-05T16:23:24Z

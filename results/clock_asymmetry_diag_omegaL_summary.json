@@ -1,0 +1,13 @@
+{
+  "question": "does the epsilon valley survive when Omega_Lambda is free?",
+  "eps_hat_OLfree": -0.08,
+  "valley_depth_vs_eps0_OLfree": -8.66770642588267,
+  "OL_at_min": 0.6251340778061638,
+  "s0_at_min": 0.0010000001247956326,
+  "delta_lcdm_at_min": -8.669467964231444,
+  "fixed_OL_reference": {
+    "eps_hat": -0.106,
+    "valley_depth_vs_eps0": -7.85
+  },
+  "note": "diagnosis, not authority"
+}
