@@ -1,0 +1,55 @@
+{
+  "script": "scripts/fit_clock_asymmetry.py",
+  "lambda_cos_commit": "2ddbddd1a95d27ee5baf215db09235d22ec9a2f6",
+  "generated_utc": "2026-07-05T13:40:43.055402+00:00",
+  "seed": 12345,
+  "omega_lambda_fixed": 0.685,
+  "lcdm_reference_chi2": 1772.456,
+  "eps_prior": [
+    -1.6,
+    1.1
+  ],
+  "gate_slices": {
+    "C": -1.5,
+    "A": -0.5,
+    "D": 0.0,
+    "B": 0.5
+  },
+  "gate_tolerance": {
+    "abs": 0.5,
+    "rel": 0.001
+  },
+  "grid": {
+    "coarse": 0.01,
+    "fine": 0.002,
+    "fine_window": [
+      -0.12,
+      0.12
+    ]
+  },
+  "sampled_parameters_tier2": [
+    "s0",
+    "H0rd",
+    "M_B",
+    "eps"
+  ],
+  "versions": {
+    "python": "3.9.6",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1"
+  },
+  "data_md5": {
+    "desi_dr1_fs_fsigma8.csv": "48e884ace2b5c4aec40f07648f75dfdc",
+    "desi_dr2_bao.csv": "f13fa0fb9b2c3f93046f680c130e8c85",
+    "desi_dr2_bao_cov.npy": "ef6574fa3712b5136bfb74c9aaffc4c4",
+    "pantheon_plus.csv": "8f99a6c1b40887e97ebebd58cc54f1e9",
+    "pantheon_plus_cov.npy": "feb572e8fc8d9134cd333b9862c6e102"
+  },
+  "registration_repo": "dmobius3/mode-identity-theory",
+  "registration_file": "files/framework/files/working/files/clock-asymmetry-fit.md",
+  "registration_commits": [
+    "dc8f9f6",
+    "ff875be"
+  ]
+}
