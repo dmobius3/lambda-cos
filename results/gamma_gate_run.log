@@ -1,0 +1,99 @@
+=== gamma gate transcript ===
+commit: 343c9d84cf13a9f5f9114676a369ea5348f61c71
+start (utc): 2026-07-05T18:07:26Z
+
+{
+  "N_all": 1701,
+  "N_z>0.01": 1590,
+  "N_z>0.10": 960,
+  "N_BAO": 13
+}
+  repro LCDM(all): 1772.454 vs 1772.456 (diff -0.002) -> PASS
+  repro gammaCDM(all): 1763.703 (gamma=2.823, Om=0.382) vs 1763.8 (diff -0.097) -> PASS
+REPRODUCTION GATES PASS
+  [all] LCDM: chi2=1772.454 dchi2=+0.000 dAIC=+0.000
+  [all] gammaCDM: chi2=1763.703 dchi2=-8.752 dAIC=-6.752
+  [all] wCDM: chi2=1759.398 dchi2=-13.057 dAIC=-11.057
+  [all] CPL: chi2=1755.769 dchi2=-16.685 dAIC=-12.685
+  [all] BA: chi2=1756.001 dchi2=-16.453 dAIC=-12.453
+  [all] JBP: chi2=1755.729 dchi2=-16.726 dAIC=-12.726
+  [all] oLCDM: chi2=1768.180 dchi2=-4.274 dAIC=-2.274
+  [z001] LCDM: chi2=1416.656 dchi2=+0.000 dAIC=+0.000
+  [z001] gammaCDM: chi2=1413.690 dchi2=-2.966 dAIC=-0.966
+  [z001] wCDM: chi2=1412.534 dchi2=-4.123 dAIC=-2.123
+  [z001] CPL: chi2=1412.341 dchi2=-4.315 dAIC=-0.315
+  [z001] BA: chi2=1412.215 dchi2=-4.441 dAIC=-0.441
+  [z001] JBP: chi2=1412.467 dchi2=-4.189 dAIC=-0.189
+  [z001] oLCDM: chi2=1415.255 dchi2=-1.401 dAIC=+0.599
+  [z010] LCDM: chi2=846.487 dchi2=+0.000 dAIC=+0.000
+  [z010] gammaCDM: chi2=844.602 dchi2=-1.886 dAIC=+0.114
+  [z010] wCDM: chi2=843.642 dchi2=-2.845 dAIC=-0.845
+  [z010] CPL: chi2=843.302 dchi2=-3.186 dAIC=+0.814
+  [z010] BA: chi2=843.075 dchi2=-3.412 dAIC=+0.588
+  [z010] JBP: chi2=843.560 dchi2=-2.927 dAIC=+1.073
+  [z010] oLCDM: chi2=845.944 dchi2=-0.544 dAIC=+1.456
+{
+  "gamma_hat_z001": 2.8953867106533835,
+  "Om_hat_z001": 0.34410144801683323,
+  "cpl_image": {
+    "w0": -0.9717582280276851,
+    "wa": 0.3648051844024684,
+    "mock_fit_chi2": 0.0010575536324739193
+  },
+  "rhoDE_native_min_z<=1.5": 0.16445003574499228,
+  "rhoDE_fiducial_min_z<=1.5": 0.6191601610080113
+}
+You must install the tqdm library to use progress indicators with emcee
+  mcmc[primary]: gamma = 2.891 68% [2.834,2.952]  lnB01 = +1.09
+You must install the tqdm library to use progress indicators with emcee
+  mcmc[robust]: gamma = 2.891 68% [2.834,2.952]  lnB01 = +2.00
+{
+  "counts": {
+    "N_all": 1701,
+    "N_z>0.01": 1590,
+    "N_z>0.10": 960
+  },
+  "gateA": {
+    "pass": false,
+    "gamma_hat_z001": 2.9,
+    "gamma_68_z001": [
+      2.835693615992727,
+      2.9558366630115867
+    ],
+    "dchi2_z001": -2.9656616072766155,
+    "dchi2_z010": -1.8856044762582087,
+    "dchi2_all_reference": -8.751599428994723
+  },
+  "gateB": {
+    "pass": false,
+    "dAIC_vs_LCDM_z001": -0.9656616072766157,
+    "AIC_gamma": 1421.6904803715256,
+    "min_AIC_zoo": 1420.5336046444536,
+    "delta_lnZ_primary": -1.0860773441339773,
+    "delta_lnZ_robust": -2.0023680760081324
+  },
+  "gateC": {
+    "pass": true,
+    "sn_68": [
+      2.3093305054130737,
+      3.145946433590852
+    ],
+    "bao_68": [
+      2.8522552849745653,
+      3.0234357915127688
+    ]
+  },
+  "gateD": {
+    "pass": false,
+    "w0": -0.9717582280276851,
+    "wa": 0.3648051844024684,
+    "mock_fit_chi2": 0.0010575536324739193,
+    "rhoDE_native_min": 0.16445003574499228
+  },
+  "curvature_costume_flag": false,
+  "oLCDM_capture_fraction": 0.47229372636232136,
+  "paper": false,
+  "tree": "A and B decide; C and D are strength modifiers; C-fail forces the tension-absorber discussion to lead"
+}
+
+end (utc): 2026-07-05T18:24:55Z

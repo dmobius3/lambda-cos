@@ -1,0 +1,66 @@
+{
+  "script": "scripts/gamma_gate.py",
+  "script_sha256": "b01522425c8c04c72130604f35388b748bab69569876d26bc538ac02e225b981",
+  "commit": "343c9d84cf13a9f5f9114676a369ea5348f61c71",
+  "generated_utc": "2026-07-05T18:07:27.623065+00:00",
+  "spec": "~/Desktop/MITv6/DESI Paper/Lcos Paper 2/gameplan.md sections 3-4",
+  "counts": {
+    "N_all": 1701,
+    "N_z>0.01": 1590,
+    "N_z>0.10": 960,
+    "N_BAO": 13
+  },
+  "priors": {
+    "Om": [
+      0.0,
+      1.0
+    ],
+    "MB": [
+      -20.0,
+      -18.0
+    ],
+    "H0rd": [
+      8000.0,
+      12000.0
+    ],
+    "gamma_primary": [
+      2.0,
+      4.0
+    ],
+    "gamma_robust": [
+      0.0,
+      5.0
+    ],
+    "w0": [
+      -3.0,
+      1.0
+    ],
+    "wa": [
+      -3.0,
+      2.0
+    ],
+    "Ok": [
+      -0.5,
+      0.5
+    ]
+  },
+  "seed": 12345,
+  "gateB_variant": "z001",
+  "thresholds": {
+    "A_dchi2_001": -4.0,
+    "A_dchi2_010": -1.0,
+    "B_dAIC": -2.0,
+    "B_zoo_margin": 2.0,
+    "B_lnZ_floor": -1.0,
+    "B_lnZ_autofail": -3.0,
+    "curvature_costume_frac": 0.7,
+    "D_rhoDE_positive_to_z": 1.5
+  },
+  "data_md5": {
+    "desi_dr1_fs_fsigma8.csv": "48e884ace2b5c4aec40f07648f75dfdc",
+    "desi_dr2_bao.csv": "f13fa0fb9b2c3f93046f680c130e8c85",
+    "desi_dr2_bao_cov.npy": "ef6574fa3712b5136bfb74c9aaffc4c4",
+    "pantheon_plus.csv": "8f99a6c1b40887e97ebebd58cc54f1e9",
+    "pantheon_plus_cov.npy": "feb572e8fc8d9134cd333b9862c6e102"
+  }
+}

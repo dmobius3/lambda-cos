@@ -1,0 +1,48 @@
+{
+  "counts": {
+    "N_all": 1701,
+    "N_z>0.01": 1590,
+    "N_z>0.10": 960
+  },
+  "gateA": {
+    "pass": false,
+    "gamma_hat_z001": 2.9,
+    "gamma_68_z001": [
+      2.835693615992727,
+      2.9558366630115867
+    ],
+    "dchi2_z001": -2.9656616072766155,
+    "dchi2_z010": -1.8856044762582087,
+    "dchi2_all_reference": -8.751599428994723
+  },
+  "gateB": {
+    "pass": false,
+    "dAIC_vs_LCDM_z001": -0.9656616072766157,
+    "AIC_gamma": 1421.6904803715256,
+    "min_AIC_zoo": 1420.5336046444536,
+    "delta_lnZ_primary": -1.0860773441339773,
+    "delta_lnZ_robust": -2.0023680760081324
+  },
+  "gateC": {
+    "pass": true,
+    "sn_68": [
+      2.3093305054130737,
+      3.145946433590852
+    ],
+    "bao_68": [
+      2.8522552849745653,
+      3.0234357915127688
+    ]
+  },
+  "gateD": {
+    "pass": false,
+    "w0": -0.9717582280276851,
+    "wa": 0.3648051844024684,
+    "mock_fit_chi2": 0.0010575536324739193,
+    "rhoDE_native_min": 0.16445003574499228
+  },
+  "curvature_costume_flag": false,
+  "oLCDM_capture_fraction": 0.47229372636232136,
+  "paper": false,
+  "tree": "A and B decide; C and D are strength modifiers; C-fail forces the tension-absorber discussion to lead"
+}
