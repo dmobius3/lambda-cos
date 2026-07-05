@@ -1,0 +1,13 @@
+{
+  "script_sha256": "00b1d907b35348da18cfa8b2f43545b049662e55c4bd3cf35b4b484839d33b9d",
+  "lambda_cos_commit_at_gate_run": "2406ab5bdb36b3001f7cd2f8332e8b76f5a1fbf0",
+  "data_md5": {
+    "desi_dr1_fs_fsigma8.csv": "48e884ace2b5c4aec40f07648f75dfdc",
+    "desi_dr2_bao.csv": "f13fa0fb9b2c3f93046f680c130e8c85",
+    "desi_dr2_bao_cov.npy": "ef6574fa3712b5136bfb74c9aaffc4c4",
+    "pantheon_plus.csv": "8f99a6c1b40887e97ebebd58cc54f1e9",
+    "pantheon_plus_cov.npy": "feb572e8fc8d9134cd333b9862c6e102"
+  },
+  "all_pass": true,
+  "generated_utc": "2026-07-05T13:48:15.227522+00:00"
+}

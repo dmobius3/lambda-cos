@@ -1,7 +1,8 @@
 {
   "script": "scripts/fit_clock_asymmetry.py",
-  "lambda_cos_commit": "2ddbddd1a95d27ee5baf215db09235d22ec9a2f6",
-  "generated_utc": "2026-07-05T13:40:43.055402+00:00",
+  "script_sha256": "00b1d907b35348da18cfa8b2f43545b049662e55c4bd3cf35b4b484839d33b9d",
+  "lambda_cos_commit": "2406ab5bdb36b3001f7cd2f8332e8b76f5a1fbf0",
+  "generated_utc": "2026-07-05T13:47:55.490046+00:00",
   "seed": 12345,
   "omega_lambda_fixed": 0.685,
   "lcdm_reference_chi2": 1772.456,

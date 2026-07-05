@@ -42,6 +42,21 @@ GATES (frozen; must pass before tier1/tier2 may run):
     The deterministic optimizer may land slightly below a published
     chain-argmax value; that direction is expected and passes within tol.
     A failure outside tol stops everything: the failure is the result.
+    The gate record is BOUND to the code and data that produced it: a
+    provenance file stores the sha256 of this script and the md5 of every
+    data file at gate time, and the tiers refuse to run unless those match
+    the current script and data. Any edit to this script invalidates the
+    gates, which must then be re-earned.
+
+TIER 2 INITIALIZATION (frozen): Tier 2 refuses to run before Tier 1 and
+    reads its outputs. Most walkers start at the Tier 1 minimum (eps_hat
+    and its profiled parameters); a stratified minority is seeded across
+    the full eps prior, each at its nearest Tier 1 curve row, so the
+    sampler can find a displaced minimum, a second mode, or an excluded
+    zero without relying on luck. Convergence diagnostics (integrated
+    autocorrelation, effective sample size, split-half quantile
+    stability) are reported in the summary; they are informational, not
+    a physics gate.
 
 Sampled parameters in Tier 2: (s0, H0rd, M_B, eps) -- four live
 parameters. M_B is sampled, not analytically marginalized, exactly as
@@ -56,6 +71,7 @@ Both references are reported everywhere:
 
 Outputs (results/):
     clock_asymmetry_gates.csv
+    clock_asymmetry_gates_provenance.json
     clock_asymmetry_tier1_curve.csv
     clock_asymmetry_tier1_summary.json
     clock_asymmetry_tier2_chain.npy
@@ -116,6 +132,25 @@ REGISTRATION_REFS = {
 
 def n_of_eps(eps: float) -> float:
     return -0.5 - eps
+
+
+def script_sha256() -> str:
+    h = hashlib.sha256()
+    h.update(Path(__file__).resolve().read_bytes())
+    return h.hexdigest()
+
+
+def current_commit() -> str:
+    try:
+        return subprocess.check_output(
+            ["git", "-C", str(BASE), "rev-parse", "HEAD"], text=True).strip()
+    except Exception:
+        return "unknown"
+
+
+def data_md5s() -> dict:
+    return {p.name: file_md5(p) for p in sorted(DATA_DIR.glob("*"))
+            if p.suffix in {".csv", ".npy"}}
 
 
 # -----------------------------
@@ -309,16 +344,42 @@ def run_gates() -> bool:
     if d_row_chi2 is not None:
         out["delta_eps0"] = out["reproduced_delta_lcdm"] - (d_row_chi2 - LCDM_CHI2_MIN)
     out.to_csv(RESULTS_DIR / "clock_asymmetry_gates.csv", index=False)
+
+    provenance = {
+        "script_sha256": script_sha256(),
+        "lambda_cos_commit_at_gate_run": current_commit(),
+        "data_md5": data_md5s(),
+        "all_pass": bool(all_pass),
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+    }
+    with open(RESULTS_DIR / "clock_asymmetry_gates_provenance.json", "w") as f:
+        json.dump(provenance, f, indent=2)
+
     print(f"\nGATES {'PASS' if all_pass else 'FAIL'}. "
-          f"Saved: {RESULTS_DIR / 'clock_asymmetry_gates.csv'}")
+          f"Saved: {RESULTS_DIR / 'clock_asymmetry_gates.csv'} (+ provenance)")
     return all_pass
 
 
 def gates_passed() -> bool:
-    path = RESULTS_DIR / "clock_asymmetry_gates.csv"
-    if not path.exists():
+    """Mechanically true, not just procedurally true: the gate record must
+    exist, pass, and have been produced by THIS script on THIS data."""
+    csv_path = RESULTS_DIR / "clock_asymmetry_gates.csv"
+    prov_path = RESULTS_DIR / "clock_asymmetry_gates_provenance.json"
+    if not (csv_path.exists() and prov_path.exists()):
+        print("Gate check: gate record missing.")
         return False
-    return bool(pd.read_csv(path)["pass"].all())
+    if not bool(pd.read_csv(csv_path)["pass"].all()):
+        print("Gate check: recorded gates did not all pass.")
+        return False
+    with open(prov_path) as f:
+        prov = json.load(f)
+    if prov.get("script_sha256") != script_sha256():
+        print("Gate check: script has changed since gates ran; re-earn the gates.")
+        return False
+    if prov.get("data_md5") != data_md5s():
+        print("Gate check: data files have changed since gates ran; re-earn the gates.")
+        return False
+    return True
 
 
 # -----------------------------
@@ -406,21 +467,49 @@ def log_prob4(theta: np.ndarray) -> float:
     return -0.5 * chi2
 
 
+N_SPREAD_WALKERS = 8  # stratified across the eps prior; the rest start at the Tier 1 minimum
+
+
 def run_tier2():
     if not gates_passed():
         sys.exit("Tier 2 refused: gates have not passed. Run 'gates' first.")
 
+    curve_path = RESULTS_DIR / "clock_asymmetry_tier1_curve.csv"
+    summary_path = RESULTS_DIR / "clock_asymmetry_tier1_summary.json"
+    if not (curve_path.exists() and summary_path.exists()):
+        sys.exit("Tier 2 refused: Tier 1 has not run. The frozen order is tier1 then tier2.")
+
     import emcee  # lazy: gates and tier1 do not need it
 
+    curve = pd.read_csv(curve_path)
+    with open(summary_path) as f:
+        t1 = json.load(f)
+    eps_hat = float(t1["eps_hat"])
+
+    def curve_row_at(eps_val: float):
+        idx = int((curve["eps"] - eps_val).abs().idxmin())
+        r = curve.iloc[idx]
+        return np.array([r["s0"], r["H0rd"], r["M_B"], float(r["eps"])])
+
     rng = np.random.default_rng(RNG_SEED)
-    center3, chi2_eps0 = best_initial_point(n_of_eps(0.0))
-    center = np.array([center3[0], center3[1], center3[2], 0.0])
-    scales = np.array([0.01, 25.0, 0.01, 0.05])
-    p0 = center + scales * rng.normal(size=(NWALKERS, 4))
+    n_core = NWALKERS - N_SPREAD_WALKERS
+    core_center = curve_row_at(eps_hat)
+    core_scales = np.array([0.01, 25.0, 0.01, 0.05])
+    p_core = core_center + core_scales * rng.normal(size=(n_core, 4))
+
+    spread_eps = np.linspace(EPS_PRIOR[0] + 0.05, EPS_PRIOR[1] - 0.05, N_SPREAD_WALKERS)
+    spread_scales = np.array([0.01, 25.0, 0.01, 0.02])
+    p_spread = np.array([
+        curve_row_at(e) + spread_scales * rng.normal(size=4) for e in spread_eps
+    ])
+
+    p0 = np.vstack([p_core, p_spread])
     p0[:, 0] = np.clip(p0[:, 0], 0.001, 0.99)
     p0[:, 1] = np.clip(p0[:, 1], 8000.0, 12000.0)
     p0[:, 2] = np.clip(p0[:, 2], -20.0, -18.0)
     p0[:, 3] = np.clip(p0[:, 3], EPS_PRIOR[0] + 1e-3, EPS_PRIOR[1] - 1e-3)
+
+    chi2_eps0 = float(curve.loc[np.isclose(curve["eps"], 0.0), "chi2_total"].iloc[0])
 
     sampler = emcee.EnsembleSampler(NWALKERS, 4, log_prob4)
     sampler.run_mcmc(p0, NSTEPS, progress=True)
@@ -435,10 +524,29 @@ def run_tier2():
     best = post[np.argmax(logp)]
     chi2_best = -2.0 * float(np.max(logp))
 
+    # Convergence diagnostics: informational, not a physics gate.
+    try:
+        tau = emcee.autocorr.integrated_time(chain[BURN:], c=5, tol=0)
+        tau_max = float(np.max(tau))
+        ess = float(post.shape[0] / tau_max)
+    except Exception:
+        tau_max, ess = float("nan"), float("nan")
+
     eps_samples = df["eps"].to_numpy()
+    half = len(eps_samples) // 2
+    q_first = np.percentile(eps_samples[:half], [16, 50, 84])
+    q_second = np.percentile(eps_samples[half:], [16, 50, 84])
+    split_half_max_shift = float(np.max(np.abs(q_first - q_second)))
+
     q = np.percentile(eps_samples, [2.5, 16, 50, 84, 97.5])
     summary = {
         "sampled_parameters": ["s0", "H0rd", "M_B", "eps"],
+        "initialization": {
+            "core_walkers_at_eps_hat": int(n_core),
+            "eps_hat_from_tier1": eps_hat,
+            "spread_walkers": int(N_SPREAD_WALKERS),
+            "spread_eps": [float(e) for e in spread_eps],
+        },
         "eps_median": float(q[2]),
         "eps_68": [float(q[1]), float(q[3])],
         "eps_95": [float(q[0]), float(q[4])],
@@ -452,6 +560,9 @@ def run_tier2():
         "delta_lcdm_best": chi2_best - LCDM_CHI2_MIN,
         "delta_eps0_best": chi2_best - chi2_eps0,
         "acceptance_fraction": float(np.mean(sampler.acceptance_fraction)),
+        "tau_max": tau_max,
+        "effective_samples": ess,
+        "split_half_eps_quantile_max_shift": split_half_max_shift,
         "nwalkers": NWALKERS, "nsteps": NSTEPS, "burn": BURN, "seed": RNG_SEED,
     }
     with open(RESULTS_DIR / "clock_asymmetry_tier2_summary.json", "w") as f:
@@ -471,15 +582,11 @@ def file_md5(path: Path) -> str:
 
 
 def write_manifest():
-    try:
-        commit = subprocess.check_output(
-            ["git", "-C", str(BASE), "rev-parse", "HEAD"], text=True).strip()
-    except Exception:
-        commit = "unknown"
     import scipy
     manifest = {
         "script": "scripts/fit_clock_asymmetry.py",
-        "lambda_cos_commit": commit,
+        "script_sha256": script_sha256(),
+        "lambda_cos_commit": current_commit(),
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "seed": RNG_SEED,
         "omega_lambda_fixed": OMEGA_LAMBDA,
@@ -493,8 +600,7 @@ def write_manifest():
         "versions": {"python": sys.version.split()[0],
                      "numpy": np.__version__, "pandas": pd.__version__,
                      "scipy": scipy.__version__},
-        "data_md5": {p.name: file_md5(p) for p in sorted(DATA_DIR.glob("*"))
-                     if p.suffix in {".csv", ".npy"}},
+        "data_md5": data_md5s(),
         **REGISTRATION_REFS,
     }
     with open(RESULTS_DIR / "clock_asymmetry_manifest.json", "w") as f:
