@@ -156,31 +156,35 @@ def main():
     # condition-number guard, which reacts to the raw H0rd (~1e4) vs s0
     # (~0.1) scale disparity. Deterministic; no sampler. Technical method
     # choice in response to a sampler init failure, not a physics change.
-    sn = VAR["z001"]
-    _, chi2_min = fit(e2_lcos, (0.001, 0.99), sn, [0.01, 0.10, 0.30, 0.50, 0.85])
+    # Computed on BOTH the full file and the z>0.01 cut so the comparison
+    # is profile-vs-profile (apples-to-apples), not profile-vs-posterior.
+    THR = 2.706  # one-sided 95%, one parameter (1.645^2)
     s0_grid = np.round(np.arange(0.005, 0.80 + 1e-9, 0.005), 4)
-    prof = []
-    for s0 in s0_grid:
-        _, c = fit(e2_lcos, (float(s0), float(s0)), sn, [float(s0)])
-        prof.append({"s0": float(s0), "chi2": c, "dchi2": c - chi2_min})
-    dfp = pd.DataFrame(prof)
-    dfp.to_csv(RESULTS_DIR / "lcos_z001_s0_profile.csv", index=False)
-    # one-sided 95% UL: first crossing of dchi2 = 2.706 above the minimum
-    THR = 2.706
-    ul95 = None
-    d = dfp["dchi2"].to_numpy(); g = dfp["s0"].to_numpy()
-    for i in range(len(g) - 1):
-        if d[i] <= THR < d[i + 1]:
-            ul95 = float(g[i] + (THR - d[i]) * (g[i + 1] - g[i]) / (d[i + 1] - d[i]))
-            break
-    if ul95 is None:
-        ul95 = float(g[-1])  # profile stays below threshold across the grid
-    out["z001_profile"] = {"method": "profile-likelihood 95% UL (dchi2=2.706)",
-                           "s0_best": float(out["z001"]["s0_best"]),
-                           "s0_95UL": ul95,
-                           "published_UL_full_file": PUBLISHED["s0_95UL"]}
-    print(f"  profile(z001): s0 best {out['z001']['s0_best']:.4f} (boundary), "
-          f"95% UL {ul95:.3f} (published UL on the full file: {PUBLISHED['s0_95UL']})")
+
+    def profile_ul(sn, tag):
+        _, chi2_min = fit(e2_lcos, (0.001, 0.99), sn, [0.01, 0.10, 0.30, 0.50, 0.85])
+        rows = []
+        for s0 in s0_grid:
+            _, c = fit(e2_lcos, (float(s0), float(s0)), sn, [float(s0)])
+            rows.append({"s0": float(s0), "chi2": c, "dchi2": c - chi2_min})
+        dfp = pd.DataFrame(rows)
+        dfp.to_csv(RESULTS_DIR / f"lcos_{tag}_s0_profile.csv", index=False)
+        d = dfp["dchi2"].to_numpy(); g = dfp["s0"].to_numpy()
+        ul = None
+        for i in range(len(g) - 1):
+            if d[i] <= THR < d[i + 1]:
+                ul = float(g[i] + (THR - d[i]) * (g[i + 1] - g[i]) / (d[i + 1] - d[i]))
+                break
+        return float(ul) if ul is not None else float(g[-1])
+
+    ul_all = profile_ul(VAR["all"], "all")
+    ul95 = profile_ul(VAR["z001"], "z001")
+    out["profile_UL"] = {"method": "profile-likelihood 95% UL (dchi2=2.706, one-sided)",
+                         "s0_95UL_full": ul_all,
+                         "s0_95UL_z001": ul95,
+                         "published_posterior_UL_full": PUBLISHED["s0_95UL"]}
+    print(f"  profile UL: full-file s0 < {ul_all:.3f}  ->  z>0.01 s0 < {ul95:.3f}  "
+          f"(published posterior UL on full file: {PUBLISHED['s0_95UL']})")
 
     d = out["z001"]["delta_chi2"]
     if BARS["pass_dchi2"][0] <= d <= BARS["pass_dchi2"][1] and ul95 <= BARS["pass_UL"]:

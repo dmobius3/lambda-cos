@@ -41,11 +41,11 @@
     "H0rd_best": -19.36097856423525,
     "M_B_best": 10025.419889474766
   },
-  "z001_profile": {
-    "method": "profile-likelihood 95% UL (dchi2=2.706)",
-    "s0_best": 0.0010000000077901115,
-    "s0_95UL": 0.14937271777584005,
-    "published_UL_full_file": 0.19
+  "profile_UL": {
+    "method": "profile-likelihood 95% UL (dchi2=2.706, one-sided)",
+    "s0_95UL_full": 0.17661348649343345,
+    "s0_95UL_z001": 0.14937271777584005,
+    "published_posterior_UL_full": 0.19
   },
   "verdict": "PASS: Paper 1 stands cleanly under the standard cut; no action."
 }
