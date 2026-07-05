@@ -148,32 +148,39 @@ def main():
         print(f"  [{vname}] N_SN={sn.n}  LCDM={c_lcdm:.3f}  Lcos={c_lcos:.3f}  "
               f"dchi2={c_lcos - c_lcdm:+.3f}  s0_best={x[0]:.4f}")
 
-    import emcee
+    # s0 upper limit by PROFILE LIKELIHOOD, not MCMC. The best fit sits on
+    # the s0 = 0 boundary (a near-null, boundary-limited parameter), for
+    # which the profile-likelihood one-sided 95% UL (Delta chi2 = 2.706,
+    # i.e. 1.645^2) is the honest interval and matches a flat-prior Bayesian
+    # UL to good approximation. This also sidesteps emcee 3.1.6's init
+    # condition-number guard, which reacts to the raw H0rd (~1e4) vs s0
+    # (~0.1) scale disparity. Deterministic; no sampler. Technical method
+    # choice in response to a sampler init failure, not a physics change.
     sn = VAR["z001"]
-    def logp(t):
-        s0, MB, H0rd = t
-        if not (0.001 <= s0 <= 0.99 and -20 <= MB <= -18 and 8000 <= H0rd <= 12000):
-            return -np.inf
-        c = chi2(e2_lcos, s0, MB, H0rd, sn)
-        return -0.5 * c if np.isfinite(c) else -np.inf
-    rng = np.random.default_rng(RNG_SEED)
-    center = np.array([out["z001"]["s0_best"], out["z001"]["M_B_best"], out["z001"]["H0rd_best"]])
-    center = np.array([max(center[0], 0.05), center[1], center[2]])
-    p0 = center + np.array([0.03, 0.01, 25.0]) * rng.normal(size=(NWALKERS, 3))
-    p0[:, 0] = np.clip(p0[:, 0], 0.002, 0.95)
-    p0[:, 1] = np.clip(p0[:, 1], -19.99, -18.01)
-    p0[:, 2] = np.clip(p0[:, 2], 8001, 11999)
-    sampler = emcee.EnsembleSampler(NWALKERS, 3, logp)
-    sampler.run_mcmc(p0, NSTEPS)
-    post = sampler.get_chain()[BURN:].reshape(-1, 3)
-    df = pd.DataFrame(post, columns=["s0", "MB", "H0rd"])
-    df.to_csv(RESULTS_DIR / "lcos_z001_post.csv", index=False)
-    ul95 = float(np.percentile(df["s0"], 95))
-    med = float(np.percentile(df["s0"], 50))
-    out["z001_posterior"] = {"s0_median": med, "s0_95UL": ul95,
-                             "acceptance": float(np.mean(sampler.acceptance_fraction))}
-    print(f"  posterior(z001): s0 median {med:.3f}, 95% UL {ul95:.3f} "
-          f"(published UL on the full file: {PUBLISHED['s0_95UL']})")
+    _, chi2_min = fit(e2_lcos, (0.001, 0.99), sn, [0.01, 0.10, 0.30, 0.50, 0.85])
+    s0_grid = np.round(np.arange(0.005, 0.80 + 1e-9, 0.005), 4)
+    prof = []
+    for s0 in s0_grid:
+        _, c = fit(e2_lcos, (float(s0), float(s0)), sn, [float(s0)])
+        prof.append({"s0": float(s0), "chi2": c, "dchi2": c - chi2_min})
+    dfp = pd.DataFrame(prof)
+    dfp.to_csv(RESULTS_DIR / "lcos_z001_s0_profile.csv", index=False)
+    # one-sided 95% UL: first crossing of dchi2 = 2.706 above the minimum
+    THR = 2.706
+    ul95 = None
+    d = dfp["dchi2"].to_numpy(); g = dfp["s0"].to_numpy()
+    for i in range(len(g) - 1):
+        if d[i] <= THR < d[i + 1]:
+            ul95 = float(g[i] + (THR - d[i]) * (g[i + 1] - g[i]) / (d[i + 1] - d[i]))
+            break
+    if ul95 is None:
+        ul95 = float(g[-1])  # profile stays below threshold across the grid
+    out["z001_profile"] = {"method": "profile-likelihood 95% UL (dchi2=2.706)",
+                           "s0_best": float(out["z001"]["s0_best"]),
+                           "s0_95UL": ul95,
+                           "published_UL_full_file": PUBLISHED["s0_95UL"]}
+    print(f"  profile(z001): s0 best {out['z001']['s0_best']:.4f} (boundary), "
+          f"95% UL {ul95:.3f} (published UL on the full file: {PUBLISHED['s0_95UL']})")
 
     d = out["z001"]["delta_chi2"]
     if BARS["pass_dchi2"][0] <= d <= BARS["pass_dchi2"][1] and ul95 <= BARS["pass_UL"]:

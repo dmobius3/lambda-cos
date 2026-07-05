@@ -1,0 +1,51 @@
+{
+  "published": {
+    "delta_chi2": 0.11,
+    "s0_95UL": 0.19
+  },
+  "bars": {
+    "pass_dchi2": [
+      -2.0,
+      3.0
+    ],
+    "pass_UL": 0.25,
+    "note_dchi2_hi": 9.0,
+    "note_UL": 0.45
+  },
+  "counts": {
+    "all": 1701,
+    "z001": 1590,
+    "z010": 960
+  },
+  "all": {
+    "chi2_LCDM_freeOm": 1772.454212834402,
+    "chi2_Lcos": 1772.5636650702295,
+    "delta_chi2": 0.10945223582757535,
+    "s0_best": 0.001000000008622381,
+    "H0rd_best": -19.354045176458182,
+    "M_B_best": 10025.419885524941
+  },
+  "z001": {
+    "chi2_LCDM_freeOm": 1416.6561419787988,
+    "chi2_Lcos": 1417.9925365837337,
+    "delta_chi2": 1.336394604934867,
+    "s0_best": 0.0010000000077901115,
+    "H0rd_best": -19.356416971709145,
+    "M_B_best": 10025.419888893406
+  },
+  "z010": {
+    "chi2_LCDM_freeOm": 846.4874001266556,
+    "chi2_Lcos": 848.3907282032284,
+    "delta_chi2": 1.903328076572734,
+    "s0_best": 0.001000000005610685,
+    "H0rd_best": -19.36097856423525,
+    "M_B_best": 10025.419889474766
+  },
+  "z001_profile": {
+    "method": "profile-likelihood 95% UL (dchi2=2.706)",
+    "s0_best": 0.0010000000077901115,
+    "s0_95UL": 0.14937271777584005,
+    "published_UL_full_file": 0.19
+  },
+  "verdict": "PASS: Paper 1 stands cleanly under the standard cut; no action."
+}

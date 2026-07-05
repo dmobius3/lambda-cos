@@ -1,0 +1,11 @@
+=== Paper 1 z>0.01 robustness (profile-likelihood UL) ===
+start (utc): 2026-07-05T19:19:10Z
+
+  [all] N_SN=1701  LCDM=1772.454  Lcos=1772.564  dchi2=+0.109  s0_best=0.0010
+  [z001] N_SN=1590  LCDM=1416.656  Lcos=1417.993  dchi2=+1.336  s0_best=0.0010
+  [z010] N_SN=960  LCDM=846.487  Lcos=848.391  dchi2=+1.903  s0_best=0.0010
+  profile(z001): s0 best 0.0010 (boundary), 95% UL 0.149 (published UL on the full file: 0.19)
+
+VERDICT: PASS: Paper 1 stands cleanly under the standard cut; no action.
+
+end (utc): 2026-07-05T19:28:51Z
