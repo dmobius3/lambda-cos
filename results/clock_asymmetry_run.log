@@ -1,0 +1,112 @@
+=== clock-asymmetry run transcript ===
+tag: eps-family-v1.0, commit: 351938c82d8c321e24c7ff02f899d2ed86b920af
+start (utc): 2026-07-05T13:51:25Z
+command: tier1 then tier2, frozen sequence, no stops
+
+Tier 1: 367 grid points on [-1.6, 1.1]
+  [1/367] eps=-1.600  delta_lcdm=+8836.46
+  [21/367] eps=-1.400  delta_lcdm=+5883.79
+  [41/367] eps=-1.200  delta_lcdm=+3623.84
+  [61/367] eps=-1.000  delta_lcdm=+2028.26
+  [81/367] eps=-0.800  delta_lcdm=+995.15
+  [101/367] eps=-0.600  delta_lcdm=+396.09
+  [121/367] eps=-0.400  delta_lcdm=+102.50
+  [141/367] eps=-0.200  delta_lcdm=+0.70
+  [161/367] eps=-0.096  delta_lcdm=-7.67
+  [181/367] eps=-0.056  delta_lcdm=-5.96
+  [201/367] eps=-0.016  delta_lcdm=-2.29
+  [221/367] eps=+0.024  delta_lcdm=+10.74
+  [241/367] eps=+0.064  delta_lcdm=+48.65
+  [261/367] eps=+0.104  delta_lcdm=+110.91
+  [281/367] eps=+0.240  delta_lcdm=+490.89
+  [301/367] eps=+0.440  delta_lcdm=+1454.57
+  [321/367] eps=+0.640  delta_lcdm=+2793.76
+  [341/367] eps=+0.840  delta_lcdm=+4499.25
+  [361/367] eps=+1.040  delta_lcdm=+6935.04
+{
+  "eps_hat": -0.106,
+  "chi2_min": 1764.7142577892464,
+  "delta_lcdm_at_min": -7.7417422107535,
+  "chi2_eps0": 1772.5636650702288,
+  "delta_eps0_at_min": -7.849407280982405,
+  "interval_68": [
+    -0.1394775633055376,
+    -0.0688319977373859
+  ],
+  "interval_95": [
+    -0.17066648403319254,
+    -0.031391519993978705
+  ],
+  "halfwidth_68_lower": 0.0334775633055376,
+  "halfwidth_68_upper": 0.0371680022626141,
+  "meaningful_measurement_bar": 0.05,
+  "grid": {
+    "coarse": 0.01,
+    "fine": 0.002,
+    "fine_window": [
+      -0.12,
+      0.12
+    ],
+    "prior": [
+      -1.6,
+      1.1
+    ]
+  }
+}
+
+You must install the tqdm library to use progress indicators with emcee
+{
+  "sampled_parameters": [
+    "s0",
+    "H0rd",
+    "M_B",
+    "eps"
+  ],
+  "initialization": {
+    "core_walkers_at_eps_hat": 24,
+    "eps_hat_from_tier1": -0.106,
+    "spread_walkers": 8,
+    "spread_eps": [
+      -1.55,
+      -1.1785714285714286,
+      -0.8071428571428572,
+      -0.4357142857142857,
+      -0.06428571428571428,
+      0.30714285714285716,
+      0.6785714285714286,
+      1.05
+    ]
+  },
+  "eps_median": -0.09185286934339129,
+  "eps_68": [
+    -0.1312006929554493,
+    -0.05105200512886067
+  ],
+  "eps_95": [
+    -0.6199716922537474,
+    -0.01851472399496824
+  ],
+  "halfwidth_68_lower": 0.03934782361205802,
+  "halfwidth_68_upper": 0.04080086421453062,
+  "meaningful_measurement_bar": 0.05,
+  "corr_s0_eps": -0.822245707522583,
+  "best_point": {
+    "s0": 0.4665040677102809,
+    "H0rd": 9910.423123795803,
+    "M_B": -19.343784807157586,
+    "eps": -0.10580479525446951
+  },
+  "chi2_best": 1764.7217404434766,
+  "delta_lcdm_best": -7.734259556523284,
+  "delta_eps0_best": -7.8419246267521885,
+  "acceptance_fraction": 0.4693,
+  "tau_max": 131.3716673815193,
+  "effective_samples": 974.3348969475468,
+  "split_half_eps_quantile_max_shift": 0.0030694768566971176,
+  "nwalkers": 32,
+  "nsteps": 5000,
+  "burn": 1000,
+  "seed": 12345
+}
+
+end (utc): 2026-07-05T14:54:59Z
