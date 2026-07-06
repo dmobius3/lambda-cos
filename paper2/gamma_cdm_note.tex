@@ -1,0 +1,258 @@
+% A Diagnostic Check on a One-Parameter Matter-Exponent Deformation of LCDM
+% B. Shatto, 2026. Standalone two-page diagnostic note.
+% House style: revtex4-2 (aps/prd). House rule: no em-dashes.
+% Every number quoted here is committed in the lambda-cos repository
+% (branch epsilon-family, results commit 69c4604; results/gamma_gate_*).
+\documentclass[
+  aps,
+  prd,
+  reprint,           % PRD two-column: the standard short-note layout
+  nofootinbib,
+  longbibliography
+]{revtex4-2}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\title{A Diagnostic Check on a One-Parameter\\
+       Matter-Exponent Deformation of $\Lambda$CDM}
+
+\author{B.~Shatto}
+\email{bshatto.pe@gmail.com}
+\affiliation{Independent Researcher, St.~Petersburg, FL, USA}
+
+\date{\today}
+
+\begin{abstract}
+DESI DR2 baryon acoustic oscillation (BAO) data, combined with Type~Ia
+supernovae, have been read within two-parameter equation-of-state
+templates as a preference for dynamical dark energy, with a strength that
+depends sharply on the supernova catalog. We test a minimal one-parameter
+deformation of the flat $\Lambda$CDM expansion history,
+$H^2/H_0^2 = \Omega_m (1+z)^{\gamma} + \Omega_\Lambda$ (with $\gamma = 3$
+recovering $\Lambda$CDM), not as a candidate cosmology but as a diagnostic
+of how sensitive such a preference is to the very-low-redshift supernova
+sample. Using Pantheon+ (1701 SNe~Ia with full covariance) and DESI DR2
+BAO (13 points), with the design and priors frozen before fitting, the
+full supernova vector gives $\gamma < 3$ at $\Delta\chi^2 \approx -8.75$
+relative to $\Lambda$CDM. The standard $z > 0.01$ cosmology cut, adopted
+in the supernova-systematics literature for peculiar-velocity and
+calibration reasons, reduces this to $\Delta\chi^2 \approx -2.97$, and a
+$z > 0.1$ cut to $-1.89$. A Savage-Dickey comparison favors $\Lambda$CDM
+under both a narrow ($\gamma \in [2,4]$) and a wide ($\gamma \in [0,5]$)
+prior ($\Delta\ln Z = -1.09$ and $-2.00$), and the same cut heals a
+previously disjoint supernova-only versus BAO-only split. The large
+apparent preference is therefore low-redshift driven, leaving a mild
+residual ($\hat\gamma \approx 2.90$, $\Delta\chi^2 \approx 3.0$)
+consistent in scale with published mild Pantheon+ preferences. We offer it
+as a small independent data point for the discussion of low-redshift
+supernova systematics.
+\end{abstract}
+
+\maketitle
+
+\section{Motivation}\label{sec:intro}
+
+The DESI DR2 BAO measurements~\cite{DESI}, combined with Type~Ia
+supernovae and cosmic microwave background priors, have been interpreted
+within two-parameter equation-of-state parameterizations as a preference
+for dynamical dark energy over a cosmological constant. A now
+well-documented feature of that preference is its dependence on the
+supernova catalog: it is strongest for the DES five-year sample, weaker
+for Union3~\cite{Rubin}, and weakest, below $2\sigma$, for
+Pantheon+~\cite{Brout}. Efstathiou~\cite{Efst} traced much of the spread
+to an offset of order $0.04$~mag between the low- and high-redshift
+distance scales of supernovae common to the DES five-year and Pantheon+
+compilations; Huang, Cai, and Wang~\cite{Huang} tied the DESI-era evidence
+substantially to the low-redshift sample, which Vincenzi \textit{et
+al.}~\cite{Vincenzi} reanalyzed in detail. Chaudhary \textit{et
+al.}~\cite{Chaud}, in an independent late-time-only analysis, find a
+dataset-dependent preference that stays below $2\sigma$ for Pantheon+ but
+rises to $2$--$2.74\sigma$ with Union3 or DES-Dovekie~\cite{Dovekie},
+consistent with a Quintom-B direction ($w_0 > -1$, $w_a < 0$).
+
+Against that backdrop we examine a deliberately minimal object: a
+one-parameter deformation of the flat $\Lambda$CDM background,
+\begin{equation}
+\frac{H^2(z)}{H_0^2} = \Omega_m (1+z)^{\gamma} + \Omega_\Lambda,
+\qquad \gamma = 3 \ \text{recovers} \ \Lambda\text{CDM}.
+\label{eq:model}
+\end{equation}
+Softening the matter exponent below $\gamma = 3$ reproduces, at the level
+of the late-time expansion shape, the same reduced high-redshift growth of
+$H^2$ that the two-parameter fits capture as $w_a < 0$. We do not advance
+Eq.~(\ref{eq:model}) as a physical cosmology. We use it as a
+single-parameter diagnostic: a sharp, low-dimensional instrument for
+asking how much of an apparent late-time departure from $\Lambda$CDM lives
+in the very-low-redshift supernova sample that the systematics literature
+has flagged.
+
+\section{Model, data, and frozen design}\label{sec:design}
+
+The model roster, priors, data selection, and pass/fail thresholds were
+fixed in a version-controlled commit before any fitting, and a single
+results commit followed; the git history is the audit trail. Constraints
+use Pantheon+ (1701 SNe~Ia with the full distance covariance~\cite{Brout})
+and DESI DR2 BAO (13 points~\cite{DESI}), with the same integrator,
+redshift grid, and nuisance treatment ($M_B$ and $H_0 r_d$ handled
+identically across all models) as the pipeline of Ref.~\cite{Pipeline},
+which reproduces the flat-$\Lambda$CDM baseline $\chi^2 = 1772.45$ on
+these data. Redshift cuts act on the supernova data vector and its
+covariance through a single index mask, with rows and columns subselected
+together and no re-derivation of the covariance.
+
+The exponent prior is flat on $[2,4]$ (primary; symmetric about
+$\Lambda$CDM), with a wider flat $[0,5]$ prior reported for robustness;
+$\Omega_m$ is flat on $[0,1]$. For context we fit, in the same pipeline, a
+standard two-parameter roster (the $w_0 w_a$CDM/CPL, BA, and JBP
+parameterizations, with $w_0 \in [-3,1]$ and $w_a \in [-3,2]$) and, as a
+separate diagnostic, a curved $o\Lambda$CDM model. Evidence for the nested
+hypothesis $\gamma = 3$ is computed from the exponent posterior by the
+Savage-Dickey density ratio, with a bandwidth-scan stability check, under
+both frozen priors; following the convention we compare
+against~\cite{Chaud}, we read $|\Delta\ln Z| < 1$ as inconclusive and
+$1$--$3$ as moderate.
+
+\section{Results}\label{sec:results}
+
+Three counts organize the result: the shipped Pantheon+ vector carries
+$N_{\rm all} = 1701$ light curves, of which $N(z>0.01) = 1590$ and
+$N(z>0.1) = 960$ survive the two cuts. The 111 supernovae below
+$z = 0.01$ are exactly those the published Pantheon+ cosmology analysis
+excludes on peculiar-velocity and calibration grounds.
+
+On the full vector the deformation prefers $\gamma < 3$ at
+$\Delta\chi^2 = -8.75$ relative to $\Lambda$CDM, for one extra parameter.
+The standard $z > 0.01$ cut reduces this to $\Delta\chi^2 = -2.97$; the
+$z > 0.1$ stress cut reduces it further to $-1.89$
+(Table~\ref{tab:collapse}). After the $z > 0.01$ cut the exponent
+posterior is $\hat\gamma = 2.90$ with a $68\%$ interval $[2.836, 2.956]$:
+the interval excludes $\gamma = 3$, but the $\chi^2$ improvement no longer
+clears the pre-registered $\Delta\chi^2 \le -4$ bar for a
+low-redshift-vetted detection.
+
+\begin{table}[t]
+\caption{The improvement over $\Lambda$CDM collapses as the low-redshift
+supernovae are removed; the pre-registered bar after the $z>0.01$ cut was
+$\Delta\chi^2 \le -4$.}
+\label{tab:collapse}
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+Sample & $N_{\rm SN}$ & $\Delta\chi^2\,(\gamma\text{-CDM}-\Lambda\text{CDM})$ & $\hat\gamma$ \\
+\colrule
+full        & 1701 & $-8.75$ & $2.82$ \\
+$z > 0.01$  & 1590 & $-2.97$ & $2.90$ \\
+$z > 0.1$   & \phantom{0}960  & $-1.89$ & $2.90$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Bayesian model comparison points the same way. The Akaike criterion gives
+$\Delta{\rm AIC} = -0.97$ post-cut, short of the $-2$ bar, and the best
+member of the two-parameter roster ($w$CDM) reaches only
+$\Delta{\rm AIC} \approx -2.1$, so nothing in the roster beats
+$\Lambda$CDM after the cut. The Savage-Dickey
+ratio favors $\Lambda$CDM under both priors, $\Delta\ln Z = -1.09$
+(primary $[2,4]$) and $-2.00$ (robustness $[0,5]$); the wider prior gives
+the more conservative reading, since a narrow prior mechanically flatters
+the deformation's evidence, and yields a moderate preference for
+$\Lambda$CDM. That the posterior excludes $\gamma = 3$ at $68\%$ while the
+evidence favors the nested model is the expected prior-volume behavior.
+
+Two further diagnostics complete the picture. First, the supernova-only
+and BAO-only exponent preferences, disjoint on the full vector, overlap
+once the low-redshift subset is removed: the $68\%$ intervals become
+$[2.31, 3.15]$ (supernovae) and $[2.85, 3.02]$ (BAO), so the earlier split
+was itself sensitive to the very-low-redshift subset rather than a broad
+supernova-versus-BAO conflict. Second, on the full vector the CPL template
+image of the deformation lies in the community's direction (a softened
+late-time shape, $w_a < 0$); after the $z > 0.01$ cut it flips to
+$(w_0, w_a) = (-0.97, +0.36)$, with $w_a > 0$, opposite to the direction
+of the two-parameter DESI fits. A curvature check finds $o\Lambda$CDM
+capturing only $47\%$ of the deformation's full-vector improvement, below
+the $70\%$ flag: curvature is not a substitute for the same shape.
+
+\section{Discussion and conclusion}\label{sec:discussion}
+
+The reconciliation is the main result. On the full Pantheon+ vector the
+deformation looked economical, $\Delta\chi^2 \approx 8.75$ for a single
+parameter, well above the mild preferences ($\Delta\chi^2 \approx 1.7$--$1.9$,
+below $2\sigma$) that published Pantheon+ analyses report for dynamical
+dark energy. Almost all of that gap closes in a single cut, and with it the
+supernova-versus-BAO split and the template alignment. Stated plainly: The same cut that brings the
+analysis into alignment with standard Pantheon+ cosmology practice also
+removes most of the apparent soft-exponent signal.
+
+We keep the language conservative: the apparent preference is low-redshift
+driven, or equivalently sensitive to the very-low-redshift subset, and the
+reader can connect that sensitivity to the peculiar-velocity and
+calibration considerations behind the standard $z > 0.01$ cut, examined
+for the low-redshift sample by Efstathiou~\cite{Efst}, Huang \textit{et
+al.}~\cite{Huang}, and Vincenzi \textit{et al.}~\cite{Vincenzi}.
+Lee~\cite{Lee} separately cautions
+that CPL-type templates can mislead at high redshift, consistent with the
+template sign behavior we recover.
+
+A mild residual survives every cut: $\hat\gamma \approx 2.90$ at
+$\Delta\chi^2 \approx 3.0$ after the $z > 0.01$ cut and $\approx 1.9$
+after $z > 0.1$, with the evidence still favoring $\Lambda$CDM. It is
+consistent in scale with mild Pantheon+ preferences already in the
+literature, and worth one sentence rather than a paper. The
+one-parameter deformation of Eq.~(\ref{eq:model}) is therefore not
+advanced as a cosmology. Its value is as a diagnostic: a
+soft-matter-exponent preference here is substantially a property of the
+very-low-redshift supernova sample rather than of the late-time expansion
+history. We offer it as a small
+independent contribution to the ongoing discussion of low-redshift
+supernova systematics. \emph{Data availability.} The fitting pipeline is
+archived in Ref.~\cite{Pipeline}; the pre-registered design and the
+outputs quoted here are recorded in the same analysis repository at
+commits 343c9d8 (design) and 69c4604 (\texttt{results/gamma\_gate\_*}).
+
+\begin{thebibliography}{99}
+
+\bibitem{DESI}
+DESI Collaboration, arXiv:2503.14738 (2025).
+
+\bibitem{Rubin}
+D.~Rubin \textit{et al.},
+arXiv:2311.12098 (2023).
+
+\bibitem{Brout}
+D.~Brout \textit{et al.},
+Astrophys.\ J.\ \textbf{938}, 110 (2022).
+
+\bibitem{Efst}
+G.~Efstathiou,
+Mon.\ Not.\ R.\ Astron.\ Soc.\ \textbf{538}, 875 (2025).
+
+\bibitem{Huang}
+L.~Huang, R.-G.~Cai, and S.-J.~Wang,
+arXiv:2502.04212 (2025).
+
+\bibitem{Vincenzi}
+M.~Vincenzi \textit{et al.} (DES Collaboration),
+arXiv:2501.06664 (2025).
+
+\bibitem{Chaud}
+H.~Chaudhary, V.~K.~Sharma, S.~Capozziello, and G.~Mustafa,
+arXiv:2510.08339 (2026).
+
+\bibitem{Dovekie}
+B.~Popovic \textit{et al.},
+arXiv:2506.05471 (2025).
+
+\bibitem{Pipeline}
+B.~Shatto, $\Lambda$cos, doi:10.5281/zenodo.19798852 (2026).
+
+\bibitem{Lee}
+S.~Lee,
+arXiv:2506.18230 (2025).
+
+\end{thebibliography}
+
+\end{document}
