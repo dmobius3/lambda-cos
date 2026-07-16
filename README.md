@@ -31,6 +31,20 @@ Reproducible results in this repository:
 
 ---
 
+## Follow-up note: the γ-CDM diagnostic check
+
+[`paper2/gamma_cdm_note.tex`](paper2/gamma_cdm_note.tex) ([compiled PDF](paper2/gamma_cdm_note.pdf)) is a short, standalone two-page note, **"A Diagnostic Check on a One-Parameter Matter-Exponent Deformation of ΛCDM."** It is not a revision of the paper above and does not depend on it: a separate one-parameter deformation,
+
+$$\frac{H^2(z)}{H_0^2} = \Omega_m\,(1+z)^\gamma + \Omega_\Lambda, \qquad \gamma = 3 \text{ recovers } \Lambda\text{CDM},$$
+
+used purely as a diagnostic for how much of the DESI-era preference for dynamical dark energy is driven by the very-low-redshift supernova sample.
+
+On the full Pantheon+ + DESI DR2 BAO vector the deformation prefers $\gamma < 3$ at $\Delta\chi^2 \approx -8.75$. The standard $z > 0.01$ cosmology cut (removing 111 low-$z$ SNe on the usual peculiar-velocity/calibration grounds) reduces this to $\Delta\chi^2 \approx -2.97$, and a $z > 0.1$ stress cut to $-1.89$; a Savage-Dickey comparison favors ΛCDM under both a narrow and a wide prior on $\gamma$. Conclusion: the large apparent preference is substantially a property of the very-low-redshift supernova sample, not evidence for this or any nonstandard late-time expansion history. The note is offered as a small independent data point for the low-redshift supernova-systematics discussion, not as a candidate cosmology.
+
+Supporting analysis: [`scripts/gamma_gate.py`](scripts/gamma_gate.py), [`scripts/diagnose_clock_asymmetry.py`](scripts/diagnose_clock_asymmetry.py), [`scripts/fit_clock_asymmetry.py`](scripts/fit_clock_asymmetry.py), [`scripts/lcos_z001_robustness.py`](scripts/lcos_z001_robustness.py), with outputs under `results/gamma_gate_*` and `results/clock_asymmetry_*`. The note is not yet separately archived with its own DOI; its data-availability statement points to this repository and to the Zenodo deposit of the pipeline above (design commit `343c9d8`, results commit `69c4604`).
+
+---
+
 ## Citation
 
 If you use this code or data, please cite the paper and the Zenodo archive of this repository.
@@ -82,7 +96,11 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── growth.py                              Linear-growth ODE solver for arbitrary E(z); validates against textbook Ω_m(z)^0.55 (§VI.C)
 │   ├── compute_rsd_chi2.py                    χ²_RSD comparison vs DESI DR1 FS at the SN+BAO best fit (§VI.C)
 │   ├── make_growth_figures.py                 Fig. 5 (fσ_8 trajectories + DR1 FS data) and Fig. 6 (Ω_m(z) diagnostic) (§VI.C)
-│   └── _summary.py                            Shared harmonized summary-JSON schema helper
+│   ├── _summary.py                            Shared harmonized summary-JSON schema helper
+│   ├── lcos_z001_robustness.py                Paper 1 robustness under the z>0.01 cut (apples-to-apples s0 UL)
+│   ├── fit_clock_asymmetry.py                 Continuous clock-asymmetry (ε) fit, two tiers (paper2 precursor)
+│   ├── diagnose_clock_asymmetry.py            Post-run diagnostics for the ε fit (audit, Ω_Λ-free scan, SN/BAO split)
+│   └── gamma_gate.py                          γ-CDM gate: fits, evidence, and threshold scan for paper2
 ├── results/                                   MCMC chains, post-burn samples, summaries, generated figures
 │   ├── lcdm_chain.npy, lcdm_post.csv, lcdm_summary.json, lcdm_corner.png
 │   ├── lcos_chain.npy, lcos_post.csv, lcos_summary.json, lcos_corner.{png,pdf}
@@ -105,7 +123,10 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── growth_Lcos_s00p185.csv                §VI.C growth trajectory at the 95% upper limit
 │   ├── rsd_chi2.csv, rsd_residuals.csv        §VI.C χ²_RSD summary and per-tracer pulls
 │   ├── fig5_fsigma8.{png,pdf}                 Fig. 5 (fσ_8 + DR1 FS data)
-│   └── fig6_omegam_z.{png,pdf}                Fig. 6 (Ω_m(z) diagnostic)
+│   ├── fig6_omegam_z.{png,pdf}                Fig. 6 (Ω_m(z) diagnostic)
+│   ├── lcos_z001_robustness.{json,log}, lcos_z001_s0_profile.csv, lcos_all_s0_profile.csv   Paper 1 z>0.01 robustness
+│   ├── clock_asymmetry_*.{json,csv,log,npy}   ε-fit tiers, gates, and post-run diagnostics (audit, Ω_Λ-free scan, SN/BAO split)
+│   └── gamma_gate_*.{json,csv,log}            γ-CDM gate: fits, evidence (primary/robust priors), threshold-scan splits
 ├── tables/
 │   ├── clock_exponent_appendix_A_fits.csv     Curated Appendix A reference values
 │   └── omega_lambda_scan.csv                  Aggregated §V.D Ω_Λ sensitivity table
@@ -116,13 +137,16 @@ If you use this code or data, please cite the paper and the Zenodo archive of th
 │   ├── fig4_hubble_residuals.pdf              §V.B: Pantheon+ binned residuals for ΛCDM and Λcos
 │   ├── fig5_fsigma8.pdf                       §VI.C: fσ_8(z) trajectories + DESI DR1 FS data
 │   └── fig6_omegam_z.pdf                      §VI.C: Ω_m(z) diagnostic out to z = 3
-└── paper/                                     LaTeX source for the manuscript
-    ├── paper.tex                              REVTeX 4.2 single-source LaTeX (preamble + body + bibliography)
-    ├── references.bib                         22 entries
-    ├── figures/                               Self-contained copies of ../figures/*.pdf
-    ├── paper.pdf                              Compiled output (single-column, JCAP submission format)
-    ├── Makefile                               Build pipeline (pdflatex + bibtex + pdflatex × 2)
-    └── README.md                              Build instructions
+├── paper/                                     LaTeX source for the manuscript
+│   ├── paper.tex                              REVTeX 4.2 single-source LaTeX (preamble + body + bibliography)
+│   ├── references.bib                         22 entries
+│   ├── figures/                               Self-contained copies of ../figures/*.pdf
+│   ├── paper.pdf                              Compiled output (single-column, JCAP submission format)
+│   ├── Makefile                               Build pipeline (pdflatex + bibtex + pdflatex × 2)
+│   └── README.md                              Build instructions
+└── paper2/                                    LaTeX source for the follow-up diagnostic note
+    ├── gamma_cdm_note.tex                     REVTeX 4.2 two-page note (see "Follow-up note" above)
+    └── gamma_cdm_note.pdf                     Compiled output
 ```
 
 `figures/` holds the paper-facing PDFs at their published filenames. They are stable copies of the corresponding script outputs in `results/`.
