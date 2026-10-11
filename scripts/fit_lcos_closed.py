@@ -59,6 +59,7 @@ BASE = (N_GRID, OMEGA_L, 1.0 / 3.0, "sin", False)     # (grid, Ω_Λ, D_V expone
 # Tolerances. Qualification checks that each sits at least ten times above its measured floor
 # (FLOOR_MARGIN), and its record lists both.
 FLOOR_MARGIN = 10.0
+ENV_PINNED = {"python": "3.9.6", "numpy": "2.0.2", "scipy": "1.13.1", "pandas": "2.3.3"}
 INVALID = 1e30                              # chi^2 of a model with no valid rate or distance (arms only)
 TOL = {
     "G1_rel": 1e-9,
@@ -66,6 +67,7 @@ TOL = {
     "G3_below": 1e-6, "G3_forecast_rel": 0.005,
     "G4_zeta_rel": 1e-4, "G4_s0sq": 1e-5, "G4_chi2": 1e-6,
     "G5_dchi2": 0.01, "G5_zeta_rel": 1e-3, "G5_s0sq": 1e-5,
+    "R_bound_rel": 1e-3, "R_zeta_rel": 1e-4,
 }
 
 # SHA-256 pins, computed from the files when this script was built
@@ -416,7 +418,9 @@ def floor_rows(g):
             ("G4", "largest chi2 at the refined minimum", g["G4"]["worst"]["chi2"], "G4_chi2"),
             ("G5", "largest move in chi2", max(g["G5"]["move"][k] for k in ("G3_dchi2", "G3_flat_chi2", "G4_chi2")), "G5_dchi2"),
             ("G5", "largest relative move in zeta", g["G5"]["move"]["G4_zeta_rel"], "G5_zeta_rel"),
-            ("G5", "largest move in s0^2", g["G5"]["move"]["G4_s0sq"], "G5_s0sq")]
+            ("G5", "largest move in s0^2", g["G5"]["move"]["G4_s0sq"], "G5_s0sq"),
+            ("R", "the flat set's bound against the forecast's, relative", g["R"]["bound_rel"], "R_bound_rel"),
+            ("R", "the closed set's recovered zeta, relative", g["R"]["zeta_rel"], "R_zeta_rel")]
     return [{"gate": a, "quantity": q, "floor": float(f), "tolerance_key": k, "tolerance": TOL[k],
              "clears": bool(TOL[k] >= FLOOR_MARGIN * f)} for a, q, f, k in rows]
 
@@ -424,16 +428,26 @@ def environment():
     return {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__,
             "pandas": pd.__version__, "platform": platform.platform()}
 
+def check_environment():
+    """The script's first act: the numerical stack must be the pinned one."""
+    env = environment()
+    bad = {k: [env[k], v] for k, v in ENV_PINNED.items() if env[k] != v}
+    return {"pass": not bad, "mismatch": bad, "environment": env}
+
 def qualify(out):
     os.makedirs(out, exist_ok=True)
     t0 = time.time()
-    rec = {"environment": environment(), "tolerances": dict(TOL), "gates": {}, "arms": {}}
+    rec = {"environment": check_environment(), "tolerances": dict(TOL), "gates": {}, "arms": {}}
+    if not rec["environment"]["pass"]:
+        json.dump(rec, open(os.path.join(out, "qualification.json"), "w"), indent=1, default=_jsonable)
+        sys.exit("the environment is not the pinned one: qualification stops")
     with Pool(os.cpu_count()) as pool:
         rec["gates"]["G1"] = g1 = gate_G1()
         rec["gates"]["G2"] = g2 = gate_G2()
         rec["gates"]["G3"] = g3 = gate_G3(pool)
         rec["gates"]["G4"] = g4 = gate_G4(pool)
         rec["gates"]["G5"] = g5 = gate_G5(pool, g3, g4)
+        rec["gates"]["R"] = gate_R = rehearsal(pool)
         rec["gates"]["G6a"] = g6 = gate_G6a()
         parents = {k: v["pass"] for k, v in rec["gates"].items()}
         arms = rec["arms"]
@@ -453,6 +467,8 @@ def qualify(out):
             mv = max(abs(coarse["dchi2"][k] - ref["dchi2"][k]) for k in ref["dchi2"])
             arms["G5 grid cut to 400 points"] = mv > TOL["G5_dchi2"]
             rec["arms_detail"] = {"G5_400_move": mv}
+        if parents["R"]:
+            arms["R region level 3.84"] = not rehearsal(pool, 3.84)["pass"]
         if parents["G6a"]:
             tmp = tempfile.mkdtemp()
             try:
@@ -480,7 +496,7 @@ def qualify(out):
     rec["floors"] = floor_rows(rec["gates"])
     rec["tolerances_clear_floors"] = all(r["clears"] for r in rec["floors"])
     rec["all_gates_pass"] = all(parents.values())
-    rec["all_arms_fire"] = all(arms.values()) and len(arms) == 8 and rec["G6b_probe"]["parent_passes"] and rec["G6b_probe"]["arm_fails"]
+    rec["all_arms_fire"] = all(arms.values()) and len(arms) == 9 and rec["G6b_probe"]["parent_passes"] and rec["G6b_probe"]["arm_fails"]
     rec["seconds"] = round(time.time() - t0, 1)
     rec["commit"], rec["script_sha256"] = head, me
     json.dump(rec, open(os.path.join(out, "qualification.json"), "w"), indent=1, default=_jsonable)
@@ -492,13 +508,13 @@ def qualify(out):
 def grade(dc):
     return "EXCLUDED" if dc >= BAR_EXCLUDED else ("DISFAVORED" if dc >= BAR_DISFAVORED else "NOT EXCLUDED")
 
-def region(pts, best):
-    """The region below REGION_LEVEL above the refined minimum, as intervals in u with edges refined by
-    bisection to 1e-4 in zeta; zeta95 is its smallest zeta."""
-    level = best["chi2"] + REGION_LEVEL
-    inside = [p["chi2"] < level for p in pts]
-    f = lambda u: profile(BASE, "measured", float(u), True)["chi2"] - level
-    def edge(a, b):                                  # f(a) < 0 <= f(b) or the reverse
+def region(pts, best, key, authorized, level_above=REGION_LEVEL):
+    """The region below level_above over the refined minimum, as intervals in u with edges refined by
+    bisection to 1e-4 in zeta, then in zeta and in Omega_0 R (Gpc, both rows); zeta95 is its smallest zeta."""
+    level = best["chi2"] + level_above
+    inside = [bool(p["chi2"] < level) for p in pts]
+    f = lambda u: profile(BASE, key, float(u), authorized)["chi2"] - level
+    def edge(a, b):                                  # a inside, b outside
         fa = f(a)
         while abs(1 / np.sqrt(max(a, 1e-300)) - 1 / np.sqrt(max(b, 1e-300))) > 1e-4 and abs(b - a) > 1e-12:
             m = 0.5 * (a + b); fm = f(m)
@@ -517,13 +533,67 @@ def region(pts, best):
             k = j + 1
         else:
             k += 1
-    u_max = max(h for _, h in ivals)
-    return {"level": level, "intervals_u": ivals, "reaches_u1": inside[-1],
-            "zeta95": None if inside[-1] else 1 / np.sqrt(u_max), "flat_inside": inside[0]}
+    zeta_iv = [(1 / np.sqrt(hi), (1 / np.sqrt(lo)) if lo > 0 else float("inf")) for lo, hi in ivals]
+    out = {"level": level, "intervals_u": ivals, "intervals_zeta": zeta_iv,
+           "intervals_R_gpc": {row: [(a * C_LIGHT / H0 / 1000.0, b * C_LIGHT / H0 / 1000.0) for a, b in zeta_iv]
+                               for row, H0 in H0_ROWS.items()},
+           "reaches_u1": inside[-1], "flat_inside": inside[0], "best_u": best["u"],
+           "zeta95": None if (inside[-1] or not ivals) else 1 / np.sqrt(max(h for _, h in ivals))}
+    if out["zeta95"] is not None:
+        out["R95_gpc"] = {row: out["zeta95"] * C_LIGHT / H0 / 1000.0 for row, H0 in H0_ROWS.items()}
+    return out
+
+def analyze(pool, key, authorized, level_above=REGION_LEVEL):
+    """The registered computation on one data set: each reading's profiled dchi2 and grade in both rows,
+    the free-zeta profile with its refined minimum, the region and its bound, and the preference."""
+    flat = profile(BASE, key, 0.0, authorized)
+    cells = {}
+    for lab, row, zeta, H0 in readings():
+        p = profile(BASE, key, 1.0 / zeta**2, authorized)
+        cells[f"{lab}@{H0}"] = {"zeta": zeta, "dchi2": p["chi2"] - flat["chi2"], "grade": grade(p["chi2"] - flat["chi2"]),
+                                "closed": p, "flat": flat}
+    grades = {}
+    for lab in RADII_GPC:
+        a, b = (cells[f"{lab}@{H0}"]["grade"] for H0 in H0_ROWS.values())
+        grades[lab] = a if a == b else "SCALE-DEPENDENT"
+    pts = curve(pool, BASE, key, U_GRID, authorized)
+    best = refine_u(BASE, key, pts, authorized)
+    reg = region(pts, best, key, authorized, level_above)
+    pref = flat["chi2"] - best["chi2"]
+    return {"cells": cells, "grades": grades, "free_zeta": {"best": best, "curve_chi2": [p["chi2"] for p in pts]},
+            "region": reg, "preference": pref, "closure_preferred": bool(pref >= PREFERENCE_BAR)}
+
+def rehearsal(pool, level_above=REGION_LEVEL):
+    """The run's analysis, rehearsed on the fixed synthetic sets: on the flat set it must give the forecast's
+    grades and bound and no preference; on the C@67.36 closed set it must recover zeta inside its region."""
+    fc = read_json(os.path.join(DATA, "closed_distance_forecast.json"))
+    fl = analyze(pool, "flat", False, level_above)
+    expect = {}
+    for lab in RADII_GPC:
+        a, b = (grade(fc["cells"][f"{lab}@{H0}"]["dchi2"]) for H0 in H0_ROWS.values())
+        expect[lab] = a if a == b else "SCALE-DEPENDENT"
+    zt = zeta_of(RADII_GPC["C"], H0_ROWS["primary"])
+    cl = analyze(pool, f"C_{H0_ROWS['primary']}_0.001", False, level_above)
+    zb = cl["free_zeta"]["best"]["u"]
+    zh = 1 / np.sqrt(zb) if zb > 0 else float("inf")
+    bound_rel = abs(fl["region"]["zeta95"] / fc["bound"]["zeta95"] - 1) if fl["region"]["zeta95"] else float("inf")
+    zeta_rel = abs(zh / zt - 1)
+    in_region = any(a <= zt <= b for a, b in cl["region"]["intervals_zeta"])
+    ok = (fl["grades"] == expect and fl["region"]["flat_inside"] and fl["preference"] <= TOL["G3_below"]
+          and bound_rel <= TOL["R_bound_rel"] and zeta_rel <= TOL["R_zeta_rel"] and in_region
+          and not cl["region"]["flat_inside"] and cl["closure_preferred"])
+    return {"gate": "R", "pass": bool(ok), "flat_grades": fl["grades"], "expected_grades": expect,
+            "flat_zeta95": fl["region"]["zeta95"], "forecast_zeta95": fc["bound"]["zeta95"], "bound_rel": bound_rel,
+            "flat_preference": fl["preference"], "closed_zeta_hat": zh, "closed_zeta_true": zt, "zeta_rel": zeta_rel,
+            "closed_in_region": in_region, "closed_preference": cl["preference"], "flat": fl, "closed": cl,
+            "tol": {k: TOL[k] for k in ("R_bound_rel", "R_zeta_rel")}}
 
 def run(out, tag, expect_commit, expect_script, registration_sha):
     os.makedirs(out, exist_ok=True)
-    rec = {"environment": environment(), "tolerances": dict(TOL), "registration_sha256": registration_sha}
+    rec = {"environment": check_environment(), "tolerances": dict(TOL), "registration_sha256": registration_sha}
+    if not rec["environment"]["pass"]:
+        json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
+        sys.exit("the environment is not the pinned one: nothing runs (Uninformative)")
     rec["G6b"] = g6b = gate_G6b(tag, expect_commit, expect_script)
     if not g6b["pass"]:
         json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
@@ -534,26 +604,10 @@ def run(out, tag, expect_commit, expect_script, registration_sha):
         if not all(v["pass"] for v in g.values()):
             json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
             sys.exit("a gate failed after the freeze: the run ends as Uninformative")
-        flat = profile(BASE, "measured", 0.0, True)
-        cells = {}
-        for lab, row, zeta, H0 in readings():
-            p = profile(BASE, "measured", 1.0 / zeta**2, True)
-            cells[f"{lab}@{H0}"] = {"zeta": zeta, "dchi2": p["chi2"] - flat["chi2"], "grade": grade(p["chi2"] - flat["chi2"]),
-                                    "closed": p, "flat": flat}
-        grades = {}
-        for lab in RADII_GPC:
-            a, b = (cells[f"{lab}@{H0}"]["grade"] for H0 in H0_ROWS.values())
-            grades[lab] = a if a == b else "SCALE-DEPENDENT"
-        pts = curve(pool, BASE, "measured", U_GRID, True)
-        best = refine_u(BASE, "measured", pts, True)
-        reg = region(pts, best)
-        if reg["zeta95"] is not None:
-            reg["R95_gpc"] = {row: reg["zeta95"] * C_LIGHT / H0 / 1000.0 for row, H0 in H0_ROWS.items()}
-        rec.update({"cells": cells, "grades": grades, "free_zeta": {"best": best, "curve_chi2": [p["chi2"] for p in pts]},
-                    "region": reg, "preference": flat["chi2"] - best["chi2"],
-                    "closure_preferred": flat["chi2"] - best["chi2"] >= PREFERENCE_BAR})
+        rec.update(analyze(pool, "measured", True))
     json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
-    print(json.dumps({"grades": grades, "preference": rec["preference"], "zeta95": reg["zeta95"]}, indent=1, default=_jsonable))
+    print(json.dumps({"grades": rec["grades"], "preference": rec["preference"], "zeta95": rec["region"]["zeta95"]},
+                     indent=1, default=_jsonable))
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Λcos with a closed transverse distance at a fixed curvature radius.")
