@@ -15,9 +15,12 @@ From scripts/:
     python fit_lcos_closed.py qualify --out DIR
         G1 to G5 and G6a, their mutation arms, and a probe of G6b on temporary local tags.
         The measured data meet only the flat limit (G1, G2). Nothing is written into the repo.
-    python fit_lcos_closed.py run --out DIR --tag TAG --expect-commit SHA \
-            --expect-script-sha256 HEX --registration-sha256 HEX
-        G6b, then G1 to G5 again, then the comparison on the measured data, once.
+    python fit_lcos_closed.py run --out DIR --registration-repo PATH --registration-commit SHA \
+            --registration-sha256 HEX
+        The environment check and G6b: the tag closed-distance-v1.0 must resolve to this checkout, and the
+        registration, fetched afresh into PATH, must sit on its origin/main at SHA, have SHA-256 HEX, and
+        name this commit, this script's SHA-256 and the tag. Then G1 to G5 again, then the comparison on
+        the measured data, once.
 """
 import os, sys
 for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "VECLIB_MAXIMUM_THREADS", "NUMEXPR_NUM_THREADS"):
@@ -54,6 +57,9 @@ SYN_S0 = (0.001, 0.1)
 BAR_DISFAVORED, BAR_EXCLUDED = 9.0, 25.0
 REGION_LEVEL = 2.71
 PREFERENCE_BAR = 9.0
+INTERIOR_CUT = 1e-6                         # a minimum counts as interior only this far below the flat value
+TAG = "closed-distance-v1.0"                # the registered tag; the run accepts no other
+REG_PATH = "files/framework/files/working/files/nonflat-distance-comparison.md"
 BASE = (N_GRID, OMEGA_L, 1.0 / 3.0, "sin", False)     # (grid, Ω_Λ, D_V exponent, transverse, curvature in E)
 
 # Tolerances. Qualification checks that each sits at least ten times above its measured floor
@@ -392,16 +398,74 @@ def gate_G6a(paths=None):
             "span": span_sha == SPAN_SHA256, "clean": status == "", "commit": git("rev-parse", "HEAD"),
             "script_sha256": sha256_file(os.path.abspath(__file__))}
 
-def gate_G6b(tag, expect_commit, expect_script):
+def gate_G6b(reg_repo, reg_commit, reg_sha256, tag=TAG, reg_path=REG_PATH, reg_branch="origin/main"):
+    """After the freeze. The tag resolves to this checkout, and G6a's pins hold. The registration, fetched
+    afresh, sits on reg_branch at reg_commit, its page there has SHA-256 reg_sha256, and that page names
+    this commit, this script's SHA-256 and the tag. Nothing a caller supplies can stand in for these."""
     try:
         tagged = git("rev-parse", f"{tag}^{{commit}}")
     except subprocess.CalledProcessError:
         tagged = None
     a = gate_G6a()
-    ok = (tagged == expect_commit and a["commit"] == expect_commit and a["pass"]
-          and a["script_sha256"] == expect_script)
-    return {"gate": "G6b", "pass": ok, "tag": tag, "tag_commit": tagged, "head": a["commit"],
-            "expect_commit": expect_commit, "script_ok": a["script_sha256"] == expect_script, "pins": a}
+    head, me = a["commit"], a["script_sha256"]
+    reg = {"repo": reg_repo, "commit": reg_commit, "path": reg_path, "branch": reg_branch}
+    try:
+        subprocess.run(["git", "-C", reg_repo, "fetch", "-q", "origin"], check=True, capture_output=True)
+        reg["on_branch"] = subprocess.run(["git", "-C", reg_repo, "merge-base", "--is-ancestor", reg_commit, reg_branch],
+                                          capture_output=True).returncode == 0
+        page = subprocess.run(["git", "-C", reg_repo, "show", f"{reg_commit}:{reg_path}"], check=True, capture_output=True).stdout
+        reg["sha256"] = hashlib.sha256(page).hexdigest()
+        text = page.decode("utf-8")
+        reg["names"] = {"commit": head in text, "script_sha256": me in text, "tag": tag in text}
+    except (subprocess.CalledProcessError, OSError, UnicodeDecodeError) as e:
+        reg.update(on_branch=False, sha256=None, names={}, error=str(e))
+    ok = (tagged == head and a["pass"] and reg["on_branch"] and reg["sha256"] == reg_sha256
+          and len(reg["names"]) == 3 and all(reg["names"].values()))
+    return {"gate": "G6b", "pass": bool(ok), "tag": tag, "tag_commit": tagged, "head": head,
+            "registration": reg, "registration_sha256_expected": reg_sha256, "pins": a}
+
+def _probe_registration(tmp, text, branch="main"):
+    """A throwaway registration repo with a local bare origin, for probing G6b before the freeze."""
+    origin, work = os.path.join(tmp, "origin.git"), os.path.join(tmp, "reg")
+    g = lambda *a: subprocess.run(["git", *a], check=True, capture_output=True, text=True).stdout.strip()
+    g("init", "-q", "--bare", origin)
+    g("clone", "-q", origin, work)
+    os.makedirs(os.path.dirname(os.path.join(work, REG_PATH)), exist_ok=True)
+    with open(os.path.join(work, REG_PATH), "w", encoding="utf-8") as fh:
+        fh.write(text)
+    g("-C", work, "add", REG_PATH)
+    g("-C", work, "-c", "user.name=qualification-probe", "-c", "user.email=probe@localhost", "commit", "-q", "-m", "probe")
+    g("-C", work, "push", "-q", "origin", f"HEAD:{branch}")
+    commit = g("-C", work, "rev-parse", "HEAD")
+    return work, commit, hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+def probe_G6b():
+    """G6b's parent and its four arms, on temporary local tags and throwaway registrations."""
+    head = git("rev-parse", "HEAD")
+    parent_commit = git("rev-parse", "HEAD~1")
+    me = sha256_file(os.path.abspath(__file__))
+    ptag = "closed-distance-probe"
+    good = f"registration\ncommit {head}\nscript {me}\ntag {ptag}\n"
+    out = {}
+    tmp = tempfile.mkdtemp()
+    try:
+        def case(name, tag_target, text, branch="main", sha_override=None):
+            d = tempfile.mkdtemp(dir=tmp)
+            work, commit, sha = _probe_registration(d, text, branch)
+            git("tag", ptag, tag_target)
+            try:
+                out[name] = gate_G6b(work, commit, sha_override or sha, tag=ptag)["pass"]
+            finally:
+                git("tag", "-d", ptag)
+        case("parent", "HEAD", good)
+        case("tag on another commit", "HEAD~1", good)
+        case("registration not on main", "HEAD", good, branch="side")
+        case("registration hash wrong", "HEAD", good, sha_override="0" * 64)
+        case("registration names another commit", "HEAD", good.replace(head, parent_commit))
+    finally:
+        shutil.rmtree(tmp)
+    return {"parent_passes": out["parent"],
+            "arms_fail": {k: not v for k, v in out.items() if k != "parent"}}
 
 # ---------------- qualification ----------------
 def floor_rows(g):
@@ -481,22 +545,15 @@ def qualify(out):
                 arms["G6a one byte changed"] = not gate_G6a(bad)["pass"]
             finally:
                 shutil.rmtree(tmp)
-        # G6b, probed on temporary local tags: its parent passes on HEAD, its arm fails on another commit
+        # G6b, probed on temporary local tags and throwaway registrations: its parent passes, its four arms fail
+        rec["G6b_probe"] = probe_G6b()
         head = git("rev-parse", "HEAD")
         me = sha256_file(os.path.abspath(__file__))
-        probes = {}
-        for name, target in (("closed-distance-probe-pass", "HEAD"), ("closed-distance-probe-fail", "HEAD~1")):
-            git("tag", name, target)
-            try:
-                probes[name] = gate_G6b(name, head, me)["pass"]
-            finally:
-                git("tag", "-d", name)
-        rec["G6b_probe"] = {"parent_passes": probes["closed-distance-probe-pass"],
-                            "arm_fails": not probes["closed-distance-probe-fail"]}
     rec["floors"] = floor_rows(rec["gates"])
     rec["tolerances_clear_floors"] = all(r["clears"] for r in rec["floors"])
     rec["all_gates_pass"] = all(parents.values())
-    rec["all_arms_fire"] = all(arms.values()) and len(arms) == 9 and rec["G6b_probe"]["parent_passes"] and rec["G6b_probe"]["arm_fails"]
+    rec["all_arms_fire"] = (all(arms.values()) and len(arms) == 9 and rec["G6b_probe"]["parent_passes"]
+                            and len(rec["G6b_probe"]["arms_fail"]) == 4 and all(rec["G6b_probe"]["arms_fail"].values()))
     rec["seconds"] = round(time.time() - t0, 1)
     rec["commit"], rec["script_sha256"] = head, me
     json.dump(rec, open(os.path.join(out, "qualification.json"), "w"), indent=1, default=_jsonable)
@@ -561,7 +618,8 @@ def analyze(pool, key, authorized, level_above=REGION_LEVEL):
     reg = region(pts, best, key, authorized, level_above)
     pref = flat["chi2"] - best["chi2"]
     return {"cells": cells, "grades": grades, "free_zeta": {"best": best, "curve_chi2": [p["chi2"] for p in pts]},
-            "region": reg, "preference": pref, "closure_preferred": bool(pref >= PREFERENCE_BAR)}
+            "region": reg, "preference": pref, "interior_minimum": bool(pref > INTERIOR_CUT),
+            "closure_preferred": bool(pref >= PREFERENCE_BAR)}
 
 def rehearsal(pool, level_above=REGION_LEVEL):
     """The run's analysis, rehearsed on the fixed synthetic sets: on the flat set it must give the forecast's
@@ -581,20 +639,22 @@ def rehearsal(pool, level_above=REGION_LEVEL):
     in_region = any(a <= zt <= b for a, b in cl["region"]["intervals_zeta"])
     ok = (fl["grades"] == expect and fl["region"]["flat_inside"] and fl["preference"] <= TOL["G3_below"]
           and bound_rel <= TOL["R_bound_rel"] and zeta_rel <= TOL["R_zeta_rel"] and in_region
-          and not cl["region"]["flat_inside"] and cl["closure_preferred"])
+          and not cl["region"]["flat_inside"] and cl["closure_preferred"]
+          and not fl["interior_minimum"] and cl["interior_minimum"])
     return {"gate": "R", "pass": bool(ok), "flat_grades": fl["grades"], "expected_grades": expect,
             "flat_zeta95": fl["region"]["zeta95"], "forecast_zeta95": fc["bound"]["zeta95"], "bound_rel": bound_rel,
             "flat_preference": fl["preference"], "closed_zeta_hat": zh, "closed_zeta_true": zt, "zeta_rel": zeta_rel,
             "closed_in_region": in_region, "closed_preference": cl["preference"], "flat": fl, "closed": cl,
             "tol": {k: TOL[k] for k in ("R_bound_rel", "R_zeta_rel")}}
 
-def run(out, tag, expect_commit, expect_script, registration_sha):
+def run(out, reg_repo, reg_commit, reg_sha256):
     os.makedirs(out, exist_ok=True)
-    rec = {"environment": check_environment(), "tolerances": dict(TOL), "registration_sha256": registration_sha}
+    rec = {"environment": check_environment(), "tolerances": dict(TOL),
+           "registration": {"commit": reg_commit, "sha256": reg_sha256, "path": REG_PATH}}
     if not rec["environment"]["pass"]:
         json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
         sys.exit("the environment is not the pinned one: nothing runs (Uninformative)")
-    rec["G6b"] = g6b = gate_G6b(tag, expect_commit, expect_script)
+    rec["G6b"] = g6b = gate_G6b(reg_repo, reg_commit, reg_sha256)
     if not g6b["pass"]:
         json.dump(rec, open(os.path.join(out, "run.json"), "w"), indent=1, default=_jsonable)
         sys.exit("G6b failed: nothing runs on the measured data (Uninformative)")
@@ -613,13 +673,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Λcos with a closed transverse distance at a fixed curvature radius.")
     sub = ap.add_subparsers(dest="mode", required=True)
     q = sub.add_parser("qualify"); q.add_argument("--out", required=True)
-    r = sub.add_parser("run"); r.add_argument("--out", required=True); r.add_argument("--tag", required=True)
-    r.add_argument("--expect-commit", required=True); r.add_argument("--expect-script-sha256", required=True)
-    r.add_argument("--registration-sha256", required=True)
+    r = sub.add_parser("run"); r.add_argument("--out", required=True); r.add_argument("--registration-repo", required=True)
+    r.add_argument("--registration-commit", required=True); r.add_argument("--registration-sha256", required=True)
     a = ap.parse_args()
     if os.path.realpath(a.out).startswith(os.path.realpath(REPO) + os.sep) and a.mode == "qualify":
         sys.exit("qualification writes outside the repo, so the checkout stays clean")
     if a.mode == "qualify":
         qualify(a.out)
     else:
-        run(a.out, a.tag, a.expect_commit, a.expect_script_sha256, a.registration_sha256)
+        run(a.out, a.registration_repo, a.registration_commit, a.registration_sha256)
