@@ -56,7 +56,10 @@ REGION_LEVEL = 2.71
 PREFERENCE_BAR = 9.0
 BASE = (N_GRID, OMEGA_L, 1.0 / 3.0, "sin", False)     # (grid, Ω_Λ, D_V exponent, transverse, curvature in E)
 
-# Tolerances: provisional until qualification sets them from the measured floors.
+# Tolerances. Qualification checks that each sits at least ten times above its measured floor
+# (FLOOR_MARGIN), and its record lists both.
+FLOOR_MARGIN = 10.0
+INVALID = 1e30                              # chi^2 of a model with no valid rate or distance (arms only)
 TOL = {
     "G1_rel": 1e-9,
     "G2_chi2": 0.01, "G2_s0sq": 1e-5, "G2_h0rd": 1.0, "G2_mb": 1e-3,
@@ -80,6 +83,10 @@ MCMC_MARKER = "# ---------------- MCMC"
 
 # ---------------- data ----------------
 _DATA = {}
+
+def read_json(path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
 
 def sha256_file(path):
     h = hashlib.sha256()
@@ -115,11 +122,11 @@ def load(key):
         assert bobs[0] == "DV_rd"
         bz, bobs, bval, Cb = bz[keep], bobs[keep], bval[keep], Cb[np.ix_(keep, keep)]
     elif key != "measured":
-        syn = json.load(open(os.path.join(DATA, "closed_distance_synthetic.json")))
+        syn = read_json(os.path.join(DATA, "closed_distance_synthetic.json"))
         base = "flat" if key == "flat+zeta3" else key
         bval, m = np.array(syn[base + "_bao"]), np.array(syn[base + "_sn"])
         if key == "flat+zeta3":         # a closed signal at zeta = 3 injected into a copy of the flat set
-            bf = json.load(open(os.path.join(REPO, "results", "lcos_summary.json")))["best_fit"]
+            bf = read_json(os.path.join(REPO, "results", "lcos_summary.json"))["best_fit"]
             tmp = {"z_sn": z_sn, "bz": bz, "bobs": bobs}
             f0, mu0 = predict(BASE, tmp, bf["s0"], 0.0)
             f3, mu3 = predict(BASE, tmp, bf["s0"], 1.0 / 9.0)
@@ -132,10 +139,15 @@ def load(key):
 # ---------------- model ----------------
 def E_of(cfg, z, s0, u=0.0):
     N, OL, dv, kind, curv = cfg
+    with np.errstate(invalid="ignore"):
+        return np.sqrt(_E2(cfg, z, s0, u))
+
+def _E2(cfg, z, s0, u):
+    N, OL, dv, kind, curv = cfg
     E2 = (1 - OL) / (1 - s0**2) * (1 + z)**3 - (1 - OL) * s0**2 / (1 - s0**2) * (1 + z) + OL
     if curv:                             # G4's arm only: a curvature term put into the rate
         E2 = E2 - u * (1 + z)**2
-    return np.sqrt(E2)
+    return E2
 
 def transverse(I, u, kind):
     if u == 0.0:
@@ -153,7 +165,8 @@ def _E_I(cfg, s0, u):
         return _EI[key]
     z = np.linspace(0, Z_MAX, N)
     E = E_of(cfg, z, s0, u)
-    out = (z, E, cumulative_trapezoid(1 / E, z, initial=0))
+    with np.errstate(invalid="ignore", divide="ignore"):
+        out = (z, E, cumulative_trapezoid(1 / E, z, initial=0))
     if not curv and float(s0) in _GRIDSET:
         _EI[key] = out
     return out
@@ -164,16 +177,28 @@ def predict(cfg, d, s0, u):
     N, OL, dv, kind, curv = cfg
     z, E, I = _E_I(cfg, s0, u)
     Iz, Ez = np.interp(d["bz"], z, I), np.interp(d["bz"], z, E)
-    dm, dh = transverse(Iz, u, kind), 1 / Ez
+    with np.errstate(invalid="ignore", divide="ignore"):
+        dm, dh = transverse(Iz, u, kind), 1 / Ez
     f = np.array([(zz * a**2 * b)**dv if o == "DV_rd" else (a if o == "DM_rd" else b)
                   for zz, a, b, o in zip(d["bz"], dm, dh, d["bobs"])])
     Is = np.interp(d["z_sn"], z, I)
-    mu = 5 * np.log10((1 + d["z_sn"]) * (C_LIGHT / H0_SN) * transverse(Is, u, kind)) + 25
+    with np.errstate(invalid="ignore", divide="ignore"):
+        mu = 5 * np.log10((1 + d["z_sn"]) * (C_LIGHT / H0_SN) * transverse(Is, u, kind)) + 25
     return f, mu
 
 def chi2_profiled(d, F, MU):
     """F: BAO shapes (n_bao x K), MU: SN moduli (n_sn x K). M_B and c/(H0 r_d) profiled analytically,
-    each clipped to the box. Returns (total, SN, BAO, H0rd, M_B), each of length K."""
+    each clipped to the box. Returns (total, SN, BAO, H0rd, M_B), each of length K. A column whose rate or
+    distances are not finite and positive (only an arm's model can produce one) gets chi^2 = INVALID."""
+    ok = np.all(np.isfinite(F) & (F > 0), axis=0) & np.all(np.isfinite(MU), axis=0)
+    out = [np.full(F.shape[1], INVALID), np.full(F.shape[1], INVALID), np.full(F.shape[1], INVALID),
+           np.full(F.shape[1], np.nan), np.full(F.shape[1], np.nan)]
+    if ok.any():
+        for o, v in zip(out, _chi2_valid(d, F[:, ok], MU[:, ok])):
+            o[ok] = v
+    return tuple(out)
+
+def _chi2_valid(d, F, MU):
     y, Cbi = d["y"], d["Cbi"]
     A = np.einsum("ik,ij,j->k", F, Cbi, y) / np.einsum("ik,ij,jk->k", F, Cbi, F)
     A = np.clip(A, C_LIGHT / H0RD_BOX[1], C_LIGHT / H0RD_BOX[0])
@@ -231,7 +256,8 @@ def readings():
 def run_published_span():
     """fit_lcos.py from its first line to the line before its MCMC marker, with sys.argv pinned and its
     own directory as the working directory. Returns its namespace and the span's SHA-256."""
-    src = open(os.path.join(HERE, "fit_lcos.py"), encoding="utf-8").read().split("\n")
+    with open(os.path.join(HERE, "fit_lcos.py"), encoding="utf-8") as fh:
+        src = fh.read().split("\n")
     k = [i for i, l in enumerate(src) if l.startswith(MCMC_MARKER)]
     assert len(k) == 1, "the MCMC marker must occur once"
     span = "\n".join(src[:k[0]]) + "\n"
@@ -285,7 +311,7 @@ def gate_G1(cfg=BASE):
             "worst_rel": worst, "floor": floor, "tol": TOL["G1_rel"]}
 
 def gate_G2(cfg=BASE, key="measured"):
-    pub = json.load(open(os.path.join(REPO, "results", "lcos_summary.json")))
+    pub = read_json(os.path.join(REPO, "results", "lcos_summary.json"))
     p = profile(cfg, key, 0.0)
     dev = {"chi2": abs(p["chi2"] - pub["chi2"]["total"]), "chi2_sn": abs(p["chi2_sn"] - pub["chi2"]["SN"]),
            "chi2_bao": abs(p["chi2_bao"] - pub["chi2"]["BAO"]),
@@ -297,7 +323,7 @@ def gate_G2(cfg=BASE, key="measured"):
             "tol": {k: TOL[k] for k in ("G2_chi2", "G2_s0sq", "G2_h0rd", "G2_mb")}}
 
 def gate_G3(pool, cfg=BASE, key="flat"):
-    fc = json.load(open(os.path.join(DATA, "closed_distance_forecast.json")))
+    fc = read_json(os.path.join(DATA, "closed_distance_forecast.json"))
     pts = curve(pool, cfg, key, U_GRID)
     c0 = pts[0]["chi2"]
     below = max(0.0, max(c0 - p["chi2"] for p in pts[1:]))
@@ -376,6 +402,24 @@ def gate_G6b(tag, expect_commit, expect_script):
             "expect_commit": expect_commit, "script_ok": a["script_sha256"] == expect_script, "pins": a}
 
 # ---------------- qualification ----------------
+def floor_rows(g):
+    """Each measured floor beside its tolerance, and whether the tolerance sits FLOOR_MARGIN times above it."""
+    rows = [("G1", "worst relative deviation from the published code", g["G1"]["floor"], "G1_rel"),
+            ("G2", "chi2, worst of the total and its parts", max(g["G2"]["deviation"][k] for k in ("chi2", "chi2_sn", "chi2_bao")), "G2_chi2"),
+            ("G2", "s0^2", g["G2"]["deviation"]["s0sq"], "G2_s0sq"),
+            ("G2", "H0 r_d (km/s)", g["G2"]["deviation"]["h0rd"], "G2_h0rd"),
+            ("G2", "M_B", g["G2"]["deviation"]["mb"], "G2_mb"),
+            ("G3", "chi2 of the flat set at u = 0", g["G3"]["flat_chi2"], "G3_below"),
+            ("G3", "worst relative difference from the forecast", g["G3"]["worst_forecast_rel"], "G3_forecast_rel"),
+            ("G4", "worst relative zeta error", g["G4"]["worst"]["zeta_rel"], "G4_zeta_rel"),
+            ("G4", "worst s0^2 error", g["G4"]["worst"]["s0sq"], "G4_s0sq"),
+            ("G4", "largest chi2 at the refined minimum", g["G4"]["worst"]["chi2"], "G4_chi2"),
+            ("G5", "largest move in chi2", max(g["G5"]["move"][k] for k in ("G3_dchi2", "G3_flat_chi2", "G4_chi2")), "G5_dchi2"),
+            ("G5", "largest relative move in zeta", g["G5"]["move"]["G4_zeta_rel"], "G5_zeta_rel"),
+            ("G5", "largest move in s0^2", g["G5"]["move"]["G4_s0sq"], "G5_s0sq")]
+    return [{"gate": a, "quantity": q, "floor": float(f), "tolerance_key": k, "tolerance": TOL[k],
+             "clears": bool(TOL[k] >= FLOOR_MARGIN * f)} for a, q, f, k in rows]
+
 def environment():
     return {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__,
             "pandas": pd.__version__, "platform": platform.platform()}
@@ -433,12 +477,14 @@ def qualify(out):
                 git("tag", "-d", name)
         rec["G6b_probe"] = {"parent_passes": probes["closed-distance-probe-pass"],
                             "arm_fails": not probes["closed-distance-probe-fail"]}
+    rec["floors"] = floor_rows(rec["gates"])
+    rec["tolerances_clear_floors"] = all(r["clears"] for r in rec["floors"])
     rec["all_gates_pass"] = all(parents.values())
     rec["all_arms_fire"] = all(arms.values()) and len(arms) == 8 and rec["G6b_probe"]["parent_passes"] and rec["G6b_probe"]["arm_fails"]
     rec["seconds"] = round(time.time() - t0, 1)
     rec["commit"], rec["script_sha256"] = head, me
     json.dump(rec, open(os.path.join(out, "qualification.json"), "w"), indent=1, default=_jsonable)
-    print(json.dumps({"all_gates_pass": rec["all_gates_pass"], "all_arms_fire": rec["all_arms_fire"],
+    print(json.dumps({"all_gates_pass": rec["all_gates_pass"], "all_arms_fire": rec["all_arms_fire"], "tolerances_clear_floors": rec["tolerances_clear_floors"],
                       "gates": parents, "arms": arms, "G6b_probe": rec["G6b_probe"], "seconds": rec["seconds"]}, indent=1))
     return rec
 
