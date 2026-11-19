@@ -1,0 +1,84 @@
+{
+ "records": [
+  {
+   "H0rd": 10025.419949347406,
+   "N": 4000000,
+   "outside_J_fraction": {
+    "0.0001": 9.775e-05,
+    "0.001": 0.000987,
+    "1e-05": 1.05e-05
+   },
+   "outside_s0_range_fraction": {
+    "0.0001": 4.925e-05,
+    "0.001": 0.00054325,
+    "1e-05": 5e-06
+   },
+   "s0": 0.001
+  },
+  {
+   "H0rd": 9947.895109044588,
+   "N": 4000000,
+   "outside_J_fraction": {
+    "0.0001": 0.00010575,
+    "0.001": 0.00101325,
+    "1e-05": 9.75e-06
+   },
+   "outside_s0_range_fraction": {
+    "0.0001": 5.375e-05,
+    "0.001": 0.00056325,
+    "1e-05": 3.75e-06
+   },
+   "s0": 0.2
+  },
+  {
+   "H0rd": 9801.190741115846,
+   "N": 4000000,
+   "outside_J_fraction": {
+    "0.0001": 9.675e-05,
+    "0.001": 0.0009775,
+    "1e-05": 7.25e-06
+   },
+   "outside_s0_range_fraction": {
+    "0.0001": 4.45e-05,
+    "0.001": 0.0005465,
+    "1e-05": 5e-06
+   },
+   "s0": 0.333
+  },
+  {
+   "H0rd": 8000.0,
+   "N": 4000000,
+   "outside_J_fraction": {
+    "0.0001": 9.7e-05,
+    "0.001": 0.00100325,
+    "1e-05": 9e-06
+   },
+   "outside_s0_range_fraction": {
+    "0.0001": 7.375e-05,
+    "0.001": 0.0007775,
+    "1e-05": 8.25e-06
+   },
+   "s0": 0.9
+  },
+  {
+   "H0rd": 11000.0,
+   "N": 4000000,
+   "outside_J_fraction": {
+    "0.0001": 0.00010175,
+    "0.001": 0.001016,
+    "1e-05": 9.5e-06
+   },
+   "outside_s0_range_fraction": {
+    "0.0001": 5.025e-05,
+    "0.001": 0.0005735,
+    "1e-05": 5.25e-06
+   },
+   "s0": 0.6
+  }
+ ],
+ "source": {
+  "file": "rule_check.json (the bench's first rule check, R2)",
+  "sha256": "5ff8dbfc940dc060b35b695c9a6d4ed0007b00605cdf1a6bb1d4ff7500b28931"
+ },
+ "what": "the coverage of J, the BAO-only confidence set of the recon's \u00a73.4: BAO mocks drawn in data space through the generator's Cholesky factor and evaluated by the instrument, at five truths"
+}
